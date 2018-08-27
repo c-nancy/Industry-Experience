@@ -27,16 +27,6 @@ import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView ib1;
-    private ImageView ib2;
-    private ImageView ib3;
-    private ImageView ib4;
-    private ImageView ib5;
-    private ImageView ib6;
-    private ImageView ib7;
-    private ImageView ib8;
-    private ImageView ib9;
-    private ImageView ib10;
     private Button visualization;
     private Button recommendation;
     private TextView hint;
@@ -61,16 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initUI() {
-        ib1 = (ImageView) findViewById(R.id.image1);
-        ib2 = (ImageView) findViewById(R.id.image2);
-        ib3 = (ImageView) findViewById(R.id.image3);
-        ib4 = (ImageView) findViewById(R.id.image4);
-        ib5 = (ImageView) findViewById(R.id.image5);
-        ib6 = (ImageView) findViewById(R.id.image6);
-        ib7 = (ImageView) findViewById(R.id.image7);
-        ib8 = (ImageView) findViewById(R.id.image8);
-        ib9 = (ImageView) findViewById(R.id.image9);
-        ib10 = (ImageView) findViewById(R.id.image10);
+        ImageView ib1 = (ImageView) findViewById(R.id.image1);
+        ImageView ib2 = (ImageView) findViewById(R.id.image2);
+        ImageView ib3 = (ImageView) findViewById(R.id.image3);
+        ImageView ib4 = (ImageView) findViewById(R.id.image4);
+        ImageView ib5 = (ImageView) findViewById(R.id.image5);
+        ImageView ib6 = (ImageView) findViewById(R.id.image6);
+        ImageView ib7 = (ImageView) findViewById(R.id.image7);
+        ImageView ib8 = (ImageView) findViewById(R.id.image8);
+        ImageView ib9 = (ImageView) findViewById(R.id.image9);
+        ImageView ib10 = (ImageView) findViewById(R.id.image10);
         hint = (TextView) findViewById(R.id.textView3);
         title = (TextView) findViewById(R.id.textView1);
         visualization = (Button)findViewById(R.id.visualization);
@@ -127,15 +117,15 @@ public class MainActivity extends AppCompatActivity {
         // A list of drawable ids
         ArrayList<Integer> s = new ArrayList<>();
         s.add(R.drawable.brighton);
-        s.add(R.drawable.mordialloc);
-        s.add(R.drawable.sorrento);
         s.add(R.drawable.stkilda);
+        s.add(R.drawable.sorrento);
         s.add(R.drawable.williamstown);
-        s.add(R.drawable.altonabeach);
+        s.add(R.drawable.mordialloc);
+        s.add(R.drawable.altona);
         s.add(R.drawable.elwood);
         s.add(R.drawable.halfmoonbay);
         s.add(R.drawable.hampton);
-        s.add(R.drawable.monstersbeach);
+        s.add(R.drawable.mothers);
         // Shuffle the elements in drawable id list
         Collections.shuffle(s);
 
@@ -156,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, InfoPage.class);
                     String ns = getResources().getResourceEntryName((int) v.getTag());
-                    Beach selected = new Beach();
+                    Beach selected;
                     for (Beach b : beachList) {
                         if (b.getName().toUpperCase().replaceAll(" ", "").contains(ns.toUpperCase().trim())) {
                             selected = b;

@@ -29,7 +29,6 @@ public class InfoPage extends AppCompatActivity {
     private TextView beachtitle;
     private ImageView banner;
     private ImageView beachimg;
-    private Button view_event;
     private Button create_event;
     private Toolbar toolbar;
 
@@ -48,7 +47,6 @@ public class InfoPage extends AppCompatActivity {
         beachtitle = (TextView) findViewById(R.id.beachtitle);
         banner = (ImageView) findViewById(R.id.banner);
         beachimg = (ImageView) findViewById(R.id.beachimg);
-        view_event = (Button) findViewById(R.id.view_events_button);
         create_event = (Button) findViewById(R.id.create_events_button);
 
         // Back to former page

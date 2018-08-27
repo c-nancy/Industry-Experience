@@ -1,11 +1,14 @@
 package com.iteration1.savingwildlife.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class UIUtils {
+    private static Toast toast;
 
     // This method is to adjust the size of imageview
     // @Return: the layout params of the viewgroup
@@ -24,5 +27,18 @@ public class UIUtils {
         // Set the according height/weight to this imageview
 
         return layoutParams;
+    }
+
+
+    public static void showToast(Context context,
+                                 String content) {
+        if (toast == null) {
+            toast = Toast.makeText(context,
+                    content,
+                    Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(content);
+        }
+        toast.show();
     }
 }

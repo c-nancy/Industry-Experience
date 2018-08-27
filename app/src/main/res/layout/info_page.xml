@@ -106,12 +106,6 @@
                     android:id="@+id/create_events_button"
                     android:text="@string/create_events" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/view_events_button"
-                    android:text="@string/view_events"/>
-
 
             </LinearLayout>
         </FrameLayout>

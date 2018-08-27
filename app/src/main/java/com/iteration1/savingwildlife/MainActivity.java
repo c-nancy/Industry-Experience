@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         ibList = new ArrayList<>();
         connectDatabase();
         initUI();
-        blink();
+//        blink();
         visul();
         recom();
     }
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView ib8 = (ImageView) findViewById(R.id.image8);
         ImageView ib9 = (ImageView) findViewById(R.id.image9);
         ImageView ib10 = (ImageView) findViewById(R.id.image10);
-        hint = (TextView) findViewById(R.id.textView3);
+//        hint = (TextView) findViewById(R.id.textView3);
         title = (TextView) findViewById(R.id.textView1);
         visualization = (Button)findViewById(R.id.visualization);
         recommendation = (Button)findViewById(R.id.recommendation);
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         ibList.add(ib10);
         applyRecommendSystem();
         glow();
+        Toast.makeText(getApplicationContext(), "Click the pictures to know more",
+                Toast.LENGTH_LONG).show();
     }
 
     private void visul(){
@@ -101,14 +104,14 @@ public class MainActivity extends AppCompatActivity {
         title.setShadowLayer(50, 0, 0, Color.YELLOW);
     }
 
-    private void blink() {
-        Animation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(50); //You can manage the blinking time with this parameter
-        anim.setStartOffset(20);
-        anim.setRepeatMode(Animation.REVERSE);
-        anim.setRepeatCount(Animation.INFINITE);
-        hint.startAnimation(anim);
-    }
+//    private void blink() {
+//        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+//        anim.setDuration(2000); //You can manage the blinking time with this parameter
+//        anim.setStartOffset(20);
+//        anim.setRepeatMode(Animation.REVERSE);
+//        anim.setRepeatCount(Animation.INFINITE);
+//        hint.startAnimation(anim);
+//    }
 
 
 

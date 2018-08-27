@@ -8,6 +8,7 @@
     <item>
         <bitmap
             android:src="@mipmap/splash"
+            android:scaleType="fitCenter"
             android:gravity="center"/>
     </item>
 

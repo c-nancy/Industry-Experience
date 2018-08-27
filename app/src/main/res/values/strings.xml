@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">""</string>
+    <string name="label">""</string>
+    <string name="create_events">Create events</string>
+    <string name="view_events">View events</string>
+    <string name="my_application">My Application</string>
+    <string name="know_our_beaches">Know our beaches</string>
+</resources>

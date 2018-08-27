@@ -73,8 +73,8 @@ public class InfoPage extends AppCompatActivity {
         assert selected != null;
         toolbar_title.setText(selected.getName());
         txt.setText(selected.getDescription());
-        StringBuilder sb = new StringBuilder(selected.getName());
-        sb.append(": A yut gbuy beach at iuyni u");
+        StringBuilder sb = new StringBuilder("Learn about ");
+        sb.append(selected.getName());
         beachtitle.setText(sb);
 //        create_event.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -6,4 +6,5 @@
     <string name="my_application">My Application</string>
     <string name="know_our_beaches">Know our beaches</string>
     <drawable name="splash_color">#3198d8</drawable>
+    <color name="theme_color">#3198d8</color>
 </resources>

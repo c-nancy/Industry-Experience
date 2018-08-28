@@ -5,13 +5,11 @@ import java.io.Serializable;
 public class Beach implements Serializable {
     private String name;
     private String description;
-    private String infoimg;
     private String banner;
 
-    public Beach(String name, String description, String infoimg, String banner) {
+    public Beach(String name, String description, String banner) {
         this.name = name;
         this.description = description;
-        this.infoimg = infoimg;
         this.banner = banner;
     }
 
@@ -32,14 +30,6 @@ public class Beach implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getInfoimg() {
-        return infoimg;
-    }
-
-    public void setInfoimg(String infoimg) {
-        this.infoimg = infoimg;
     }
 
     public String getBanner() {

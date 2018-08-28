@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button visualization;
     private Button recommendation;
-    private TextView hint;
     private TextView title;
 
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         ibList = new ArrayList<>();
         connectDatabase();
         initUI();
-//        blink();
+        hint();
         visul();
         recom();
     }
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView ib8 = (ImageView) findViewById(R.id.image8);
         ImageView ib9 = (ImageView) findViewById(R.id.image9);
         ImageView ib10 = (ImageView) findViewById(R.id.image10);
-//        hint = (TextView) findViewById(R.id.textView3);
         title = (TextView) findViewById(R.id.textView1);
         visualization = (Button)findViewById(R.id.visualization);
         recommendation = (Button)findViewById(R.id.recommendation);
@@ -78,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         ibList.add(ib10);
         applyRecommendSystem();
         glow();
-        Toast.makeText(getApplicationContext(), "Click the pictures to know more",
-                Toast.LENGTH_LONG).show();
     }
 
     private void visul(){
@@ -104,14 +101,15 @@ public class MainActivity extends AppCompatActivity {
         title.setShadowLayer(50, 0, 0, Color.YELLOW);
     }
 
-//    private void blink() {
-//        Animation anim = new AlphaAnimation(0.0f, 1.0f);
-//        anim.setDuration(2000); //You can manage the blinking time with this parameter
-//        anim.setStartOffset(20);
-//        anim.setRepeatMode(Animation.REVERSE);
-//        anim.setRepeatCount(Animation.INFINITE);
-//        hint.startAnimation(anim);
-//    }
+    private void hint() {
+        Snackbar.make(visualization, "Click pictures to know more", Snackbar.LENGTH_INDEFINITE)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.theme_color)).show();
+    }
 
 
 
@@ -186,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getDetails());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 }

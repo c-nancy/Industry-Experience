@@ -25,6 +25,7 @@
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
+                android:text="★"
                 android:id="@+id/toolbar_title" />
 
         </android.support.v7.widget.Toolbar>
@@ -49,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Idolphin"
+                android:text="Beach Step"
                 android:textSize="60sp"
                 android:textStyle="bold|italic" />
 
@@ -196,7 +197,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="italic"
-            android:text="Visualization" />
+            android:background="@drawable/button_background"
+            android:layout_margin="5dp"
+            android:text="    Visualization    " />
 
         <Button
             android:id="@+id/explore"
@@ -204,6 +207,8 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/visualization"
             android:textStyle="italic"
+            android:background="@drawable/button_background"
+            android:layout_margin="5dp"
             android:text="Explore" />
     </RelativeLayout>
 

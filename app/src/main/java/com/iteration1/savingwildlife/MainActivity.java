@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private void visul() {
         visualization.setOnClickListener(new View.OnClickListener() {
             public void onClick(View V) {
+                Toast.makeText(MainActivity.this, "map is loading!",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, Visualization.class);
                 startActivity(intent);
             }
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void glow() {
-        title.setShadowLayer(50, 0, 0, Color.YELLOW);
+        title.setShadowLayer(50, 0, 0, Color.CYAN);
     }
 
     private void hint() {

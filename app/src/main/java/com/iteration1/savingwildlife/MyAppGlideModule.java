@@ -21,3 +21,4 @@ public final class MyAppGlideModule extends AppGlideModule {
                 new FirebaseImageLoader.Factory());
     }
 }
+

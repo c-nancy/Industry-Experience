@@ -22,7 +22,7 @@ public class UIUtils {
         // Get layout params of this imageview
         ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
         // Calculate the actual width in device first, and the height accordingly
-        layoutParams.width = (int) Math.floor(Resources.getSystem().getDisplayMetrics().widthPixels*0.95);
+        layoutParams.width = (int) Math.floor(Resources.getSystem().getDisplayMetrics().widthPixels * 0.95);
         layoutParams.height = (int) Math.floor(Resources.getSystem().getDisplayMetrics().widthPixels / ratio + 0.5);
         // Set the according height/weight to this imageview
 

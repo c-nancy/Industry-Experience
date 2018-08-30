@@ -4,19 +4,14 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.utils.UIUtils;
@@ -40,15 +35,16 @@ public class InfoPage extends AppCompatActivity {
         initUI();
     }
 
-    public void initUI(){
+    public void initUI() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         txt = (TextView) findViewById(R.id.beachtxt);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         beachtitle = (TextView) findViewById(R.id.beachtitle);
         banner = (ImageView) findViewById(R.id.banner);
         beachimg = (ImageView) findViewById(R.id.beachimg);
-        create_event = (Button) findViewById(R.id.create_events_button);
+//        create_event = (Button) findViewById(R.id.create_events_button);
 
+        toolbar.setTitle("");
         // Back to former page
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

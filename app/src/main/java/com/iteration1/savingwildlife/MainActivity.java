@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private Button explore;
     private TextView title;
 
-
     private ArrayList<Beach> beachList;
     private ArrayList<ImageView> ibList;
 
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         beachList = new ArrayList<>();
         ibList = new ArrayList<>();
         connectDatabase();
@@ -128,31 +128,18 @@ public class MainActivity extends AppCompatActivity {
     // Simulate the recomsys, but now just sort randomly instead of real algorithm
     private void applyRecommendSystem(){
 
-        // A list of drawable ids
-        ArrayList<Integer> s = new ArrayList<>();
-//        s.add(R.drawable.brighton);
-//        s.add(R.drawable.stkilda);
-//        s.add(R.drawable.sorrento);
-//        s.add(R.drawable.williamstown);
-//        s.add(R.drawable.mordialloc);
-//        s.add(R.drawable.altona);
-//        s.add(R.drawable.elwood);
-//        s.add(R.drawable.halfmoonbay);
-//        s.add(R.drawable.hampton);
-//        s.add(R.drawable.mothers);
-//        // Shuffle the elements in drawable id list
-//        Collections.shuffle(s);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+//        beachList = (ArrayList<Beach>) bundle.getSerializable("beachlist");
+//        Log.d("one beach", beachList.get(3).getName());
 
-        ArrayList<String> bs = new ArrayList<>();
-        for (Beach b : beachList) {
-            bs.add(b.getBanner());
-            Log.d("banner link", b.getBanner());
-        }
+        // Shuffle the elements in drawable id list
+        Collections.shuffle(beachList);
 
         for (int i = 0; i < ibList.size(); i++) {
             ImageView iv = ibList.get(i);
-             //        This block is for taking picts from cloud
 
+             //        This block is for taking picts from cloud
             StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(beachList.get(i).getBanner());
             GlideApp.with(getApplicationContext())
                     .load(imageRef)
@@ -185,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Start the connection with firebase realtime database
     private void connectDatabase() {
-
         // Get the reference of firebase instance
         DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("beaches");
+
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -197,9 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     beachList.add(b);
                     Log.d("Added a beach", b.getBanner());
                 }
-
                     applyRecommendSystem();
-
             }
 
             @Override

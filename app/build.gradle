@@ -53,8 +53,12 @@ dependencies {
     //For statistics
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    // For the table in statistics
     implementation 'com.github.huangyanbin:SmartTable:2.2.0'
+
+    // For floating + button
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
 
 }
 

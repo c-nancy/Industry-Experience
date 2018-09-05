@@ -1,13 +1,13 @@
 package com.iteration1.savingwildlife;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,18 +16,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
-import com.iteration1.savingwildlife.utils.UIUtils;
 
 public class InfoPage extends AppCompatActivity {
 
-    private StorageReference mStorageRef;
     private TextView txt;
     private TextView toolbar_title;
     private TextView beachtitle;
     private ImageView banner;
-    private ImageView beachimg;
-    private Button create_event;
+    private FloatingActionButton make_report;
+    private FloatingActionButton create_event;
+    private FloatingActionsMenu thismenu;
     private Toolbar toolbar;
+    private Beach selected;
 
 
     @Override
@@ -43,8 +43,9 @@ public class InfoPage extends AppCompatActivity {
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         beachtitle = (TextView) findViewById(R.id.beachtitle);
         banner = (ImageView) findViewById(R.id.banner);
-//        beachimg = (ImageView) findViewById(R.id.beachimg);
-//        create_event = (Button) findViewById(R.id.create_events_button);
+        thismenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        make_report = (FloatingActionButton) findViewById(R.id.report_button);
+        create_event = (FloatingActionButton) findViewById(R.id.event_button);
 
         toolbar.setTitle("");
         // Back to former page
@@ -61,7 +62,7 @@ public class InfoPage extends AppCompatActivity {
         // Use bundle to receive params
         Bundle bundle = intent.getExtras();
         assert bundle != null;
-        Beach selected = (Beach) bundle.getSerializable("beach");
+        selected = (Beach) bundle.getSerializable("beach");
         StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(selected.getBanner());
         GlideApp.with(getApplicationContext())
                 .load(imageRef)
@@ -72,17 +73,16 @@ public class InfoPage extends AppCompatActivity {
         StringBuilder sb = new StringBuilder("Learn about ");
         sb.append(selected.getName());
         beachtitle.setText(sb);
-//        create_event.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CreateEvent event = new CreateEvent();
-//                getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.create_event, event)
-//                        .addToBackStack(null)
-//                        .commit();
-//            }
-//        });
+
+        make_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(InfoPage.this, MakeReport.class);
+                intent.putExtra("selected", selected);
+                startActivity(intent);
+            }
+        });
 
     }
 

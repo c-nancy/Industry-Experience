@@ -6,31 +6,32 @@ public class Beach implements Serializable {
     private String name;
     private String description;
     private String banner;
-    private Double lat;
-    private Double lng;
+    private Double latitude;
+    private Double longitude;
 
-    public Double getLat() {
-        return lat;
-    }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
-
-    public Beach(String name, String description, String banner, Double lat, Double lng) {
+    public Beach(String name, String description, String banner, Double latitude, Double longitude) {
         this.name = name;
         this.description = description;
         this.banner = banner;
-        this.lat = lat;
-        this.lng = lng;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public Beach() {

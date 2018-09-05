@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,16 +15,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import timber.log.Timber;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         ibList = new ArrayList<>();
         connectDatabase();
         initUI();
-        applyRecommendSystem();
         hint();
         visul();
         statistic();
@@ -114,22 +126,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Simulate the recomsys, but now just sort randomly instead of real algorithm
-    private void applyRecommendSystem() {
+    private void applyRecommendSystem(){
 
         // A list of drawable ids
         ArrayList<Integer> s = new ArrayList<>();
-        s.add(R.drawable.brighton);
-        s.add(R.drawable.stkilda);
-        s.add(R.drawable.sorrento);
-        s.add(R.drawable.williamstown);
-        s.add(R.drawable.mordialloc);
-        s.add(R.drawable.altona);
-        s.add(R.drawable.elwood);
-        s.add(R.drawable.halfmoonbay);
-        s.add(R.drawable.hampton);
-        s.add(R.drawable.mothers);
-        // Shuffle the elements in drawable id list
-        Collections.shuffle(s);
+//        s.add(R.drawable.brighton);
+//        s.add(R.drawable.stkilda);
+//        s.add(R.drawable.sorrento);
+//        s.add(R.drawable.williamstown);
+//        s.add(R.drawable.mordialloc);
+//        s.add(R.drawable.altona);
+//        s.add(R.drawable.elwood);
+//        s.add(R.drawable.halfmoonbay);
+//        s.add(R.drawable.hampton);
+//        s.add(R.drawable.mothers);
+//        // Shuffle the elements in drawable id list
+//        Collections.shuffle(s);
 
         ArrayList<String> bs = new ArrayList<>();
         for (Beach b : beachList) {
@@ -138,41 +150,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < ibList.size(); i++) {
-            Drawable r = getResources().getDrawable(s.get(i));
             ImageView iv = ibList.get(i);
-            // Adjust the size of this imageview
-            ViewGroup.LayoutParams layoutParams = UIUtils.adjustImageSize(r, iv);
-            iv.setLayoutParams(layoutParams);
-            // Put the drawable into this imageview
-            iv.setImageDrawable(r);
-            iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            // Set the id of selected image to this view as a tag, to parse to infopage when clicked
-            iv.setTag(s.get(i));
+             //        This block is for taking picts from cloud
 
-
-            //TODO: fix this part
-            // //        This block is for taking picts from cloud
-
-//            Log.d("nofity", "inside!" + i);
-//            StorageReference storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://savingwildlife-8f9bb.appspot.com/beachimages/altona.png");
-//            GlideApp.with(this)
-//                    .load(storageRef)
-//                    .into(iv);
+            StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(beachList.get(i).getBanner());
+            GlideApp.with(getApplicationContext())
+                    .load(imageRef)
+                    .apply((new RequestOptions().placeholder(R.drawable.common_full_open_on_phone).error(R.drawable.common_full_open_on_phone)))
+                    .into(iv);
+            iv.setTag(beachList.get(i).getName());
 
             iv.setOnClickListener(new View.OnClickListener() {
                 //@Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, InfoPage.class);
-                    String ns = getResources().getResourceEntryName((int) v.getTag());
+                    String ns = (String) v.getTag();
                     Beach selected;
                     for (Beach b : beachList) {
-                        if (b.getName().toUpperCase().replaceAll(" ", "").contains(ns.toUpperCase().trim())) {
+                        if (b.getName().toUpperCase().replaceAll(" ", "")
+                                .contains(ns.toUpperCase().trim().replaceAll(" ", ""))) {
                             selected = b;
-
                             // intent cannot be used to parse integer, so use bundle to pack the params
                             Bundle bundle = new Bundle();
-                            bundle.putInt("bannerid", (int) v.getTag());
                             bundle.putSerializable("beach", selected);
                             intent.putExtras(bundle);
                             startActivity(intent);
@@ -197,6 +197,9 @@ public class MainActivity extends AppCompatActivity {
                     beachList.add(b);
                     Log.d("Added a beach", b.getBanner());
                 }
+
+                    applyRecommendSystem();
+
             }
 
             @Override

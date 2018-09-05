@@ -6,5 +6,7 @@
         <attr name="bg_color" format="color"></attr>
         <attr name="text" format="string"></attr>
     </declare-styleable>
+    
+
 
 </resources>

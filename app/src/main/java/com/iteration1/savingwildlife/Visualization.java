@@ -23,7 +23,7 @@ public class Visualization extends Activity {
     private final LatLng Brighton_Beach = new LatLng(-37.9160, 144.9861);
     private final LatLng Mothers_Beach = new LatLng(-38.2149, 145.0350);
     private final LatLng Williamstown_Beach = new LatLng(-37.8641, 144.8944);
-    private final LatLng Sorrento_Beach = new LatLng(-31.8283, 115.7439);
+    private final LatLng Sorrento_Beach = new LatLng(-38.3367, 144.7448);
     private final LatLng Altona_Beach = new LatLng(-37.8710, 144.8300);
     private final LatLng Mordialloc_Beach = new LatLng(-38.00899, 145.086);
     private final LatLng Hampton_Beach = new LatLng(-37.936144, 144.996948);

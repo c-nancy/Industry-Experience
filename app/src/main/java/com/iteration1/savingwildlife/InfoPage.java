@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.utils.UIUtils;
@@ -41,7 +43,7 @@ public class InfoPage extends AppCompatActivity {
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         beachtitle = (TextView) findViewById(R.id.beachtitle);
         banner = (ImageView) findViewById(R.id.banner);
-        beachimg = (ImageView) findViewById(R.id.beachimg);
+//        beachimg = (ImageView) findViewById(R.id.beachimg);
 //        create_event = (Button) findViewById(R.id.create_events_button);
 
         toolbar.setTitle("");
@@ -60,13 +62,11 @@ public class InfoPage extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         assert bundle != null;
         Beach selected = (Beach) bundle.getSerializable("beach");
-        int bannerid = bundle.getInt("bannerid");
-        Drawable bd = getResources().getDrawable(bannerid);
-        // Adjust the size of this imageview
-        ViewGroup.LayoutParams layoutParams = UIUtils.adjustImageSize(bd, banner);
-        banner.setLayoutParams(layoutParams);
-        banner.setImageDrawable(bd);
-        assert selected != null;
+        StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(selected.getBanner());
+        GlideApp.with(getApplicationContext())
+                .load(imageRef)
+                .apply((new RequestOptions().placeholder(R.drawable.common_full_open_on_phone).error(R.drawable.common_full_open_on_phone)))
+                .into(banner);
         toolbar_title.setText(selected.getName());
         txt.setText(selected.getDescription());
         StringBuilder sb = new StringBuilder("Learn about ");

@@ -25,6 +25,8 @@ public class Histogram extends View implements View.OnClickListener {
     public void setValues(float[] values) {
         this.values = values;
         Log.d("value setted", Float.toString(values[1]));
+        initValuesAndMaxY();
+        this.invalidate();
     }
 
     Paint paintBar, paintText;
@@ -49,7 +51,7 @@ public class Histogram extends View implements View.OnClickListener {
         paintText = paintBar = new Paint();
         paintBar.setAntiAlias(true);
         paintText.setAntiAlias(true);
-        paintText.setTextSize(25);
+        paintText.setTextSize(12);
         paintText.setColor(getResources().getColor(colorBar[0]));
         initValuesAndMaxY();
         setOnClickListener(this);
@@ -69,6 +71,9 @@ public class Histogram extends View implements View.OnClickListener {
         values[9] = 119964;
         for (float i : values) {
             maxY = maxY < i ? i : maxY;
+        }
+        while(maxY%1000 != 0){
+            maxY = maxY + 1;
         }
         Log.d("logged", Float.toString(maxY));
     }

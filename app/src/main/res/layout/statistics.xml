@@ -113,9 +113,11 @@
 
                 <com.bin.david.form.core.SmartTable
                     android:id="@+id/table"
-                    android:layout_width="wrap_content"
-                    android:layout_height="350dp" />
-
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"

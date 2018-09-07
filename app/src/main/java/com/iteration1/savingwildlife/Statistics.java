@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bin.david.form.data.column.Column;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -141,21 +143,23 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
                 List<HistogramTable> ht = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Long val = (Long) child.getValue();
-                    float count = val.floatValue();
+//                    float count = val.floatValue();
+                    int count = val.intValue();
                     xs = add_element(xs, count);
-                    Log.d("one long", Float.toString(count));
                     String item = child.getKey();
-                    Log.d("name is ", item);
                     HistogramTable onetable = new HistogramTable(item, count);
                     ht.add(onetable);
                 }
                 Log.d("histo size", Integer.toString(xs.length));
                 his = new Histogram(getApplicationContext(), null);
                 his.setValues(xs);
-                table = findViewById(R.id.table);
+                table = (SmartTable) findViewById(R.id.table);
                 table.setData(ht);
+                table.getConfig().setShowColumnTitle(false)
+                        .setShowXSequence(false)
+                        .setShowYSequence(false);
 
-
+//                his.invalidate();
             }
 
             @Override

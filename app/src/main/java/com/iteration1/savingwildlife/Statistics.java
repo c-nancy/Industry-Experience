@@ -150,7 +150,6 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
                     HistogramTable onetable = new HistogramTable(item, count);
                     ht.add(onetable);
                 }
-                Log.d("histo size", Integer.toString(xs.length));
                 his = new Histogram(getApplicationContext(), null);
                 his.setValues(xs);
                 table = (SmartTable) findViewById(R.id.table);
@@ -158,8 +157,7 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
                 table.getConfig().setShowColumnTitle(false)
                         .setShowXSequence(false)
                         .setShowYSequence(false);
-
-//                his.invalidate();
+                his.invalidate();
             }
 
             @Override

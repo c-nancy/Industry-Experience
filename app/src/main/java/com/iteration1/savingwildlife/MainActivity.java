@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         statistic();
     }
 
-
     private void initUI() {
         ImageView ib1 = (ImageView) findViewById(R.id.image1);
         ImageView ib2 = (ImageView) findViewById(R.id.image2);

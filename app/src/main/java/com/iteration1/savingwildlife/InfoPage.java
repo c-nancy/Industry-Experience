@@ -2,6 +2,7 @@ package com.iteration1.savingwildlife;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -27,7 +28,7 @@ public class InfoPage extends AppCompatActivity {
     private TextView beachtitle;
     private ImageView banner;
     private FloatingActionButton make_report;
-    private FloatingActionButton create_event;
+    private FloatingActionButton direction;
     private FloatingActionsMenu thismenu;
     private Toolbar toolbar;
     private Beach selected;
@@ -48,7 +49,7 @@ public class InfoPage extends AppCompatActivity {
         banner = (ImageView) findViewById(R.id.banner);
         thismenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
         make_report = (FloatingActionButton) findViewById(R.id.report_button);
-        create_event = (FloatingActionButton) findViewById(R.id.event_button);
+        direction = (FloatingActionButton) findViewById(R.id.direction_button);
 
         toolbar.setTitle("");
         // Back to former page
@@ -88,6 +89,16 @@ public class InfoPage extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(InfoPage.this, MakeReport.class);
                 intent.putExtra("selected", selected);
+                startActivity(intent);
+            }
+        });
+
+        direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = "http://maps.google.com/maps?daddr=" + selected.getLatitude() + "," + selected.getLongitude() + " (" + selected.getName() + ")";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
                 startActivity(intent);
             }
         });

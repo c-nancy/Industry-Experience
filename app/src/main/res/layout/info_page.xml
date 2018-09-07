@@ -119,18 +119,20 @@
         >
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/event_button"
+            android:id="@+id/direction_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@android:color/white"
-            fab:fab_title="Create event"
+            fab:fab_icon="@drawable/ic_navigation_black_24dp"
+            fab:fab_title="Get direction"
             fab:fab_colorPressed="@android:color/primary_text_dark"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/report_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@android:color/darker_gray"
+            fab:fab_colorNormal="@android:color/white"
+            fab:fab_icon="@drawable/ic_event_note_black_24dp"
             fab:fab_title="Accident report"
             fab:fab_colorPressed="@android:color/primary_text_dark"/>
 

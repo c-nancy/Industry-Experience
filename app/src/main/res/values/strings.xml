@@ -7,16 +7,18 @@
     <string name="know_our_beaches">Know our beaches</string>
     <drawable name="splash_color">#3198d8</drawable>
     <color name="theme_color">#3198d8</color>
+    <color name="txt_color">#ff37474f</color>
+    <color name="bg_color">#F3F7F7</color>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDmgzep8MB2yqQJUFtYtMQvqMCNO7YpvCU</string>
     <string name="general_info">The above picture shows the main fish concentration of South Pacific Ocean in last 25 years.\nMillions of fishes and other marine lifes live in the blue sea around the sea region close to Victoria and New South Wales, and together formed an indispensable part of our eco system. We human thought the earth is our home, but even earlier than the first human started to live here, it has become the home of wild animals.</string>
     <string name="last_paragraph">Above diagram shows the common items that has been exposed on Australian beach. Obviously, plastic forms a huge part of it. \nAccording to a research done by WWF Australia, 85% of Australian seabirds are affected by plastic pollution. Marine animals, like sea turtles, can choke on plastic bags mistaken for jellyfish. Seabirds can not recognise plastic debris too, they would swallow plastic pieces until their stomach is full and still starving.</string>
 
     <string-array name="report_type">
-        <item>c语言</item>
-        <item>java </item>
-        <item>php</item>
-        <item>xml</item>
-        <item>html</item>
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+        <item>d</item>
+        <item>e</item>
     </string-array>
 
 

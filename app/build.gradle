@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.iteration1.savingwildlife"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -59,6 +59,9 @@ dependencies {
 
     // For floating + button
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+
+    // For justify textview
+    implementation 'com.github.bluejamesbond:textjustify-android:2.1.6'
 
 }
 

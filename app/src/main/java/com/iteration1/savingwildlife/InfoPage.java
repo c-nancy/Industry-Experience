@@ -1,6 +1,7 @@
 package com.iteration1.savingwildlife;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -8,6 +9,8 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +22,7 @@ import com.iteration1.savingwildlife.entities.Beach;
 
 public class InfoPage extends AppCompatActivity {
 
-    private TextView txt;
+    private WebView txt;
     private TextView toolbar_title;
     private TextView beachtitle;
     private ImageView banner;
@@ -39,7 +42,7 @@ public class InfoPage extends AppCompatActivity {
 
     public void initUI() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        txt = (TextView) findViewById(R.id.beachtxt);
+        txt = (WebView) findViewById(R.id.beachtxt);
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         beachtitle = (TextView) findViewById(R.id.beachtitle);
         banner = (ImageView) findViewById(R.id.banner);
@@ -69,7 +72,12 @@ public class InfoPage extends AppCompatActivity {
                 .apply((new RequestOptions().placeholder(R.drawable.common_full_open_on_phone).error(R.drawable.common_full_open_on_phone)))
                 .into(banner);
         toolbar_title.setText(selected.getName());
-        txt.setText(selected.getDescription());
+        String putText = "<html><body><p align=\"justify\">";
+        putText += selected.getDescription();
+        putText += "</p></body></html>";
+        txt.loadData(putText, "text/html", "utf-8");
+        txt.getSettings().setTextZoom(100);
+        txt.setBackgroundColor(getColor(R.color.bg_color));
         StringBuilder sb = new StringBuilder("Learn about ");
         sb.append(selected.getName());
         beachtitle.setText(sb);

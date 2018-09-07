@@ -50,7 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="40dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -75,16 +76,25 @@
                     android:layout_height="1dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="15dp"
-                    android:background="#022F29" />
+                    android:background="#022F29"
+                    android:id="@+id/oneline"/>
 
-                <TextView
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <WebView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_margin="10dp"
-                    android:textSize="20sp"
+                    android:textSize="25sp"
                     android:textColor="#ff37474f"
+                    android:layout_gravity="center_vertical|end"
                     android:id="@+id/beachtxt"
-                    android:background="@drawable/text_view_background" />
+                    android:background="@drawable/text_view_background"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"/>
+                </RelativeLayout>
 
             </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -103,7 +113,10 @@
         fab:fab_addButtonColorPressed="@android:color/primary_text_dark"
         fab:fab_addButtonPlusIconColor="@android:color/black"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginEnd="10dp"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left"
+        >
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/event_button"
@@ -112,14 +125,6 @@
             fab:fab_colorNormal="@android:color/white"
             fab:fab_title="Create event"
             fab:fab_colorPressed="@android:color/primary_text_dark"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/event_button"
-            android:text="Create event"
-            android:textColor="@drawable/splash_color"
-            android:shadowColor="@android:color/darker_gray"
-            android:layout_margin="10dp"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/report_button"
@@ -128,14 +133,7 @@
             fab:fab_colorNormal="@android:color/darker_gray"
             fab:fab_title="Accident report"
             fab:fab_colorPressed="@android:color/primary_text_dark"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/report_button"
-            android:text="Make report"
-            android:textColor="@drawable/splash_color"
-            android:shadowColor="@android:color/darker_gray"
-            android:layout_margin="10dp"/>
+
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

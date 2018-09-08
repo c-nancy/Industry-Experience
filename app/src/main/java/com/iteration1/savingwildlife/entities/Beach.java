@@ -1,8 +1,11 @@
 package com.iteration1.savingwildlife.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class Beach implements Serializable {
+public class Beach implements Parcelable {
     private String name;
     private String description;
     private String banner;
@@ -17,6 +20,34 @@ public class Beach implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    protected Beach(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        banner = in.readString();
+        if (in.readByte() == 0) {
+            latitude = null;
+        } else {
+            latitude = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            longitude = null;
+        } else {
+            longitude = in.readDouble();
+        }
+    }
+
+    public static final Creator<Beach> CREATOR = new Creator<Beach>() {
+        @Override
+        public Beach createFromParcel(Parcel in) {
+            return new Beach(in);
+        }
+
+        @Override
+        public Beach[] newArray(int size) {
+            return new Beach[size];
+        }
+    };
 
     public Double getLatitude() {
         return latitude;
@@ -59,5 +90,19 @@ public class Beach implements Serializable {
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(banner);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 }

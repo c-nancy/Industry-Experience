@@ -66,7 +66,7 @@ public class InfoPage extends AppCompatActivity {
         // Use bundle to receive params
         Bundle bundle = intent.getExtras();
         assert bundle != null;
-        selected = (Beach) bundle.getSerializable("beach");
+        selected = (Beach) bundle.getParcelable("beach");
         StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(selected.getBanner());
         GlideApp.with(getApplicationContext())
                 .load(imageRef)

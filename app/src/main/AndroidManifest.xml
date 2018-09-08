@@ -17,26 +17,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-        <activity android:name=".MainActivity"></activity>
-
-
-
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+        <activity android:name=".MainActivity"
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
 
 
         <activity
             android:name=".InfoPage"
             android:label="" />
-        <activity android:name=".Visualization"></activity>
+        <activity android:name=".Visualization" />
         <activity android:name=".Statistics" />
         <activity android:name=".MakeReport" />
+
 
 
         <uses-library

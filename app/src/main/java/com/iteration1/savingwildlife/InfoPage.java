@@ -9,6 +9,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -66,7 +67,7 @@ public class InfoPage extends AppCompatActivity {
         // Use bundle to receive params
         Bundle bundle = intent.getExtras();
         assert bundle != null;
-        selected = (Beach) bundle.getParcelable("beach");
+        selected = (Beach) bundle.getSerializable("beach");
         StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(selected.getBanner());
         GlideApp.with(getApplicationContext())
                 .load(imageRef)
@@ -99,6 +100,7 @@ public class InfoPage extends AppCompatActivity {
                 String uri = "http://maps.google.com/maps?daddr=" + selected.getLatitude() + "," + selected.getLongitude() + " (" + selected.getName() + ")";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setPackage("com.google.android.apps.maps");
+                Log.d("lat",Double.toString(selected.getLatitude()));
                 startActivity(intent);
             }
         });

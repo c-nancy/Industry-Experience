@@ -1,10 +1,12 @@
 package com.iteration1.savingwildlife;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
@@ -20,16 +22,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.location.Location;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.location.places.GeoDataClient;
 
 import com.google.android.gms.location.places.PlaceDetectionClient;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
-import com.iteration1.savingwildlife.utils.LocationUtils;
 import com.iteration1.savingwildlife.utils.SplashScreen;
 
 import java.util.ArrayList;
@@ -56,9 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SplashScreen ss;
 
-    private GeoDataClient mGeoDataClient;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private PlaceDetectionClient mPlaceDetectionClient;
+
+    private boolean locationrefuse;
 
 
     private Location mlocation;
@@ -70,14 +66,31 @@ public class MainActivity extends AppCompatActivity {
         beachList = new ArrayList<>();
         ibList = new ArrayList<>();
         ss = new SplashScreen(this);
-        Toast newToast = Toast.makeText(MainActivity.this, "Analyzing the closest beach...", Toast.LENGTH_LONG);
-        newToast.setGravity(Gravity.CENTER, 0, 0);
-        newToast.show();
-        // Construct a GeoDataClient.
-        mGeoDataClient = Places.getGeoDataClient(this);
+        locationrefuse = false;
 
-        // Construct a PlaceDetectionClient.
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(this);
+        // Get user location using locationmanager
+        LocationManager mLocMan = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d("permission check","inside");
+            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+            if(!locationrefuse){
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        101);
+            }
+            Toast newToast = Toast.makeText(MainActivity.this, "Show beach randomly...", Toast.LENGTH_SHORT);
+            newToast.setGravity(Gravity.CENTER, 0, 0);
+            newToast.show();
+        }else{
+            Toast newToast = Toast.makeText(MainActivity.this, "Analyzing the closest beach...", Toast.LENGTH_SHORT);
+            newToast.setGravity(Gravity.CENTER, 0, 0);
+            newToast.show();
+            assert mLocMan != null;
+            mlocation = mLocMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+
 
 
         this.setTheme(R.style.AppTheme);
@@ -156,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
     // This is a new thread to load data from database
     private class LoadTask extends AsyncTask<String, Integer, String> {
 
@@ -164,16 +184,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             ss.show(2000);
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
             Log.d("pre", "onPreExecute() called");
         }
 
         @WorkerThread
         @Override
         protected String doInBackground(String... params) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+
                     // Get the reference of firebase instance
                     DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("beaches");
 
@@ -192,8 +209,6 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("The read failed: " + databaseError.getDetails());
                         }
                     });
-                }
-            }).start();
             return null;
         }
 
@@ -215,56 +230,40 @@ public class MainActivity extends AppCompatActivity {
             Log.d("cancelled", "onCancelled() called");
         }
 
+
+
         // Simulate the recomsys, but now just sort randomly instead of real algorithm
         private void applyRecommendSystem() {
 
-//            // Shuffle the elements in drawable id list
-//            Collections.shuffle(beachList);
-
-            // Construct a FusedLocationProviderClient.
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-            if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(
-                    new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                mlocation = location;
-                                Log.d("lat", Double.toString(mlocation.getLatitude()));
-                                Log.d("lng", Double.toString(mlocation.getLongitude()));
-                            } else {
-                                Log.d("no", "No!");
-                            }
+            if(mlocation != null){
+                // If has the user location, apply the recommend algorithm based on distance.(Bubble sort)
+                for (int i = 0; i < beachList.size(); i++) {
+                    for (int j = 0; j < beachList.size()-1; j++){
+                        Location iLocation = new Location(LocationManager.GPS_PROVIDER);
+                        iLocation.setLatitude(beachList.get(j).getLatitude());
+                        iLocation.setLongitude(beachList.get(j).getLongitude());
+                        Location nextLocation  = new Location(LocationManager.GPS_PROVIDER);
+                        nextLocation.setLatitude(beachList.get(j+1).getLatitude());
+                        nextLocation.setLongitude(beachList.get(j+1).getLongitude());
+                        if (mlocation.distanceTo(nextLocation) < mlocation.distanceTo(iLocation)){
+                            Beach tb = beachList.get(j+1);
+                            beachList.set(j+1,beachList.get(j));
+                            beachList.set(j,tb);
                         }
-                    });
-            Log.d("beach list size", Integer.toString(beachList.size()));
-
-
-            // The recomment algorithm. Bubble sort
-            double mlat = mlocation.getLatitude();
-            double mlng = mlocation.getLongitude();
-            for (int i = 0; i < beachList.size(); i++) {
-                for (int j = 0; j < beachList.size()-1; j++){
-                    if (LocationUtils.getDistance(mlat,mlng,beachList.get(i+1).getLatitude(),beachList.get(i+1).getLongitude())
-                            <LocationUtils.getDistance(mlat,mlng,beachList.get(i).getLatitude(),beachList.get(i).getLongitude())){
-                        Beach tb = beachList.get(i+1);
-                        beachList.set(i+1,beachList.get(i));
-                        beachList.set(i,tb);
                     }
                 }
+            }else{
+                // When user do not provide location, shuffle the beaches
+                Collections.shuffle(beachList);
             }
 
             for (int i = 0; i < ibList.size(); i++) {
                 ImageView iv = ibList.get(i);
 
-                //        This block is for taking picts from cloud
+                // This block is for taking picts from cloud
                 StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(beachList.get(i).getBanner());
                 GlideApp.with(getApplicationContext())
                         .load(imageRef)
-                        .thumbnail(0.1f)
                         .placeholder(R.drawable.common_full_open_on_phone)
                         .error(R.drawable.common_full_open_on_phone)
                         .into(iv);
@@ -282,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                             selected = b;
                             // intent cannot be used to parse integer, so use bundle to pack the params
                             Bundle bundle = new Bundle();
-                            bundle.putParcelable("beach", selected);
+                            bundle.putSerializable("beach", selected);
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }
@@ -290,6 +289,9 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }
+
+
+
 
 
 

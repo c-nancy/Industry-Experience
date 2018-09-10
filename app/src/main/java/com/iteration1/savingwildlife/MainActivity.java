@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private SplashScreen ss;
 
 
+    // To see whether user has given the permission of using device location or not
     private boolean locationrefuse;
 
 

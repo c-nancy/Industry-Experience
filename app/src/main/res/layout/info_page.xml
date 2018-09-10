@@ -36,68 +36,35 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".InfoPage">
-
-
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:orientation="vertical"
-                android:paddingBottom="50dp">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/banner"
-                    tools:ignore="ContentDescription"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
-                    android:adjustViewBounds="true" />
-
-
-                <TextView
-                    android:layout_height="wrap_content"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
                     android:layout_width="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textSize="25sp"
-                    android:textColor="#ff37474f"
-                    android:id="@+id/beachtitle" />
+                    android:layout_height="500dp"
+                    android:layout_gravity="center">
+                </android.support.v4.view.ViewPager>
 
-                <View
+                <com.lwj.widget.viewpagerindicator.ViewPagerIndicator
+                    android:id="@+id/indicator_line"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="15dp"
-                    android:background="#022F29"
-                    android:id="@+id/oneline"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                <WebView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textSize="25sp"
-                    android:textColor="#ff37474f"
-                    android:layout_gravity="center_vertical|end"
-                    android:id="@+id/beachtxt"
-                    android:background="@drawable/text_view_background"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"/>
-                </RelativeLayout>
+                    android:layout_height="20dp"
+                    android:background="@color/fui_transparent"
+                    app:default_color="#cdcdcd"
+                    app:distanceType="BY_LAYOUT"
+                    app:indicatorType="SPRING"
+                    app:radius="8dp"
+                    app:selected_color="@color/theme_color"
+                    android:layout_marginBottom="5dp"/>
 
             </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+
 
 
 <RelativeLayout

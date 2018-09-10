@@ -63,7 +63,11 @@ dependencies {
     // To get the user's current location
     implementation "com.google.android.gms:play-services-location:15.0.1"
 
+    // For direction
     implementation 'com.google.android.gms:play-services-places:15.0.1'
+
+    // For the bottom indicator
+    implementation 'com.github.LinweiJ:ViewPagerIndicator:0.0.2'
 
 
 }

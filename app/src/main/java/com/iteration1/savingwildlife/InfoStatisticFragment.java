@@ -20,6 +20,9 @@ public class InfoStatisticFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parentView = inflater.inflate(R.layout.beach_statistic_fragment, container, false);
+        Bundle bundle = this.getArguments();
+        assert bundle != null;
+        selected = (Beach) bundle.getSerializable("selected");
         return parentView;
     }
 }

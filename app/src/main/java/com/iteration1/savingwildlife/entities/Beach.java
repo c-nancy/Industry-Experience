@@ -8,18 +8,61 @@ import java.io.Serializable;
 public class Beach implements Serializable {
     private String name;
     private String description;
+    private String area;
+    private String location;
+    private String feature1;
+    private String feature2;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getFeature1() {
+        return feature1;
+    }
+
+    public void setFeature1(String feature1) {
+        this.feature1 = feature1;
+    }
+
+    public String getFeature2() {
+        return feature2;
+    }
+
+    public void setFeature2(String feature2) {
+        this.feature2 = feature2;
+    }
+
     private String banner;
     private Double latitude;
     private Double longitude;
 
 
-    public Beach(String name, String description, String banner, Double latitude, Double longitude) {
+
+    public Beach(String name, String description, String area, String location, String feature1, String feature2, String banner, Double latitude, Double longitude) {
         this.name = name;
         this.description = description;
+        this.area = area;
+        this.location = location;
+        this.feature1 = feature1;
+        this.feature2 = feature2;
         this.banner = banner;
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
 
     public Double getLatitude() {
         return latitude;

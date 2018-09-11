@@ -101,6 +101,8 @@ public class InfoPage extends AppCompatActivity {
         bundle1.putSerializable("selected", selected);
         infotxt.setArguments(bundle1);
         infosta.setArguments(bundle1);
+        infoimg.setArguments(bundle1);
+
 
 
 

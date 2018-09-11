@@ -20,6 +20,10 @@ public class InfoImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parentView = inflater.inflate(R.layout.beach_image_fragment, container, false);
+        Bundle bundle = this.getArguments();
+        assert bundle != null;
+        selected = (Beach) bundle.getSerializable("selected");
         return parentView;
     }
+
     }

@@ -37,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.utils.SplashScreen;
+import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,13 +82,9 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
                         101);
             }
-            Toast newToast = Toast.makeText(MainActivity.this, "Show beach randomly...", Toast.LENGTH_SHORT);
-            newToast.setGravity(Gravity.CENTER, 0, 0);
-            newToast.show();
+            UIUtils.showCenterToast(this,"Show beach randomly...");
         }else{
-            Toast newToast = Toast.makeText(MainActivity.this, "Analyzing the closest beach...", Toast.LENGTH_SHORT);
-            newToast.setGravity(Gravity.CENTER, 0, 0);
-            newToast.show();
+            UIUtils.showCenterToast(this,"Analyzing the closest beach...");
             assert mLocMan != null;
             mlocation = mLocMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }

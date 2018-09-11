@@ -3,6 +3,7 @@ package com.iteration1.savingwildlife.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ public class UIUtils {
     }
 
 
-    public static void showToast(Context context,
+    public static void showCenterToast(Context context,
                                  String content) {
         if (toast == null) {
             toast = Toast.makeText(context,
@@ -39,6 +40,7 @@ public class UIUtils {
         } else {
             toast.setText(content);
         }
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 }

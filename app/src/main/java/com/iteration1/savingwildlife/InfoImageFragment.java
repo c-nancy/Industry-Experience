@@ -41,7 +41,8 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
         Bundle bundle = this.getArguments();
         assert bundle != null;
         selected = (Beach) bundle.getSerializable("selected");
-        reports = (ArrayList<String>) bundle.getStringArrayList("reports");
+        reports = bundle.getStringArrayList("reports");
+        Log.d("report size inside", Integer.toString(reports.size()));
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle("com.google.android.geo.API_KEY");
@@ -62,7 +63,9 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
             e.printStackTrace();
         }
         StringBuilder sb = new StringBuilder();
-        if(reports == null){sb.append("No");}
+        if(reports == null){
+            sb.append("No");
+        }
         else{sb.append(reports.size());}
         sb.append(" incident report(s) so far has been made in this beach area!");
         textView.setText(sb);

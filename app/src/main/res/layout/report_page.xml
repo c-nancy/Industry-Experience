@@ -131,10 +131,10 @@
                 android:layout_gravity="center_horizontal"/>
 
             <Button
-                android:id="@+id/cancelbtn"
+                android:id="@+id/savebtn"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:text="Cancel"
+                android:text="Submit"
                 android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>

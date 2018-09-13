@@ -40,6 +40,7 @@ public class InfoPage extends AppCompatActivity {
     private Toolbar toolbar;
     private Beach selected;
     private ViewPagerIndicator mViewPagerIndicator;
+    private ArrayList<String> reports;
 
 
     private ViewPager mViewPager;
@@ -92,6 +93,7 @@ public class InfoPage extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         assert bundle != null;
         selected = (Beach) bundle.getSerializable("beach");
+        reports = bundle.getStringArrayList("reports");
 
         toolbar_title.setText(selected.getName());
 //        StringBuilder sb = new StringBuilder("Learn about ");
@@ -99,19 +101,19 @@ public class InfoPage extends AppCompatActivity {
 //        beachtitle.setText(sb);
         Bundle bundle1 = new Bundle();
         bundle1.putSerializable("selected", selected);
+        bundle1.putStringArrayList("reports", reports);
         infotxt.setArguments(bundle1);
         infosta.setArguments(bundle1);
         infoimg.setArguments(bundle1);
-
-
-
 
         make_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(InfoPage.this, MakeReport.class);
-                intent.putExtra("selected", selected);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("selected", selected);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -122,7 +124,6 @@ public class InfoPage extends AppCompatActivity {
                 String uri = "http://maps.google.com/maps?daddr=" + selected.getLatitude() + "," + selected.getLongitude() + " (" + selected.getName() + ")";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setPackage("com.google.android.apps.maps");
-                Log.d("lat",Double.toString(selected.getLatitude()));
                 startActivity(intent);
             }
         });

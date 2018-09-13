@@ -46,6 +46,7 @@ public class HomeScreenFragment extends Fragment {
     private ArrayList<Event> reports;
     // To see whether user has given the permission of using device location or not
     private boolean locationrefuse;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -62,17 +63,17 @@ public class HomeScreenFragment extends Fragment {
         LocationManager mLocMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("permission check","inside");
+            Log.d("permission check", "inside");
             locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION);
             locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION);
-            if(!locationrefuse){
+            if (!locationrefuse) {
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
                         101);
             }
-            UIUtils.showCenterToast(getActivity().getApplicationContext(),"Show beach randomly...");
-        }else{
-            UIUtils.showCenterToast(getActivity().getApplicationContext(),"Analyzing the closest beach...");
+            UIUtils.showCenterToast(getActivity().getApplicationContext(), "Show beach randomly...");
+        } else {
+            UIUtils.showCenterToast(getActivity().getApplicationContext(), "Analyzing the closest beach...");
             assert mLocMan != null;
             mlocation = mLocMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
@@ -117,7 +118,6 @@ public class HomeScreenFragment extends Fragment {
     }
 
 
-
     // This is a new thread to load data from database
     private class LoadTask extends AsyncTask<String, Integer, String> {
 
@@ -152,8 +152,7 @@ public class HomeScreenFragment extends Fragment {
                 }
             });
 
-
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("events");
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("report");
 
             reference.addValueEventListener(new ValueEventListener() {
 
@@ -161,6 +160,7 @@ public class HomeScreenFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
+                        Log.d("beach name of report", e.getBeach_name());
                         reports.add(e);
                     }
                 }
@@ -193,28 +193,27 @@ public class HomeScreenFragment extends Fragment {
         }
 
 
-
         // Simulate the recomsys, but now just sort randomly instead of real algorithm
         private void applyRecommendSystem() {
 
-            if(mlocation != null){
+            if (mlocation != null) {
                 // If has the user location, apply the recommend algorithm based on distance.(Bubble sort)
                 for (int i = 0; i < beachList.size(); i++) {
-                    for (int j = 0; j < beachList.size()-1; j++){
+                    for (int j = 0; j < beachList.size() - 1; j++) {
                         Location iLocation = new Location(LocationManager.GPS_PROVIDER);
                         iLocation.setLatitude(beachList.get(j).getLatitude());
                         iLocation.setLongitude(beachList.get(j).getLongitude());
-                        Location nextLocation  = new Location(LocationManager.GPS_PROVIDER);
-                        nextLocation.setLatitude(beachList.get(j+1).getLatitude());
-                        nextLocation.setLongitude(beachList.get(j+1).getLongitude());
-                        if (mlocation.distanceTo(nextLocation) < mlocation.distanceTo(iLocation)){
-                            Beach tb = beachList.get(j+1);
-                            beachList.set(j+1,beachList.get(j));
-                            beachList.set(j,tb);
+                        Location nextLocation = new Location(LocationManager.GPS_PROVIDER);
+                        nextLocation.setLatitude(beachList.get(j + 1).getLatitude());
+                        nextLocation.setLongitude(beachList.get(j + 1).getLongitude());
+                        if (mlocation.distanceTo(nextLocation) < mlocation.distanceTo(iLocation)) {
+                            Beach tb = beachList.get(j + 1);
+                            beachList.set(j + 1, beachList.get(j));
+                            beachList.set(j, tb);
                         }
                     }
                 }
-            }else{
+            } else {
                 // When user do not provide location, shuffle the beaches
                 Collections.shuffle(beachList);
             }
@@ -242,16 +241,18 @@ public class HomeScreenFragment extends Fragment {
                                 .contains(ns.toUpperCase().trim().replaceAll(" ", ""))) {
                             selected = b;
                             ArrayList<String> relatedReport = new ArrayList<>();
-                            for (Event e : reports) {
-                                if (e.getBeach().toUpperCase().replaceAll(" ", "")
-                                        .equals(b.getName().toUpperCase().replaceAll(" ", ""))){
-                                    relatedReport.add(e.getEvent_type());
+                            if (reports != null) {
+                                for (Event e : reports) {
+                                    if (e.getBeach_name().toUpperCase().replaceAll(" ", "")
+                                            .equals(b.getName().toUpperCase().replaceAll(" ", ""))) {
+                                        relatedReport.add(e.getEvent_type());
+                                    }
                                 }
-
                             }
                             // intent cannot be used to parse integer, so use bundle to pack the params
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("beach", selected);
+                            Log.d("related report size", Integer.toString(relatedReport.size()));
                             bundle.putStringArrayList("reports", relatedReport);
                             intent.putExtras(bundle);
                             startActivity(intent);
@@ -261,11 +262,6 @@ public class HomeScreenFragment extends Fragment {
             }
         }
     }
-
-
-
-
-
 
 
 }

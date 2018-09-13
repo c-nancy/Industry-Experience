@@ -3,23 +3,33 @@ package com.iteration1.savingwildlife.entities;
 public class Event {
     private String event_type;
     private String event_date;
-private String beach;
+private String beach_name;
+private String reference;
 
-    public String getBeach() {
-        return beach;
+    public String getBeach_name() {
+        return beach_name;
     }
 
-    public void setBeach(String beach) {
-        this.beach = beach;
+    public void setBeach_name(String beach_name) {
+        this.beach_name = beach_name;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public Event() {
     }
 
-    public Event(String event_type, String event_date, String beach) {
+    public Event(String event_type, String event_date, String beach_name, String reference) {
         this.event_type = event_type;
         this.event_date = event_date;
-        this.beach = beach;
+        this.beach_name = beach_name;
+        this.reference = reference;
     }
 
     public String getEvent_type() {

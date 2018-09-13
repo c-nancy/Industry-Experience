@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -90,14 +91,18 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_fish_image:
                 nextFragment = new FishImageFragment();
                 break;
-//            case R.id.nav_report:
-//                nextFragment = new ReportFragment();
-//                break;
+            case R.id.nav_litters_statistics:
+                nextFragment = new PollutionFragment();
+                break;
         }
 //        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame,
-                nextFragment).commit();
 
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            fragmentManager.popBackStack();
+        }
+        Log.d("selected", nextFragment.toString());
+        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
+        Log.d("selected 2", nextFragment.toString());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

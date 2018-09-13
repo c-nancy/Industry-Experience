@@ -32,7 +32,12 @@
     </android.support.design.widget.AppBarLayout>
 
 
+<<<<<<< HEAD
     <ScrollView
+=======
+    <android.support.v4.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+>>>>>>> origin/master
         android:id="@+id/scrollableContents"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -106,9 +111,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:id="@+id/chart"
+<<<<<<< HEAD
                     android:layout_margin="10dp">
 
                 </com.iteration1.savingwildlife.Histogram>
+=======
+                    android:layout_margin="5dp"/>
+>>>>>>> origin/master
 
 
                 <com.bin.david.form.core.SmartTable
@@ -130,7 +139,11 @@
 
             </LinearLayout>
         </LinearLayout>
+<<<<<<< HEAD
     </ScrollView>
+=======
+    </android.support.v4.widget.NestedScrollView>
+>>>>>>> origin/master
 
 
 </RelativeLayout>

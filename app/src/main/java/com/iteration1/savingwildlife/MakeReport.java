@@ -1,5 +1,6 @@
 package com.iteration1.savingwildlife;
 
+<<<<<<< HEAD
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -52,11 +53,21 @@ public class MakeReport extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+=======
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.support.v7.widget.Toolbar;
+
+public class MakeReport extends AppCompatActivity {
+    private Toolbar toolbar;
+>>>>>>> origin/master
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_page);
+<<<<<<< HEAD
         covertToLongType();
         initUI();
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +194,14 @@ public class MakeReport extends AppCompatActivity {
         String titlePlus = "Report of ";
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         toolbar_title.setText(titlePlus + option.getName());
+=======
+        initUI();
+    }
+
+    private void initUI(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+>>>>>>> origin/master
         // Back to former page
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -195,6 +214,7 @@ public class MakeReport extends AppCompatActivity {
 
     }
 
+<<<<<<< HEAD
     private void covertToLongType(){
         try {
             String dateString = "01/01/2018";
@@ -208,6 +228,8 @@ public class MakeReport extends AppCompatActivity {
         }
     }
 
+=======
+>>>>>>> origin/master
     @Override
     public void onBackPressed() {
         super.onBackPressed();

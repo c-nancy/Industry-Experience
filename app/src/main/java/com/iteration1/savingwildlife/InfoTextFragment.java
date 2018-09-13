@@ -20,7 +20,11 @@ import com.iteration1.savingwildlife.entities.Beach;
 
 public class InfoTextFragment extends Fragment {
     private View parentView;
+<<<<<<< HEAD
     //    private WebView txt;
+=======
+//    private WebView txt;
+>>>>>>> origin/master
     private Beach selected;
     private ImageView banner;
     private TextView area;

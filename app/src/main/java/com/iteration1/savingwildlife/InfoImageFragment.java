@@ -2,6 +2,7 @@ package com.iteration1.savingwildlife;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+<<<<<<< HEAD
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,17 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
     private ArrayList<String> reports;
     private TextView textView;
     private LatLng center;
+=======
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.iteration1.savingwildlife.entities.Beach;
+
+public class InfoImageFragment extends Fragment {
+    private View parentView;
+    private Beach selected;
+>>>>>>> origin/master
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -41,6 +53,7 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
         Bundle bundle = this.getArguments();
         assert bundle != null;
         selected = (Beach) bundle.getSerializable("selected");
+<<<<<<< HEAD
         reports = bundle.getStringArrayList("reports");
         Log.d("report size inside", Integer.toString(reports.size()));
         Bundle mapViewBundle = null;
@@ -83,3 +96,9 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
                 .title(selected.getName()));
     }
 }
+=======
+        return parentView;
+    }
+
+    }
+>>>>>>> origin/master

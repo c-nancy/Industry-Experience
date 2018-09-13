@@ -48,7 +48,7 @@ public class MakeReport extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String id = databaseReference.push().getKey();
-//        Event event = new Event(type,event_date);
+//        Event event = new Event(type,event_date, );
         databaseReference.child(id).child("event_type").setValue(type);
         databaseReference.child(id).child("event_date").setValue(event_date);
         Toast.makeText(this, "report has been saved", Toast.LENGTH_SHORT).show();

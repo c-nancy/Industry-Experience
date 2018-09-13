@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity
         Fragment nextFragment = null;
         switch (id) {
             case R.id.nav_homepage:
+                getSupportActionBar().setTitle("Beach Step");
                 nextFragment = new HomeScreenFragment();
                 break;
             case R.id.nav_map:

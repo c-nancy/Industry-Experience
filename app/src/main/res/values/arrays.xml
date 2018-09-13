@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="report_types">
-        <item>illegal fishing</item>
-        <item>dumping of rubbish</item>
-        <item>other events</item>
+        <item>Select one</item>
+        <item>Illegal fishing</item>
+        <item>Dumping of rubbish</item>
+        <item>Other events</item>
     </string-array>
 
 </resources>

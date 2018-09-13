@@ -205,14 +205,11 @@ public class HomeScreenFragment extends Fragment {
             });
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("report");
-
             reference.addValueEventListener(new ValueEventListener() {
-
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
-                        Log.d("beach name of report", e.getBeach_name());
                         reports.add(e);
                     }
                 }

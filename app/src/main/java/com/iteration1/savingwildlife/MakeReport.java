@@ -58,7 +58,7 @@ public class MakeReport extends AppCompatActivity {
     private void initUI(){
         eventType = (Spinner) findViewById(R.id.spinner1);
         eventDate = (DatePicker) findViewById(R.id.datePicker1);
-        btnCancel = (Button) findViewById(R.id.cancelbtn);
+        btnCancel = (Button) findViewById(R.id.savebtn);
         btnUpload = (Button) findViewById(R.id.uploadbtn);
         databaseReference = FirebaseDatabase.getInstance().getReference("report");
         toolbar = (Toolbar) findViewById(R.id.toolbar);

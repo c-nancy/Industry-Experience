@@ -31,14 +31,9 @@ public class UIUtils {
     }
 
 
-<<<<<<< HEAD
 
     public static void showCenterToast(Context context,
                                        String content) {
-=======
-    public static void showCenterToast(Context context,
-                                 String content) {
->>>>>>> origin/master
         if (toast == null) {
             toast = Toast.makeText(context,
                     content,

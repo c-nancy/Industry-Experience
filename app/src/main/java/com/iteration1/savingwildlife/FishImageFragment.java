@@ -11,7 +11,7 @@ public class FishImageFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        fView = inflater.inflate(R.layout.fish_image_fragment, container, false);
+        fView = inflater.inflate(R.layout.fish_population_fragment, container, false);
         return fView;
     }
 }

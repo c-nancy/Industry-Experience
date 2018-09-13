@@ -26,10 +26,7 @@ public class Histogram extends View implements View.OnClickListener {
         this.values = values;
         Log.d("value setted", Float.toString(values[1]));
         initValuesAndMaxY();
-<<<<<<< HEAD
         this.invalidate();
-=======
->>>>>>> origin/master
     }
 
     Paint paintBar, paintText;
@@ -75,11 +72,7 @@ public class Histogram extends View implements View.OnClickListener {
         for (float i : values) {
             maxY = maxY < i ? i : maxY;
         }
-<<<<<<< HEAD
         while(maxY%1000 != 0){
-=======
-        while(maxY%10000 != 0){
->>>>>>> origin/master
             maxY = maxY + 1;
         }
         Log.d("logged", Float.toString(maxY));
@@ -121,10 +114,7 @@ public class Histogram extends View implements View.OnClickListener {
                 float x = 0;
                 float y = (height - tagHeight) - avgHeight * (i + 1);
                 int valueY = (int) (maxY * (i + 1) / lineYNums);
-<<<<<<< HEAD
                 // canvas写字是从x、y轴往右上写的
-=======
->>>>>>> origin/master
                 canvas.drawText(String.valueOf(valueY), x, y + 30, paintText);
             }
         }

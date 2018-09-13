@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="report_types">
-<<<<<<< HEAD
-        <item>select one</item>
         <item>illegal fishing</item>
         <item>dumping of rubbish</item>
         <item>other events</item>
-=======
-        <item>c语言</item>
-        <item>java </item>
-        <item>php</item>
-        <item>xml</item>
-        <item>html</item>
->>>>>>> origin/master
     </string-array>
 
 </resources>

@@ -58,11 +58,7 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
-<<<<<<< HEAD
-            mapViewBundle = savedInstanceState.getBundle("com.google.android.geo.API_KEY");
-=======
             mapViewBundle = savedInstanceState.getBundle("MapViewBundleKey");
->>>>>>> origin/master
         }
         mMapView = (MapView) findViewById(R.id.basemap_map);
         mMapView.onCreate(mapViewBundle);
@@ -154,10 +150,7 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
                     HistogramTable onetable = new HistogramTable(item, count);
                     ht.add(onetable);
                 }
-<<<<<<< HEAD
                 Log.d("histo size", Integer.toString(xs.length));
-=======
->>>>>>> origin/master
                 his = new Histogram(getApplicationContext(), null);
                 his.setValues(xs);
                 table = (SmartTable) findViewById(R.id.table);
@@ -165,12 +158,8 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
                 table.getConfig().setShowColumnTitle(false)
                         .setShowXSequence(false)
                         .setShowYSequence(false);
-<<<<<<< HEAD
 
 //                his.invalidate();
-=======
-                his.invalidate();
->>>>>>> origin/master
             }
 
             @Override

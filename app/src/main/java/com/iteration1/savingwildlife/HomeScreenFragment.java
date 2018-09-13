@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.iteration1.savingwildlife.entities.Beach;
+import com.iteration1.savingwildlife.entities.Event;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class HomeScreenFragment extends Fragment {
     private ArrayList<Beach> beachList;
     private ArrayList<ImageView> ibList;
     private Location mlocation;
+    private ArrayList<Event> reports;
     // To see whether user has given the permission of using device location or not
     private boolean locationrefuse;
     @Nullable
@@ -50,8 +53,8 @@ public class HomeScreenFragment extends Fragment {
         vHome = inflater.inflate(R.layout.home_screen, container, false);
         beachList = new ArrayList<>();
         ibList = new ArrayList<>();
-        beachList = new ArrayList<>();
-        ibList = new ArrayList<>();
+        reports = new ArrayList<>();
+
 
         locationrefuse = false;
 
@@ -148,6 +151,26 @@ public class HomeScreenFragment extends Fragment {
                     System.out.println("The read failed: " + databaseError.getDetails());
                 }
             });
+
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("events");
+
+            reference.addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        Event e = child.getValue(Event.class);
+                        reports.add(e);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
             return null;
         }
 
@@ -209,7 +232,7 @@ public class HomeScreenFragment extends Fragment {
                 iv.setTag(beachList.get(i).getName());
 
                 //@Override
-                iv.setOnClickListener(v -> {
+                iv.setOnClickListener((View v) -> {
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), InfoPage.class);
                     String ns = (String) v.getTag();
@@ -218,9 +241,18 @@ public class HomeScreenFragment extends Fragment {
                         if (b.getName().toUpperCase().replaceAll(" ", "")
                                 .contains(ns.toUpperCase().trim().replaceAll(" ", ""))) {
                             selected = b;
+                            ArrayList<String> relatedReport = new ArrayList<>();
+                            for (Event e : reports) {
+                                if (e.getBeach().toUpperCase().replaceAll(" ", "")
+                                        .equals(b.getName().toUpperCase().replaceAll(" ", ""))){
+                                    relatedReport.add(e.getEvent_type());
+                                }
+
+                            }
                             // intent cannot be used to parse integer, so use bundle to pack the params
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("beach", selected);
+                            bundle.putStringArrayList("reports", relatedReport);
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }

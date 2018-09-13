@@ -7,30 +7,30 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/actionBarSize"
-        android:id="@+id/app_bar">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:minHeight="?android:attr/actionBarSize"-->
+        <!--android:id="@+id/app_bar">-->
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="?android:attr/actionBarSize"
-            android:background="@android:color/transparent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+        <!--<android.support.v7.widget.Toolbar android:id="@+id/toolbar"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:minHeight="?android:attr/actionBarSize"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--xmlns:android="http://schemas.android.com/apk/res/android">-->
 
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:id="@+id/toolbar_title" />
+            <!--<TextView-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:id="@+id/toolbar_title" />-->
 
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+        <!--</android.support.v7.widget.Toolbar>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
 
 
     <ScrollView
@@ -65,20 +65,19 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/text_view_background"
                 android:layout_margin="10dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:id="@+id/general"
                 android:text="@string/general_info" />
 
 
-            <com.google.android.gms.maps.MapView xmlns:android="http://schemas.android.com/apk/res/android"
+            <com.google.android.gms.maps.MapView
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:id="@+id/basemap_map"
                 android:layout_margin="10dp"
-                android:layout_below="@+id/general"
-                tools:context=".Statistics"
-                android:name="com.google.android.gms.maps.SupportMapFragment" />
+                android:layout_below="@+id/general" />
 
         </RelativeLayout>
     </ScrollView>

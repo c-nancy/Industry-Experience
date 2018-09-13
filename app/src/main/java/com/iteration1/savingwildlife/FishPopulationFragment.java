@@ -3,6 +3,7 @@ package com.iteration1.savingwildlife;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -36,18 +39,28 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
     private LatLng center;
     private ArrayList<WeightedLatLng> fishLocations;
 
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         fView = inflater.inflate(R.layout.fish_population_fragment, container, false);
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle("MapViewBundleKey");
+            mapViewBundle = savedInstanceState.getBundle("com.google.android.geo.API_KEY");
         }
         mMapView = (MapView) fView.findViewById(R.id.basemap_map);
         mMapView.onCreate(mapViewBundle);
+        mMapView.onResume(); // needed to get the map to display immediately
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         mMapView.getMapAsync(this);
         center = new LatLng(-23.7440165, 133.2164058);
+
 
         return fView;
     }

@@ -86,12 +86,15 @@ public class MainActivity extends AppCompatActivity
                 nextFragment = new MapFragment();
                 break;
             case R.id.nav_fish_statistics:
+                getSupportActionBar().setTitle("Fish population");
                 nextFragment = new FishPopulationFragment();
                 break;
             case R.id.nav_fish_image:
+                getSupportActionBar().setTitle("Know fishes");
                 nextFragment = new FishImageFragment();
                 break;
             case R.id.nav_litters_statistics:
+                getSupportActionBar().setTitle("Common litters on beach");
                 nextFragment = new PollutionFragment();
                 break;
         }
@@ -100,9 +103,8 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
             fragmentManager.popBackStack();
         }
-        Log.d("selected", nextFragment.toString());
+
         fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
-        Log.d("selected 2", nextFragment.toString());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

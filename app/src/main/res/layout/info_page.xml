@@ -36,6 +36,79 @@
     </android.support.design.widget.AppBarLayout>
 
 
+<<<<<<< HEAD
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="500dp"
+            android:layout_gravity="center">
+        </android.support.v4.view.ViewPager>
+
+        <com.lwj.widget.viewpagerindicator.ViewPagerIndicator
+            android:id="@+id/indicator_line"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="5dp"
+            android:background="@color/fui_transparent"
+            app:default_color="#cdcdcd"
+            app:distanceType="BY_LAYOUT"
+            app:indicatorType="SPRING"
+            app:radius="6dp"
+            app:selected_color="@color/theme_color"
+            android:layout_marginBottom="5dp"/>
+
+    </LinearLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/multiple_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            fab:fab_addButtonColorNormal="@android:color/white"
+            fab:fab_addButtonColorPressed="@android:color/primary_text_dark"
+            fab:fab_addButtonPlusIconColor="@android:color/black"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            fab:fab_labelStyle="@style/menu_labels_style"
+            fab:fab_labelsPosition="left"
+            >
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/direction_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@android:color/white"
+                fab:fab_icon="@drawable/ic_navigation_black_24dp"
+                fab:fab_title="Get direction"
+                fab:fab_colorPressed="@android:color/primary_text_dark"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/report_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@android:color/white"
+                fab:fab_icon="@drawable/ic_event_note_black_24dp"
+                fab:fab_title="Incident report"
+                fab:fab_colorPressed="@android:color/primary_text_dark"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </RelativeLayout>
+=======
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,6 +181,7 @@
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>
+>>>>>>> origin/master
 
 
 </android.support.design.widget.CoordinatorLayout>

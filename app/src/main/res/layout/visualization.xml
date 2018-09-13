@@ -7,7 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mapquestMapView"
+<<<<<<< HEAD
+        app:mapquest_app_key="AJbc9T0denpFWa4L5zAcWGLT6fmPqJKd" />
+
+</android.support.constraint.ConstraintLayout>
+=======
         app:mapquest_app_key="	AJbc9T0denpFWa4L5zAcWGLT6fmPqJKd"
         />
 
 </android.support.constraint.ConstraintLayout>
+>>>>>>> origin/master

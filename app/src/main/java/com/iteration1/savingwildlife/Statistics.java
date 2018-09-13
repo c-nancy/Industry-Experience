@@ -58,7 +58,7 @@ public class Statistics extends AppCompatActivity implements OnMapReadyCallback 
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle("MapViewBundleKey");
+            mapViewBundle = savedInstanceState.getBundle("com.google.android.geo.API_KEY");
         }
         mMapView = (MapView) findViewById(R.id.basemap_map);
         mMapView.onCreate(mapViewBundle);

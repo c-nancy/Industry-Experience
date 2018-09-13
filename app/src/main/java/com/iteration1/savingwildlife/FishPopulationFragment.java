@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.google.maps.android.heatmaps.WeightedLatLng;
+import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +38,8 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
     private View fView;
     private GoogleMap mMap;
     private LatLng center;
-    private ArrayList<WeightedLatLng> fishLocations;
-
+//    private ArrayList<WeightedLatLng> fishLocations;
+    private ArrayList<LatLng> fishLocations;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -59,7 +60,7 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
         }
 
         mMapView.getMapAsync(this);
-        center = new LatLng(-23.7440165, 133.2164058);
+        center = new LatLng(-37.8136, 144.9631);
 
 
         return fView;
@@ -70,7 +71,7 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
         mMap = googleMap;
 
         // Add a marker to default location
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 3));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 4));
         connectDatabase();
     }
 
@@ -79,8 +80,10 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
 
     private void connectDatabase() {
         // Get the reference of firebase instance
-        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("fishcluster");
+//        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("fishcluster");
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("fishes");
         fishLocations = new ArrayList<>();
+        UIUtils.showCenterToast(getContext(),"Heatmap is loading...");
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,24 +92,25 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
 
                     Double a = (Double) map.get("lat");
                     Double b = (Double) map.get("lng");
-                    Double w = (Double) map.get("weight");
+//                    Double w = (Double) map.get("weight");
 
                     // Add weights to points
-                    WeightedLatLng p = new WeightedLatLng(new LatLng(a, b), w * 10);
+//                    WeightedLatLng p = new WeightedLatLng(new LatLng(a, b), w * 10);
+                    LatLng p = new LatLng(a, b);
                     fishLocations.add(p);
                 }
                 Log.d("list size", Integer.toString(fishLocations.size()));
 
                 // Create a heat map tile provider, passing it the latlngs of the police stations.
                 HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder()
-                        .weightedData(fishLocations)
+                        .data(fishLocations)
                         .build();
-                mProvider.setRadius(50);
+                mProvider.setRadius(30);
                 int[] colors = {
-                        Color.CYAN, Color.RED};
+                        Color.YELLOW, Color.RED, Color.BLACK};
 
                 float[] startPoints = {
-                        0.2f, 1f
+                        0.01f, 0.06f, 0.18f
                 };
                 mProvider.setGradient(new Gradient(colors, startPoints));
                 // Add a tile overlay to the map, using the heat map tile provider.

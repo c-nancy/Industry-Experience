@@ -17,24 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-<<<<<<< HEAD
+
         <activity android:name=".MainActivity"
             android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
-=======
-        <activity android:name=".MainActivity"></activity>
+            android:screenOrientation="portrait"/>
+
+
 
 
 
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
->>>>>>> Merged with report version
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-<<<<<<< HEAD
 
         </activity>
 
@@ -44,23 +42,16 @@
             android:name=".InfoPage"
             android:label="" />
         <activity android:name=".Visualization" />
-=======
-        </activity>
 
 
-        <activity
-            android:name=".InfoPage"
-            android:label="" />
+
+
         <activity android:name=".MapFragment"></activity>
->>>>>>> Merged with report version
         <activity android:name=".Statistics" />
         <activity android:name=".MakeReport" />
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> Merged with report version
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

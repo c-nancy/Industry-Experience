@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.youth.banner:banner:1.1.5'
 
     // For graph
-    implementation 'com.jjoe64:graphview:4.2.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
 }
 

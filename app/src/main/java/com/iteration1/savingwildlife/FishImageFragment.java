@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -94,8 +95,9 @@ public class FishImageFragment extends Fragment {
                     public void OnBannerClick(View view, int position) {
                         line.setVisibility(View.INVISIBLE);
                         dt.setVisibility(View.INVISIBLE);
-                        UIUtils.showCenterToast(getContext(),names.get(position-1) + ", "
-                                + counts.get(position-1) + " has been found in the past years");
+                        Toast.makeText(getContext(), names.get(position-1) + ", "
+                                        + counts.get(position-1) + " has been found in the past years",
+                                Toast.LENGTH_SHORT).show();
                         line.setVisibility(View.VISIBLE);
                         dt.setVisibility(View.VISIBLE);
                         dt.setText(details.get(position-1));

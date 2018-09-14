@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:text="One step today makes a bie change tomorrow."
+            android:text="One step today makes a big change tomorrow."
             android:textSize="15sp" />
 
 

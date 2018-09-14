@@ -74,7 +74,7 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         // Add a marker to default location
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 8));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 9));
         mMap.addMarker(new MarkerOptions()
                 .position(center)
                 .title(selected.getName()));

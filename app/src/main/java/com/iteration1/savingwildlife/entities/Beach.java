@@ -1,8 +1,5 @@
 package com.iteration1.savingwildlife.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 public class Beach implements Serializable {
@@ -48,7 +45,6 @@ public class Beach implements Serializable {
     private String banner;
     private Double latitude;
     private Double longitude;
-
 
 
     public Beach(String name, String description, String area, String location, String feature1, String feature2, String banner, Double latitude, Double longitude) {

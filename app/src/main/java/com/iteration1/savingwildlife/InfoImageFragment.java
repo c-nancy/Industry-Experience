@@ -17,11 +17,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.iteration1.savingwildlife.entities.Beach;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.util.ArrayList;
 
-public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
+public class InfoImageFragment extends Fragment implements OnMapReadyCallback {
     private View parentView;
     private Beach selected;
     private MapView mMapView;
@@ -31,7 +29,7 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
     private LatLng center;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -62,8 +60,11 @@ public class InfoImageFragment extends Fragment  implements OnMapReadyCallback {
             e.printStackTrace();
         }
         StringBuilder sb = new StringBuilder();
-        if(reports == null){sb.append("No");}
-        else{sb.append(reports.size());}
+        if (reports == null) {
+            sb.append("No");
+        } else {
+            sb.append(reports.size());
+        }
         sb.append(" incident report(s) so far has been made in this beach area!");
         textView.setText(sb);
         mMapView.getMapAsync(this);

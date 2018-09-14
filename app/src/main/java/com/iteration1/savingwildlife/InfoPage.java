@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,13 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.lwj.widget.viewpagerindicator.ViewPagerIndicator;
 
@@ -81,9 +75,9 @@ public class InfoPage extends AppCompatActivity {
         InfoTextFragment infotxt = new InfoTextFragment();
         InfoStatisticFragment infosta = new InfoStatisticFragment();
         InfoImageFragment infoimg = new InfoImageFragment();
-        adapter.addFragment(infotxt,"Beach Introduction");
-        adapter.addFragment(infosta,"Beach cleanup");
-        adapter.addFragment(infoimg,"Beach gallery");
+        adapter.addFragment(infotxt, "Beach Introduction");
+        adapter.addFragment(infosta, "Beach cleanup");
+        adapter.addFragment(infoimg, "Beach gallery");
         mViewPager.setAdapter(adapter);
         mViewPagerIndicator.setViewPager(mViewPager);
 
@@ -108,9 +102,6 @@ public class InfoPage extends AppCompatActivity {
         infoimg.setArguments(bundle1);
 
 
-
-
-
         make_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +122,7 @@ public class InfoPage extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setPackage("com.google.android.apps.maps");
 
-                Log.d("lat",Double.toString(selected.getLatitude()));
+                Log.d("lat", Double.toString(selected.getLatitude()));
                 startActivity(intent);
             }
         });
@@ -144,8 +135,6 @@ public class InfoPage extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
-
-
 
 
     // For horizontal slide
@@ -174,12 +163,11 @@ public class InfoPage extends AppCompatActivity {
             return fragmenTitleList.get(position);
         }
 
-        public void addFragment(Fragment fragment,String title){
+        public void addFragment(Fragment fragment, String title) {
             fragmentList.add(fragment);
             fragmenTitleList.add(title);
         }
     }
-
 
 
 }

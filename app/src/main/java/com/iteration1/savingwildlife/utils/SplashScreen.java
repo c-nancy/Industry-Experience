@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.iteration1.savingwildlife.R;
 
-public class SplashScreen{
+public class SplashScreen {
 
     private Dialog splashDialog;
     private Activity activity;
@@ -50,7 +50,7 @@ public class SplashScreen{
         activity.runOnUiThread(runnable);
     }
 
-    public void hide(){
+    public void hide() {
         removeSplash();
     }
 

@@ -3,8 +3,8 @@ package com.iteration1.savingwildlife;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.iteration1.savingwildlife.entities.Event;
 
 public class MakeReport extends AppCompatActivity {
     private Toolbar toolbar;
@@ -22,21 +21,22 @@ public class MakeReport extends AppCompatActivity {
     private Button btnCancel;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_page);
         initUI();
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               addArrayList();
+                addArrayList();
             }
         });
 
     }
 
-    private void addArrayList(){
+    private void addArrayList() {
         String type = eventType.getSelectedItem().toString();
         Integer year = eventDate.getYear();
         Integer month = eventDate.getMonth();
@@ -55,7 +55,7 @@ public class MakeReport extends AppCompatActivity {
     }
 
 
-    private void initUI(){
+    private void initUI() {
         eventType = (Spinner) findViewById(R.id.spinner1);
         eventDate = (DatePicker) findViewById(R.id.datePicker1);
         btnCancel = (Button) findViewById(R.id.savebtn);

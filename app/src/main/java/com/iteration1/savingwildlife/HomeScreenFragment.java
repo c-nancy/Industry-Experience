@@ -82,8 +82,7 @@ public class HomeScreenFragment extends Fragment {
             List<String> list = mLocMan.getProviders(true);
             if (list.contains(LocationManager.GPS_PROVIDER)) {
                 provider = LocationManager.GPS_PROVIDER;
-            }
-            else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
+            } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
                 provider = LocationManager.NETWORK_PROVIDER;
             } else {
                 UIUtils.showCenterToast(getActivity(), "Please check internet connection or GPS permission!");
@@ -125,9 +124,6 @@ public class HomeScreenFragment extends Fragment {
         }
 
 
-
-
-
         initUI();
         new LoadTask().execute();
 
@@ -165,9 +161,6 @@ public class HomeScreenFragment extends Fragment {
     private void glow() {
         title.setShadowLayer(50, 0, 0, Color.CYAN);
     }
-
-
-
 
 
     // This is a new thread to load data from database

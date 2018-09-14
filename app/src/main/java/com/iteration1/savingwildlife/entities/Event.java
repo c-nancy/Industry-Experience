@@ -40,7 +40,9 @@ public class Event {
         this.event_type = event_type;
     }
 
-    public String getEvent_date() { return event_date ; }
+    public String getEvent_date() {
+        return event_date;
+    }
 
     public void setEvent_date(String event_date) {
         this.event_date = event_date;

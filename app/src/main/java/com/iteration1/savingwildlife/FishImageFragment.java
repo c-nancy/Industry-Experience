@@ -17,8 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.iteration1.savingwildlife.entities.Beach;
-import com.iteration1.savingwildlife.utils.UIUtils;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -33,7 +31,6 @@ public class FishImageFragment extends Fragment {
     private ArrayList<String> details;
     private View line;
     private TextView dt;
-
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -52,20 +49,20 @@ public class FishImageFragment extends Fragment {
         return fView;
     }
 
-    private void connectDatabase(){
+    private void connectDatabase() {
         // Get the reference of firebase instance
         DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("top_fishes");
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Log.d("inside","vrcgesx");
+                    Log.d("inside", "vrcgesx");
                     HashMap<String, String> map = (HashMap<String, String>) child.getValue();
                     String a = (String) map.get("scientificName");
                     String b = (String) map.get("image");
                     String c = (String) map.get("count");
                     String d = (String) map.get("detail");
-                    Log.d("value",child.getValue().toString());
+                    Log.d("value", child.getValue().toString());
 
                     names.add(a);
                     images.add(b);
@@ -77,12 +74,12 @@ public class FishImageFragment extends Fragment {
                 banner.setBannerTitle(names.toArray(new String[0]));
                 banner.isAutoPlay(true);
                 banner.setDelayTime(5000);
-                Log.d("image",Integer.toString(images.size()));
+                Log.d("image", Integer.toString(images.size()));
                 banner.setImages(images.toArray(new String[0]), new Banner.OnLoadImageListener() {
                     @Override
                     public void OnLoadImage(ImageView view, Object url) {
                         StorageReference r = FirebaseStorage.getInstance().getReferenceFromUrl(url.toString());
-                        Log.d("image",r.toString());
+                        Log.d("image", r.toString());
                         GlideApp.with(getActivity().getApplicationContext())
                                 .load(r)
                                 .placeholder(R.drawable.common_full_open_on_phone)
@@ -95,12 +92,12 @@ public class FishImageFragment extends Fragment {
                     public void OnBannerClick(View view, int position) {
                         line.setVisibility(View.INVISIBLE);
                         dt.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getContext(), names.get(position-1) + ", "
-                                        + counts.get(position-1) + " has been found in the past years",
+                        Toast.makeText(getContext(), names.get(position - 1) + ", "
+                                        + counts.get(position - 1) + " has been found in the past years",
                                 Toast.LENGTH_SHORT).show();
                         line.setVisibility(View.VISIBLE);
                         dt.setVisibility(View.VISIBLE);
-                        dt.setText(details.get(position-1));
+                        dt.setText(details.get(position - 1));
                     }
                 });
 

@@ -3,20 +3,16 @@ package com.iteration1.savingwildlife;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -27,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
-import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -38,7 +33,7 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
     private View fView;
     private GoogleMap mMap;
     private LatLng center;
-//    private ArrayList<WeightedLatLng> fishLocations;
+    //    private ArrayList<WeightedLatLng> fishLocations;
     private ArrayList<LatLng> fishLocations;
 
 
@@ -76,14 +71,12 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
     }
 
 
-
-
     private void connectDatabase() {
         // Get the reference of firebase instance
 //        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("fishcluster");
         DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("fishes");
         fishLocations = new ArrayList<>();
-        UIUtils.showCenterToast(getContext(),"Heatmap is loading...");
+        UIUtils.showCenterToast(getContext(), "Heatmap is loading...");
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

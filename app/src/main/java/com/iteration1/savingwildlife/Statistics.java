@@ -1,19 +1,14 @@
 package com.iteration1.savingwildlife;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.bin.david.form.data.column.Column;
-import com.google.android.gms.common.util.ArrayUtils;
+import com.bin.david.form.core.SmartTable;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -35,9 +30,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import com.bin.david.form.core.SmartTable;
 
 public class Statistics extends AppCompatActivity implements OnMapReadyCallback {
 

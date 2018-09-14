@@ -13,7 +13,7 @@ public class InfoStatisticFragment extends Fragment {
     private Beach selected;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 

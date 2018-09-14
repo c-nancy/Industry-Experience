@@ -31,7 +31,6 @@ public class UIUtils {
     }
 
 
-
     public static void showCenterToast(Context context,
                                        String content) {
         if (toast == null) {

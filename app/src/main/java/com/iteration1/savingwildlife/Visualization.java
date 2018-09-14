@@ -3,15 +3,13 @@ package com.iteration1.savingwildlife;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-
-import com.mapquest.mapping.MapQuest;
-import com.mapquest.mapping.maps.MapView;
-
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapquest.mapping.MapQuest;
+import com.mapquest.mapping.maps.MapView;
 
 public class Visualization extends Activity {
 
@@ -27,6 +25,7 @@ public class Visualization extends Activity {
     private final LatLng Altona_Beach = new LatLng(-37.8710, 144.8300);
     private final LatLng Mordialloc_Beach = new LatLng(-38.00899, 145.086);
     private final LatLng Hampton_Beach = new LatLng(-37.936144, 144.996948);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,20 +46,28 @@ public class Visualization extends Activity {
     }
 
     @Override
-    public void onResume()
-    { super.onResume(); mMapView.onResume(); }
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
 
     @Override
-    public void onPause()
-    { super.onPause(); mMapView.onPause(); }
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
 
     @Override
-    protected void onDestroy()
-    { super.onDestroy(); mMapView.onDestroy(); }
+    protected void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    { super.onSaveInstanceState(outState); mMapView.onSaveInstanceState(outState); }
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
+    }
 
     private void addMarker(MapboxMap mapboxMap) {
         MarkerOptions markerOptions = new MarkerOptions();

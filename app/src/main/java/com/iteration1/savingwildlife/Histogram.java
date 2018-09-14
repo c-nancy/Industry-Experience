@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 
-
 import java.util.Random;
 
 
@@ -72,7 +71,7 @@ public class Histogram extends View implements View.OnClickListener {
         for (float i : values) {
             maxY = maxY < i ? i : maxY;
         }
-        while(maxY%1000 != 0){
+        while (maxY % 1000 != 0) {
             maxY = maxY + 1;
         }
         Log.d("logged", Float.toString(maxY));

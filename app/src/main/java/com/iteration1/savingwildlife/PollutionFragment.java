@@ -1,6 +1,5 @@
 package com.iteration1.savingwildlife;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,19 +30,12 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
-import com.github.mikephil.charting.utils.Transformer;
-import com.github.mikephil.charting.utils.Utils;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.iteration1.savingwildlife.utils.UIUtils;
-import com.jjoe64.graphview.GraphView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +45,6 @@ public class PollutionFragment extends Fragment {
     private float[] xs;
     private SmartTable table;
     private View fView;
-    private GraphView gv;
     private ArrayList<String> items;
     private ArrayList<String> counts;
     private BarChart chart;
@@ -77,14 +68,15 @@ public class PollutionFragment extends Fragment {
         button = fView.findViewById(R.id.sb);
         connectDatabase();
         ViewSwitcher simpleViewSwitcher = (ViewSwitcher) fView.findViewById(R.id.viewswitcher);
-        View nextView=simpleViewSwitcher.getNextView();
-        Animation in = AnimationUtils.loadAnimation(getContext(),android.R.anim.slide_in_left);
+        View nextView = simpleViewSwitcher.getNextView();
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
         simpleViewSwitcher.setInAnimation(in);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (infirstpage){
-                simpleViewSwitcher.showNext();}else{
+                if (infirstpage) {
+                    simpleViewSwitcher.showNext();
+                } else {
                     simpleViewSwitcher.showPrevious();
                 }
             }
@@ -136,6 +128,7 @@ public class PollutionFragment extends Fragment {
                         Toast.makeText(getContext(), items.get(entry.indexOf(e)),
                                 Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onNothingSelected() {
                     }
@@ -144,10 +137,10 @@ public class PollutionFragment extends Fragment {
 
                 ArrayList<PieEntry> pentry = new ArrayList<>();
                 for (int i = 0; i < counts.size(); i++) {
-                    pentry.add(new PieEntry(Integer.valueOf(counts.get(i)),items.get(i)));
+                    pentry.add(new PieEntry(Integer.valueOf(counts.get(i)), items.get(i)));
                     Log.d("count" + i, counts.get(i));
                 }
-                PieDataSet pdataset = new PieDataSet(pentry,"");
+                PieDataSet pdataset = new PieDataSet(pentry, "");
                 pdataset.setColors(ColorTemplate.COLORFUL_COLORS);
                 PieData pdata = new PieData(pdataset);
                 chart2.setData(pdata);

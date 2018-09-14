@@ -2,20 +2,16 @@ package com.iteration1.savingwildlife;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.iteration1.savingwildlife.R;
 import com.iteration1.savingwildlife.entities.Beach;
-
 
 
 public class InfoTextFragment extends Fragment {
@@ -29,15 +25,14 @@ public class InfoTextFragment extends Fragment {
     private TextView f2;
 
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        parentView = inflater.inflate(R.layout.beach_text_fragment,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        parentView = inflater.inflate(R.layout.beach_text_fragment, container, false);
         Bundle bundle = this.getArguments();
         assert bundle != null;
         selected = (Beach) bundle.getSerializable("selected");

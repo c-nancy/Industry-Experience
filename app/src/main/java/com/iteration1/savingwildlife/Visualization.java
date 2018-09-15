@@ -32,7 +32,7 @@ public class Visualization extends Activity {
         MapQuest.start(getApplicationContext());
         setContentView(R.layout.visualization);
 
-        mMapView = (MapView) findViewById(R.id.mapquestMapView);
+        mMapView = (MapView) findViewById(R.id.mapView);
 
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(new OnMapReadyCallback() {

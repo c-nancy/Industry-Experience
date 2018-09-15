@@ -29,7 +29,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -40,11 +39,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class PollutionFragment extends Fragment {
     private Histogram his;
@@ -113,11 +109,11 @@ public class PollutionFragment extends Fragment {
                 dataSets.add(dataSet);
                 BarData data = new BarData(dataSets);
                 ArrayList<Integer> colors = new ArrayList<>();
-                for (int i :ColorTemplate.COLORFUL_COLORS
+                for (int i : ColorTemplate.COLORFUL_COLORS
                         ) {
                     colors.add(i);
                 }
-                for (int i :ColorTemplate.JOYFUL_COLORS
+                for (int i : ColorTemplate.JOYFUL_COLORS
                         ) {
                     colors.add(i);
                 }
@@ -136,9 +132,9 @@ public class PollutionFragment extends Fragment {
                 Legend legend = chart.getLegend();
                 legend.setEnabled(true);
                 ArrayList<LegendEntry> t = new ArrayList<>();
-                for (int u = 0; u < 10; u++){
+                for (int u = 0; u < 10; u++) {
                     t.add(new LegendEntry(items.get(u), Legend.LegendForm.DEFAULT,
-                            8f,2f,null, colors.get(u)));
+                            8f, 2f, null, colors.get(u)));
                 }
                 legend.setCustom(t);
                 legend.setOrientation(Legend.LegendOrientation.VERTICAL);
@@ -152,6 +148,7 @@ public class PollutionFragment extends Fragment {
                         Toast.makeText(getContext(), items.get(entry.indexOf(e)),
                                 Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void onNothingSelected() {
                     }

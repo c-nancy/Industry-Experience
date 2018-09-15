@@ -43,7 +43,6 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:4.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
 
-
     // Glide: An image loading and caching library for Android focused on smooth scrolling
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'

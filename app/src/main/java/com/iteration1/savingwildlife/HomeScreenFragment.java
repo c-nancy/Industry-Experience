@@ -201,7 +201,7 @@ public class HomeScreenFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
-                        Log.d("beach name",e.getBeach_name());
+                        Log.d("beach name", e.getBeach_name());
                         reports.add(e);
                     }
                 }

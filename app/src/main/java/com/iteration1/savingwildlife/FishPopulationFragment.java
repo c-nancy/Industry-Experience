@@ -57,7 +57,6 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
         mMapView.getMapAsync(this);
         center = new LatLng(-37.8136, 144.9631);
 
-
         return fView;
     }
 
@@ -85,7 +84,6 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
 
                     Double a = (Double) map.get("lat");
                     Double b = (Double) map.get("lng");
-//                    Double w = (Double) map.get("weight");
 
                     // Add weights to points
 //                    WeightedLatLng p = new WeightedLatLng(new LatLng(a, b), w * 10);

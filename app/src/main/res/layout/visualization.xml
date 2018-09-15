@@ -1,39 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/actionBarSize"
-        android:id="@+id/app_bar">
+        android:layout_height="450dp"
+        android:layout_margin="10dp" />
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:minHeight="?android:attr/actionBarSize"
-            android:background="@android:color/transparent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
-
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:id="@+id/toolbar_title"
-                android:text="Beach Distribution"/>
-
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-
-
-    <com.mapquest.mapping.maps.MapView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mapquestMapView"
-        app:mapquest_app_key="AJbc9T0denpFWa4L5zAcWGLT6fmPqJKd" />
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

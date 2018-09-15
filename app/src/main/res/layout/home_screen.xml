@@ -29,7 +29,7 @@
             android:layout_margin="10dp"
             android:text="One step today makes a bigger change tomorrow."
             android:textSize="15sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic" />
 
 
         <View

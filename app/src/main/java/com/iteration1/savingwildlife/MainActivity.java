@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     private Fragment nextFragment;
 
+    private Boolean second;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        second = false;
         nextFragment = null;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -48,13 +51,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (nextFragment == null || second) {
+            super.onBackPressed();
+        } else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (nextFragment!= null && nextFragment.getClass() != HomeScreenFragment.class){
+        } else if (nextFragment.getClass() != HomeScreenFragment.class) {
             getSupportActionBar().setTitle("Beach Step");
             fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
-        }else{
-            super.onBackPressed();
+            second = true;
         }
     }
 
@@ -66,17 +70,17 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -91,8 +95,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_map:
                 getSupportActionBar().setTitle("Beach distribution");
                 Intent intent = new Intent();
-                intent.setClass(this, MapFragment.class);
-                startActivity(intent);
+                nextFragment = new MapFragment();
                 break;
             case R.id.nav_about_us:
                 getSupportActionBar().setTitle("About");
@@ -111,7 +114,6 @@ public class MainActivity extends AppCompatActivity
                 nextFragment = new PollutionFragment();
                 break;
         }
-//        FragmentManager fragmentManager = getSupportFragmentManager();
 
         for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
             fragmentManager.popBackStack();
@@ -124,7 +126,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
 }

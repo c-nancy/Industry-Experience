@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp">
 
@@ -17,7 +17,7 @@
         android:text="Learn about the most common fishes live in south east coast of Victoria."
         android:textSize="18sp"
         android:id="@+id/common"
-        android:layout_below="@+id/banner"/>
+        android:layout_below="@+id/banner" />
 
     <View
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         android:layout_margin="15dp"
         android:background="#022F29"
         android:id="@+id/line"
-        android:layout_below="@+id/common"/>
+        android:layout_below="@+id/common" />
 
     <TextView
         android:layout_width="match_parent"
@@ -35,8 +35,6 @@
         android:layout_margin="5dp"
         android:id="@+id/detail"
         android:layout_below="@+id/line" />
-
-
 
 
 </RelativeLayout>

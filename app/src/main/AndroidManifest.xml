@@ -3,9 +3,8 @@
     package="com.iteration1.savingwildlife">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 
     <application
@@ -16,14 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait"/>
-
-
-
+            android:screenOrientation="portrait" />
 
 
         <activity
@@ -37,19 +36,13 @@
         </activity>
 
 
-
         <activity
             android:name=".InfoPage"
             android:label="" />
         <activity android:name=".Visualization" />
 
 
-
-
-        <activity android:name=".MapFragment"></activity>
-        <activity android:name=".Statistics" />
         <activity android:name=".MakeReport" />
-
 
 
         <uses-library

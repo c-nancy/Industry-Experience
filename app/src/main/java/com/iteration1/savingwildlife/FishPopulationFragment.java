@@ -103,7 +103,7 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
                         Color.YELLOW, Color.RED, Color.BLACK};
 
                 float[] startPoints = {
-                        0.01f, 0.06f, 0.18f
+                        0.005f, 0.04f, 0.15f
                 };
                 mProvider.setGradient(new Gradient(colors, startPoints));
                 // Add a tile overlay to the map, using the heat map tile provider.

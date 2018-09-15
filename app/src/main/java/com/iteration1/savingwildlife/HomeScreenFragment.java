@@ -1,5 +1,6 @@
 package com.iteration1.savingwildlife;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -95,7 +96,6 @@ public class HomeScreenFragment extends Fragment {
                 @Override
                 public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
                     // TODO Auto-generated method stub
-
                 }
 
                 @Override
@@ -110,13 +110,11 @@ public class HomeScreenFragment extends Fragment {
 
                 }
 
+                @SuppressLint("MissingPermission")
                 @Override
                 public void onLocationChanged(Location arg0) {
-                    // TODO Auto-generated method stub
-                    // 更新当前经纬度
+                    mlocation = mLocMan.getLastKnownLocation(provider);
                 }
-
-
             };
             mLocMan.requestLocationUpdates(provider, 2000, 2,
                     locationListener);
@@ -203,6 +201,7 @@ public class HomeScreenFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
+                        Log.d("beach name",e.getBeach_name());
                         reports.add(e);
                     }
                 }
@@ -242,10 +241,10 @@ public class HomeScreenFragment extends Fragment {
                 // If has the user location, apply the recommend algorithm based on distance.(Bubble sort)
                 for (int i = 0; i < beachList.size() + 1; i++) {
                     for (int j = 0; j < beachList.size() - 1; j++) {
-                        Location iLocation = new Location(LocationManager.GPS_PROVIDER);
+                        Location iLocation = new Location(provider);
                         iLocation.setLatitude(beachList.get(j).getLatitude());
                         iLocation.setLongitude(beachList.get(j).getLongitude());
-                        Location nextLocation = new Location(LocationManager.GPS_PROVIDER);
+                        Location nextLocation = new Location(provider);
                         nextLocation.setLatitude(beachList.get(j + 1).getLatitude());
                         nextLocation.setLongitude(beachList.get(j + 1).getLongitude());
                         if (mlocation.distanceTo(nextLocation) < mlocation.distanceTo(iLocation)) {

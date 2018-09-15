@@ -1,53 +1,114 @@
 package com.iteration1.savingwildlife;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v7.widget.Toolbar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.iteration1.savingwildlife.entities.Beach;
+import com.iteration1.savingwildlife.utils.UIUtils;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdate;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapquest.mapping.MapQuest;
 import com.mapquest.mapping.maps.MapView;
 
-public class MapFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    View vViewmap;
+public class MapFragment extends AppCompatActivity {
+
     private MapView mMapView;
     private MapboxMap mMapboxMap;
-    private final LatLng ST_KILDA = new LatLng(-37.8679, 144.9740);
-    private final LatLng Elwood_Beach = new LatLng(-37.8902, 144.9846);
-    private final LatLng Half_Moon_Beach = new LatLng(-38.1730, 145.0804);
-    private final LatLng Brighton_Beach = new LatLng(-37.9160, 144.9861);
-    private final LatLng Mothers_Beach = new LatLng(-38.2149, 145.0350);
-    private final LatLng Williamstown_Beach = new LatLng(-37.8641, 144.8944);
-    private final LatLng Sorrento_Beach = new LatLng(-38.3367, 144.7448);
-    private final LatLng Altona_Beach = new LatLng(-37.8710, 144.8300);
-    private final LatLng Mordialloc_Beach = new LatLng(-38.00899, 145.086);
-    private final LatLng Hampton_Beach = new LatLng(-37.936144, 144.996948);
+    private ArrayList<Beach> beaches;
+    private ArrayList<LatLng> locations;
+    private String provider;
+    private Location location;
+
+//    @Override
+//    @Nullable
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+//            savedInstanceState) {
+//        vViewmap = inflater.inflate(R.layout.visualization, container, false);
+//        return vViewmap;
+//    }
 
     @Override
-    @Nullable
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
+    public void onCreate(Bundle
+                                 savedInstanceState) {
+//        vViewmap = inflater.inflate(R.layout.visualization, container, false);
 
-        MapQuest.start(getActivity().getApplicationContext());
-        vViewmap = inflater.inflate(R.layout.visualization, container, false);
-        mMapView = (MapView) vViewmap.findViewById(R.id.mapquestMapView);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.visualization);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        beaches = new ArrayList<>();
+        locations = new ArrayList<>();
+        MapQuest.start(getApplicationContext());
+        mMapView = (MapView) findViewById(R.id.mapquestMapView);
         mMapView.onCreate(savedInstanceState);
+        LocationManager mLocMan = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        assert mLocMan != null;
+        List<String> list = mLocMan.getProviders(true);
+        if (list.contains(LocationManager.GPS_PROVIDER)) {
+            provider = LocationManager.GPS_PROVIDER;
+        } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
+            provider = LocationManager.NETWORK_PROVIDER;
+        } else {
+            UIUtils.showCenterToast(this, "Please check internet connection or GPS permission!");
+        }
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        location = mLocMan.getLastKnownLocation(provider);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(location), 9);
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
                 mMapboxMap = mapboxMap;
+                connectDatabase();
                 mMapView.setStreetMode();
+                mMapboxMap.moveCamera(cu);
+                mMapboxMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(location))
+                        .title("You are here"));
             }
         });
-        return vViewmap;
     }
 
     @Override
@@ -74,57 +135,38 @@ public class MapFragment extends Fragment {
         mMapView.onSaveInstanceState(outState);
     }
 
-    private void addMarker(MapboxMap mapboxMap) {
-        MarkerOptions markerOptions = new MarkerOptions();
-        MarkerOptions markerOptions1 = new MarkerOptions();
-        MarkerOptions markerOptions2 = new MarkerOptions();
-        MarkerOptions markerOptions3 = new MarkerOptions();
-        MarkerOptions markerOptions4 = new MarkerOptions();
-        MarkerOptions markerOptions5 = new MarkerOptions();
-        MarkerOptions markerOptions6 = new MarkerOptions();
-        MarkerOptions markerOptions7 = new MarkerOptions();
-        MarkerOptions markerOptions8 = new MarkerOptions();
-        MarkerOptions markerOptions9 = new MarkerOptions();
-        markerOptions9.position(Hampton_Beach);
-        markerOptions9.title("Hampton Beach");
-        markerOptions9.snippet("Welcome to Hampton Beach!");
-        markerOptions8.position(Mordialloc_Beach);
-        markerOptions8.title("Mordialloc Beach");
-        markerOptions8.snippet("Welcome to Mordialloc Beach!");
-        markerOptions7.position(Altona_Beach);
-        markerOptions7.title("Altona Beach");
-        markerOptions7.snippet("Welcome to Altona Beach!");
-        markerOptions6.position(Sorrento_Beach);
-        markerOptions6.title("Sorrento Beach");
-        markerOptions6.snippet("Welcome to Sorrento Beach!");
-        markerOptions4.position(Mothers_Beach);
-        markerOptions4.title("Mothers Beach");
-        markerOptions4.snippet("Welcome to Mothers Beach!");
-        markerOptions5.position(Williamstown_Beach);
-        markerOptions5.title("Williamstown Beach");
-        markerOptions5.snippet("Welcome to Williamtown Beach!");
-        markerOptions2.position(Half_Moon_Beach);
-        markerOptions2.title("Half Moon Beach");
-        markerOptions2.snippet("Welcome to Half Moon Beach!");
-        markerOptions3.position(Brighton_Beach);
-        markerOptions3.title("Brighton Beach");
-        markerOptions3.snippet("Welcome to Brighton Beach!");
-        markerOptions1.position(Elwood_Beach);
-        markerOptions1.title("Elwood_Beach");
-        markerOptions1.snippet("Welcome to Elwood Beach!");
-        markerOptions.position(ST_KILDA);
-        markerOptions.title("St Kilda");
-        markerOptions.snippet("Welcome to St Kilda!");
-        mapboxMap.addMarker(markerOptions);
-        mapboxMap.addMarker(markerOptions1);
-        mapboxMap.addMarker(markerOptions2);
-        mapboxMap.addMarker(markerOptions3);
-        mapboxMap.addMarker(markerOptions4);
-        mapboxMap.addMarker(markerOptions5);
-        mapboxMap.addMarker(markerOptions6);
-        mapboxMap.addMarker(markerOptions7);
-        mapboxMap.addMarker(markerOptions8);
-        mapboxMap.addMarker(markerOptions9);
+
+    private void connectDatabase(){
+        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("beaches");
+
+        mReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Beach b = child.getValue(Beach.class);
+                    beaches.add(b);
+                    locations.add(new LatLng(b.getLatitude(),b.getLongitude()));
+                    mMapboxMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(b.getLatitude(),b.getLongitude()))
+                            .title(b.getName())
+                            .snippet(b.getLocation()));
+                    Log.d("one beach",b.getName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getDetails());
+            }
+        });
+    }
+
+    // When user click the back button of their own phone
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.setClass(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
 

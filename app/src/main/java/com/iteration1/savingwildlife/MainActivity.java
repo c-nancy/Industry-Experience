@@ -1,5 +1,6 @@
 package com.iteration1.savingwildlife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     private FragmentManager fragmentManager;
+    private Fragment nextFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        nextFragment = null;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportActionBar().setTitle("Beach Step");
@@ -47,7 +50,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (nextFragment!= null && nextFragment.getClass() != HomeScreenFragment.class){
+            getSupportActionBar().setTitle("Beach Step");
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+        }else{
             super.onBackPressed();
         }
     }
@@ -77,14 +83,20 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment nextFragment = null;
         switch (id) {
             case R.id.nav_homepage:
+                getSupportActionBar().setTitle("Beach Step");
                 nextFragment = new HomeScreenFragment();
                 break;
             case R.id.nav_map:
                 getSupportActionBar().setTitle("Beach distribution");
-                nextFragment = new MapFragment();
+                Intent intent = new Intent();
+                intent.setClass(this, MapFragment.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_about_us:
+                getSupportActionBar().setTitle("About");
+                nextFragment = new AboutPage();
                 break;
             case R.id.nav_fish_statistics:
                 getSupportActionBar().setTitle("Fish population");
@@ -105,9 +117,14 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.popBackStack();
         }
 
-        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
+        if (nextFragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }

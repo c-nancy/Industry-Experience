@@ -1,5 +1,6 @@
 package com.iteration1.savingwildlife;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.widget.ViewSwitcher;
 import com.bin.david.form.core.SmartTable;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -37,8 +40,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class PollutionFragment extends Fragment {
     private Histogram his;
@@ -100,27 +106,45 @@ public class PollutionFragment extends Fragment {
                 }
                 ArrayList<BarEntry> entry = new ArrayList<>();
                 for (int i = 0; i < counts.size(); i++) {
-                    entry.add(new BarEntry(i, Integer.valueOf(counts.get(i))));
+                    entry.add(new BarEntry(i, Integer.valueOf(counts.get(i)), items.get(i)));
                 }
                 BarDataSet dataSet = new BarDataSet(entry, "");
                 ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
                 dataSets.add(dataSet);
                 BarData data = new BarData(dataSets);
-                dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                ArrayList<Integer> colors = new ArrayList<>();
+                for (int i :ColorTemplate.COLORFUL_COLORS
+                        ) {
+                    colors.add(i);
+                }
+                for (int i :ColorTemplate.JOYFUL_COLORS
+                        ) {
+                    colors.add(i);
+                }
+                dataSet.setColors(colors);
                 chart.setData(data);
                 chart.invalidate();
                 XAxis axis = chart.getXAxis();
-                axis.setValueFormatter(new IndexAxisValueFormatter(items));
                 axis.setPosition(XAxis.XAxisPosition.BOTTOM);
                 axis.setLabelRotationAngle(-45);
                 axis.setTextSize(8f);
-                axis.setSpaceMax(20);
+                axis.setDrawLabels(false);
                 chart.setScaleEnabled(false);
                 chart.getAxis(YAxis.AxisDependency.RIGHT).setDrawLabels(false);
                 chart.getAxis(YAxis.AxisDependency.LEFT).setTextSize(5);
                 chart.setDescription(null);
-                chart.getLegend().setEnabled(false);
-                chart.setExtraBottomOffset(40);
+                Legend legend = chart.getLegend();
+                legend.setEnabled(true);
+                ArrayList<LegendEntry> t = new ArrayList<>();
+                for (int u = 0; u < 10; u++){
+                    t.add(new LegendEntry(items.get(u), Legend.LegendForm.DEFAULT,
+                            8f,2f,null, colors.get(u)));
+                }
+                legend.setCustom(t);
+                legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+                legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+                legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+                legend.setDrawInside(true);
                 chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
                     @Override
                     public void onValueSelected(Entry e, Highlight h) {
@@ -128,7 +152,6 @@ public class PollutionFragment extends Fragment {
                         Toast.makeText(getContext(), items.get(entry.indexOf(e)),
                                 Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onNothingSelected() {
                     }
@@ -141,11 +164,12 @@ public class PollutionFragment extends Fragment {
                     Log.d("count" + i, counts.get(i));
                 }
                 PieDataSet pdataset = new PieDataSet(pentry, "");
-                pdataset.setColors(ColorTemplate.COLORFUL_COLORS);
+                pdataset.setColors(colors);
                 PieData pdata = new PieData(pdataset);
                 chart2.setData(pdata);
                 chart2.getLegend().setEnabled(false);
                 chart2.setEntryLabelTextSize(8);
+                chart2.setEntryLabelColor(Color.DKGRAY);
                 chart2.invalidate();
             }
 
@@ -155,6 +179,7 @@ public class PollutionFragment extends Fragment {
             }
         });
 
-
     }
+
+
 }

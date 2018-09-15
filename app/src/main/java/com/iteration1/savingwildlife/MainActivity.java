@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (nextFragment == null || second) {
+        if (nextFragment == null || second || nextFragment.getClass() == HomeScreenFragment.class) {
             super.onBackPressed();
         } else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        second = false;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {

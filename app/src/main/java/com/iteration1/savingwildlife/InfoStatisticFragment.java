@@ -65,7 +65,7 @@ public class InfoStatisticFragment extends Fragment {
         index = 0;
         nowat = 0;
         connectDatabase();
-        chart.setNoDataText("Graph is loading...");
+        chart.setNoDataText("Come and get involved !");
         chart.getAxis(YAxis.AxisDependency.RIGHT).setDrawLabels(false);
         button = parentView.findViewById(R.id.sb);
         year = parentView.findViewById(R.id.year);

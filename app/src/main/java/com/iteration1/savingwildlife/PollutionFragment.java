@@ -43,9 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PollutionFragment extends Fragment {
-    private Histogram his;
-    private float[] xs;
-    private SmartTable table;
     private View fView;
     private ArrayList<String> items;
     private ArrayList<String> counts;
@@ -58,8 +55,6 @@ public class PollutionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fView = inflater.inflate(R.layout.pollution_fragment, container, false);
-
-        his = new Histogram(fView.getContext(), null);
 
         items = new ArrayList<>();
         counts = new ArrayList<>();

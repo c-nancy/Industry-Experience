@@ -101,15 +101,6 @@
                     android:text="Australia, a country that well-known by its clean and beautiful beach, is suffering serious plastic problem." />
 
 
-                <com.iteration1.savingwildlife.Histogram
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:id="@+id/chart"
-                    android:layout_margin="10dp">
-
-                </com.iteration1.savingwildlife.Histogram>
-
-
                 <com.bin.david.form.core.SmartTable
                     android:id="@+id/table"
                     android:layout_width="match_parent"

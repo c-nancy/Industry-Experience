@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<com.iteration1.savingwildlife.Histogram-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="200dp"-->
-    <!--android:id="@+id/chart"-->
-    <!--android:layout_marginTop="15dp"-->
-    <!--android:layout_marginStart="10dp"-->
-    <!--android:layout_marginEnd="10dp">-->
-    <!--</com.iteration1.savingwildlife.Histogram>-->
 
     <ViewSwitcher
         android:id="@+id/viewswitcher"

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -91,7 +92,6 @@ public class PollutionFragment extends Fragment {
                     HashMap<String, String> map = (HashMap<String, String>) child.getValue();
                     String a = (String) map.get("item");
                     String b = (String) map.get("count");
-
                     items.add(a);
                     counts.add(b);
                 }
@@ -162,6 +162,7 @@ public class PollutionFragment extends Fragment {
                 chart2.getLegend().setEnabled(false);
                 chart2.setEntryLabelTextSize(8);
                 chart2.setEntryLabelColor(Color.DKGRAY);
+                chart2.getDescription().setEnabled(false);
                 chart2.invalidate();
             }
 

@@ -33,7 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.maps.android.SphericalUtil;
 import com.iteration1.savingwildlife.entities.Beach;
-import com.iteration1.savingwildlife.entities.Event;
+import com.iteration1.savingwildlife.entities.Report;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class HomeScreenFragment extends Fragment {
     private ArrayList<Beach> beachList;
     private ArrayList<ImageView> ibList;
     private Location mlocation;
-    private ArrayList<Event> reports;
+    private ArrayList<Report> reports;
     // To see whether user has given the permission of using device location or not
     private boolean locationrefuse;
     private String provider;
@@ -143,7 +143,7 @@ public class HomeScreenFragment extends Fragment {
         ImageView ib8 = (ImageView) vHome.findViewById(R.id.image8);
         ImageView ib9 = (ImageView) vHome.findViewById(R.id.image9);
         ImageView ib10 = (ImageView) vHome.findViewById(R.id.image10);
-        title = (TextView) vHome.findViewById(R.id.textView1);
+//        title = (TextView) vHome.findViewById(R.id.textView1);
         ibList.add(ib1);
         ibList.add(ib2);
         ibList.add(ib3);
@@ -154,13 +154,13 @@ public class HomeScreenFragment extends Fragment {
         ibList.add(ib8);
         ibList.add(ib9);
         ibList.add(ib10);
-        glow();
+//        glow();
     }
 
 
-    private void glow() {
-        title.setShadowLayer(50, 0, 0, Color.CYAN);
-    }
+//    private void glow() {
+//        title.setShadowLayer(50, 0, 0, Color.CYAN);
+//    }
 
 
     // This is a new thread to load data from database
@@ -202,7 +202,7 @@ public class HomeScreenFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        Event e = child.getValue(Event.class);
+                        Report e = child.getValue(Report.class);
                         reports.add(e);
                     }
                 }
@@ -292,7 +292,7 @@ public class HomeScreenFragment extends Fragment {
                             selected = b;
                             ArrayList<String> relatedReport = new ArrayList<>();
                             if (reports != null) {
-                                for (Event e : reports) {
+                                for (Report e : reports) {
                                     if (e.getBeach_name().toUpperCase().replaceAll(" ", "")
                                             .equals(b.getName().toUpperCase().replaceAll(" ", ""))) {
                                         relatedReport.add(e.getEvent_type());

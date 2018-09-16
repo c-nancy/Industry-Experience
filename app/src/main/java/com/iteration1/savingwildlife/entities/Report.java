@@ -1,6 +1,6 @@
 package com.iteration1.savingwildlife.entities;
 
-public class Event {
+public class Report {
     private String event_type;
     private String event_date;
     private String beach_name;
@@ -22,10 +22,10 @@ public class Event {
         this.reference = reference;
     }
 
-    public Event() {
+    public Report() {
     }
 
-    public Event(String event_type, String event_date, String beach_name, String reference) {
+    public Report(String event_type, String event_date) {
         this.event_type = event_type;
         this.event_date = event_date;
         this.beach_name = beach_name;

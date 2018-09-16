@@ -9,6 +9,32 @@ public class Beach implements Serializable {
     private String location;
     private String feature1;
     private String feature2;
+    private String banner;
+    private Double latitude;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Beach(String name, String description, String area, String location, String feature1, String feature2, String banner, Double latitude, Double longitude, String email) {
+        this.name = name;
+        this.description = description;
+        this.area = area;
+        this.location = location;
+        this.feature1 = feature1;
+        this.feature2 = feature2;
+        this.banner = banner;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.email = email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private Double longitude;
+    private String email;
 
     public String getArea() {
         return area;
@@ -41,24 +67,6 @@ public class Beach implements Serializable {
     public void setFeature2(String feature2) {
         this.feature2 = feature2;
     }
-
-    private String banner;
-    private Double latitude;
-    private Double longitude;
-
-
-    public Beach(String name, String description, String area, String location, String feature1, String feature2, String banner, Double latitude, Double longitude) {
-        this.name = name;
-        this.description = description;
-        this.area = area;
-        this.location = location;
-        this.feature1 = feature1;
-        this.feature2 = feature2;
-        this.banner = banner;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
 
     public Double getLatitude() {
         return latitude;

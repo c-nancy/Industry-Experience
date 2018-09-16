@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.maps.android.SphericalUtil;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.entities.Event;
 import com.iteration1.savingwildlife.utils.UIUtils;
@@ -241,13 +243,21 @@ public class HomeScreenFragment extends Fragment {
                 // If has the user location, apply the recommend algorithm based on distance.(Bubble sort)
                 for (int i = 0; i < beachList.size() + 1; i++) {
                     for (int j = 0; j < beachList.size() - 1; j++) {
-                        Location iLocation = new Location(provider);
-                        iLocation.setLatitude(beachList.get(j).getLatitude());
-                        iLocation.setLongitude(beachList.get(j).getLongitude());
-                        Location nextLocation = new Location(provider);
-                        nextLocation.setLatitude(beachList.get(j + 1).getLatitude());
-                        nextLocation.setLongitude(beachList.get(j + 1).getLongitude());
-                        if (mlocation.distanceTo(nextLocation) < mlocation.distanceTo(iLocation)) {
+//                        Location iLocation = new Location(provider);
+//                        iLocation.setLatitude(beachList.get(j).getLatitude());
+//                        iLocation.setLongitude(beachList.get(j).getLongitude());
+//                        Location nextLocation = new Location(provider);
+//                        nextLocation.setLatitude(beachList.get(j + 1).getLatitude());
+//                        nextLocation.setLongitude(beachList.get(j + 1).getLongitude());
+//                        if (mlocation.distanceTo(nextLocation) < mlocation.distanceTo(iLocation)) {
+
+
+                        // The above is using the distance calculating mechod of android itself, now the below one is google api's calculation
+                        LatLng thislatlng = new LatLng(mlocation.getLatitude(), mlocation.getLongitude());
+                        LatLng nextlatlng = new LatLng(beachList.get(j + 1).getLatitude(),beachList.get(j + 1).getLongitude());
+                        LatLng ilatlng = new LatLng(beachList.get(j).getLatitude(), beachList.get(j).getLongitude());
+                        if (SphericalUtil.computeDistanceBetween(thislatlng, nextlatlng) <
+                                SphericalUtil.computeDistanceBetween(thislatlng, ilatlng)) {
                             Beach tb = beachList.get(j + 1);
                             beachList.set(j + 1, beachList.get(j));
                             beachList.set(j, tb);

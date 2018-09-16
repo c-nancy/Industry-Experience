@@ -92,12 +92,16 @@ public class FishImageFragment extends Fragment {
                     public void OnBannerClick(View view, int position) {
                         line.setVisibility(View.INVISIBLE);
                         dt.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getContext(), names.get(position - 1) + ", "
-                                        + counts.get(position - 1) + " has been found in the past years",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), names.get(position - 1) + ", "
+//                                        + counts.get(position - 1) + " has been found in the past years",
+//                                Toast.LENGTH_SHORT).show();
                         line.setVisibility(View.VISIBLE);
                         dt.setVisibility(View.VISIBLE);
-                        dt.setText(details.get(position - 1));
+                        StringBuilder sb = new StringBuilder(names.get(position - 1) + ", "
+                                + counts.get(position - 1) + " has been found in the past years");
+                        sb.append("\n\n");
+                        sb.append(details.get(position - 1));
+                        dt.setText(sb);
                     }
                 });
 

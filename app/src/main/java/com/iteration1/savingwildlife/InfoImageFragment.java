@@ -27,6 +27,8 @@ public class InfoImageFragment extends Fragment implements OnMapReadyCallback {
     private ArrayList<String> reports;
     private TextView textView;
     private LatLng center;
+    private TextView tv2;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class InfoImageFragment extends Fragment implements OnMapReadyCallback {
         Double lng = selected.getLongitude();
         center = new LatLng(lat, lng);
         textView = (TextView) parentView.findViewById(R.id.txt);
+        tv2 = (TextView) parentView.findViewById(R.id.txt2);
         mMapView = (MapView) parentView.findViewById(R.id.mapView);
         mMapView.onCreate(mapViewBundle);
         mMapView.onResume(); // needed to get the map to display immediately
@@ -66,6 +69,27 @@ public class InfoImageFragment extends Fragment implements OnMapReadyCallback {
             sb.append(reports.size());
         }
         sb.append(" incident report(s) so far has been made in this beach area!");
+        StringBuilder sb2 = new StringBuilder();
+        int f = 0;
+        int d = 0;
+        int o = 0;
+        for (String t :
+                reports) {
+            if (t.contains("fish")){ f++; }else if (t.contains("dump")){d++;}else if(t.contains("other")){o++;}
+        }
+        if (f!=0){
+            sb2.append(f + " illegal fishing" + " | ");
+        }
+        if (d!=0){
+            sb2.append(d + " rubbish dumping" + " | ");
+        }
+        if (o!=0){
+            sb2.append(o + " other incidents" + " | ");
+        }
+        if (!sb2.toString().equals("")){
+            sb2.setLength(sb2.length()-2);
+            tv2.setText(sb2);
+        }
         textView.setText(sb);
         mMapView.getMapAsync(this);
         return parentView;

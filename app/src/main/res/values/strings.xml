@@ -21,6 +21,7 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDmgzep8MB2yqQJUFtYtMQvqMCNO7YpvCU</string>
     <string name="general_info">The above picture shows the main fish concentration of South Pacific Ocean in last 25 years.\n\nMillions of fish and other marine animals live in the blue sea around us, and together formed an indispensable part of our eco system.</string>
     <string name="last_paragraph">In past clean-up events from 2016, those are the most common things found on beach.\n\nPlastic pollution, as a symbol of human activity, is the main part of beach pollution.</string>
+    <string name="about_me">This application was designed by a team of students from Monash University in 2018 to enable common people to take action to improve the marine ecology in Australia. Our mission is to reduce the litter found on the beach shores which directly washes into the ocean thereby harming marine life. We believe every small step matters and no contribution is too little. Let us protect the beautiful beaches and oceans of Australia and works towards a sustainable future for our planet.</string>
     <string-array name="report_type">
         <item>a</item>
         <item>b</item>

@@ -44,7 +44,6 @@ public class InfoStatisticFragment extends Fragment {
     private ArrayList<HashMap> pollutions;
     private Button button;
     private ArrayList<Integer> colors;
-    private TextView year;
     private TextView tv1;
     private int index;
     private int nowat;
@@ -68,7 +67,6 @@ public class InfoStatisticFragment extends Fragment {
         chart.setNoDataText("Get involved today!");
         chart.getAxis(YAxis.AxisDependency.RIGHT).setDrawLabels(false);
         button = parentView.findViewById(R.id.sb);
-        year = parentView.findViewById(R.id.year);
         tv1 = parentView.findViewById(R.id.instruction);
         colors = new ArrayList<>();
         for (int i : ColorTemplate.COLORFUL_COLORS
@@ -134,6 +132,9 @@ public class InfoStatisticFragment extends Fragment {
             legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
             legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
             chart.getDescription().setText("Year: " + thisyear.get("Year").toString());
+            chart.getAxisLeft().setDrawGridLines(false);
+            chart.getAxisRight().setDrawGridLines(false);
+            chart.getXAxis().setDrawGridLines(false);
             chart.invalidate();
     }
 

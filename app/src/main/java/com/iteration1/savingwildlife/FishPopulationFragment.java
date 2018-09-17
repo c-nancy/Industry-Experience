@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,6 +34,7 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
     private View fView;
     private GoogleMap mMap;
     private LatLng center;
+    private WebView wv;
     //    private ArrayList<WeightedLatLng> fishLocations;
     private ArrayList<LatLng> fishLocations;
 
@@ -47,7 +49,9 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
         mMapView = (MapView) fView.findViewById(R.id.basemap_map);
         mMapView.onCreate(mapViewBundle);
         mMapView.onResume(); // needed to get the map to display immediately
-
+        wv = fView.findViewById(R.id.beachtxt);
+        String sb = "<html><body style='text-align:justify;' bgcolor=\"#F3F7F7\">The above picture shows the main fish concentration of South Pacific Ocean in last 25 years.<br/><br/>Millions of fishes and other marine animals live in the blue sea around us, and together formed an indispensable part of our eco system.</body></html>";
+        wv.loadData(sb, "text/html", "UTF-8");
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -90,7 +94,6 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
                     LatLng p = new LatLng(a, b);
                     fishLocations.add(p);
                 }
-                Log.d("list size", Integer.toString(fishLocations.size()));
 
                 // Create a heat map tile provider, passing it the latlngs of the police stations.
                 HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder()

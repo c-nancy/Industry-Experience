@@ -124,6 +124,9 @@ public class PollutionFragment extends Fragment {
                 chart.getAxis(YAxis.AxisDependency.RIGHT).setDrawLabels(false);
                 chart.getAxis(YAxis.AxisDependency.LEFT).setTextSize(5);
                 chart.setDescription(null);
+                chart.getAxisLeft().setDrawGridLines(false);
+                chart.getAxisRight().setDrawGridLines(false);
+                chart.getXAxis().setDrawGridLines(false);
                 Legend legend = chart.getLegend();
                 legend.setEnabled(true);
                 ArrayList<LegendEntry> t = new ArrayList<>();

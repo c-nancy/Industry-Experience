@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class FishImageFragment extends Fragment {
     private ArrayList<String> details;
     private View line;
     private TextView dt;
+    private WebView wv;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -45,6 +47,8 @@ public class FishImageFragment extends Fragment {
         dt = fView.findViewById(R.id.detail);
         line.setVisibility(View.INVISIBLE);
         dt.setVisibility(View.INVISIBLE);
+        wv = fView.findViewById(R.id.fishtxt);
+        wv.setVisibility(View.INVISIBLE);
         connectDatabase();
         return fView;
     }
@@ -74,7 +78,6 @@ public class FishImageFragment extends Fragment {
                 banner.setBannerTitle(names.toArray(new String[0]));
                 banner.isAutoPlay(true);
                 banner.setDelayTime(5000);
-                Log.d("image", Integer.toString(images.size()));
                 banner.setImages(images.toArray(new String[0]), new Banner.OnLoadImageListener() {
                     @Override
                     public void OnLoadImage(ImageView view, Object url) {
@@ -92,6 +95,7 @@ public class FishImageFragment extends Fragment {
                     public void OnBannerClick(View view, int position) {
                         line.setVisibility(View.INVISIBLE);
                         dt.setVisibility(View.INVISIBLE);
+//                        wv.setVisibility(View.INVISIBLE);
 //                        Toast.makeText(getContext(), names.get(position - 1) + ", "
 //                                        + counts.get(position - 1) + " has been found in the past years",
 //                                Toast.LENGTH_SHORT).show();
@@ -101,7 +105,13 @@ public class FishImageFragment extends Fragment {
                                 + counts.get(position - 1) + " has been found in the past years");
                         sb.append("\n\n");
                         sb.append(details.get(position - 1));
+//                        StringBuilder sb = new StringBuilder("<html><body style='text-align:justify;' bgcolor=\"#F3F7F7\">" + names.get(position - 1) + ", "
+//                                + counts.get(position - 1) + " has been found in the past years");
+//                        sb.append("\n\n");
+//                        sb.append(details.get(position - 1) + "</body></html>");
+//                        wv.loadData(sb.toString(), "text/html", "UTF-8");
                         dt.setText(sb);
+                        dt.setVisibility(View.VISIBLE);
                     }
                 });
 

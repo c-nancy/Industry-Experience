@@ -94,7 +94,7 @@ public class MakeReport extends AppCompatActivity {
             builder = new AlertDialog.Builder(this);
         }
         builder.setTitle("Attention")
-                .setMessage("This report functionality is used to help you stop some inappropriate hehaviors " +
+                .setMessage("This report functionality is used to help you stop some inappropriate behaviors " +
                         "which may possibly threat to the local marine life, it will enable you to " +
                         "send an Email to council or wildlife organization, please use it carefully!")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

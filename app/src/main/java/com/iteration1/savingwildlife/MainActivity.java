@@ -1,8 +1,15 @@
 package com.iteration1.savingwildlife;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -10,8 +17,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.iteration1.savingwildlife.utils.UIUtils;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
@@ -28,6 +40,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+//        Intent initialintent = new Intent();
+//        Bundle initialbundle = initialintent.getExtras();
+//        Location location = initialbundle.getParcelable("location");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarfornavigation);
         setSupportActionBar(toolbar);
@@ -43,9 +58,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportActionBar().setTitle("Beach Step");
+
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
-
     }
 
     @Override
@@ -127,6 +142,24 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    FragmentManager fragmentManager = this.getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+                } else {
+                }
+                return;
+            }
+
+        }
+    }
+
 
 
 }

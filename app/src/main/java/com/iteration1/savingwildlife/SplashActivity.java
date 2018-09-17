@@ -1,12 +1,19 @@
 package com.iteration1.savingwildlife;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.iteration1.savingwildlife.entities.Beach;
+import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -17,37 +24,48 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent();
         intent.setClass(SplashActivity.this, MainActivity.class);
-//        beachList = new ArrayList<Beach>();
-//        connectDatabase();
+//
+//        Boolean locationrefuse = false;
+//        String provider = "";
+//        Location location = null;
+//        // Get user location using locationmanager
+//        LocationManager mLocMan = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+//        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+//            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+//            if (!locationrefuse) {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+//                        101);
+//                this.onResume();
+//            }
+//            UIUtils.showCenterToast(this.getApplicationContext(), "Show beach randomly...");
+//        } else {
+//            UIUtils.showCenterToast(this.getApplicationContext(), "Analyzing the closest beach...");
+//
+//            assert mLocMan != null;
+//            List<String> list = mLocMan.getProviders(true);
+//            if (list.contains(LocationManager.GPS_PROVIDER)) {
+//                provider = LocationManager.GPS_PROVIDER;
+//            } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
+//                provider = LocationManager.NETWORK_PROVIDER;
+//            } else {
+//                UIUtils.showCenterToast(this, "Please check internet connection or GPS permission!");
+//            }
+//
+//            location = mLocMan.getLastKnownLocation(provider);
+//        }
+//
 //        Bundle bundle = new Bundle();
-//        bundle.putSerializable("beachlist",(Serializable) beachList);
+//        bundle.putParcelable("location", location);
 //        intent.putExtras(bundle);
+
         startActivity(intent);
         finish();
     }
 
 
-    // Start the connection with firebase realtime database
-//    private void connectDatabase() {
-//        // Get the reference of firebase instance
-//        DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("beaches");
-//
-//        mReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot child : dataSnapshot.getChildren()) {
-//                    Beach b = child.getValue(Beach.class);
-//                    beachList.add(b);
-//                    Log.d("Added a beach", b.getBanner());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getDetails());
-//            }
-//        });
-//    }
 
 }
 

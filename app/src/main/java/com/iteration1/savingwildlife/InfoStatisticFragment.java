@@ -65,7 +65,7 @@ public class InfoStatisticFragment extends Fragment {
         index = 0;
         nowat = 0;
         connectDatabase();
-        chart.setNoDataText("Come and get involved !");
+        chart.setNoDataText("Get involved today!");
         chart.getAxis(YAxis.AxisDependency.RIGHT).setDrawLabels(false);
         button = parentView.findViewById(R.id.sb);
         year = parentView.findViewById(R.id.year);
@@ -167,9 +167,9 @@ public class InfoStatisticFragment extends Fragment {
                 button.setVisibility(View.INVISIBLE);
                 StringBuilder sb = new StringBuilder();
                 if (index == 0){
-                    sb.append("No clean up event recorded! \n Come and participate!");
+                    sb.append("No clean up event recorded! \n\nCome and participate!");
                 }else{
-                    sb.append("In the past clean up events on "+ selected.getName() + " , those things were found...");
+                    sb.append("In the past clean up events on "+ selected.getName().toLowerCase() + " , those things were found...");
                 }
                 tv1.setText(sb);
                 if (index > 1){

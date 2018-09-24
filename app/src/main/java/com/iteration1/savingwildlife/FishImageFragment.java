@@ -1,7 +1,9 @@
 package com.iteration1.savingwildlife;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,62 +65,56 @@ public class FishImageFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Log.d("inside", "vrcgesx");
                     HashMap<String, String> map = (HashMap<String, String>) child.getValue();
                     String a = (String) map.get("scientificName");
                     String b = (String) map.get("image");
                     String c = (String) map.get("count");
                     String d = (String) map.get("detail");
-                    Log.d("value", child.getValue().toString());
 
                     names.add(a);
                     images.add(b);
                     counts.add(c);
                     details.add(d);
                 }
-                banner.setBannerStyle(Banner.CIRCLE_INDICATOR_TITLE);
-                banner.setIndicatorGravity(Banner.RIGHT);
-                banner.setBannerTitle(names.toArray(new String[0]));
+                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+                banner.setBannerAnimation(Transformer.DepthPage);
+                banner.setBannerTitles(names);
                 banner.isAutoPlay(true);
-                banner.setDelayTime(5000);
-                banner.setImages(images.toArray(new String[0]), new Banner.OnLoadImageListener() {
+                banner.setDelayTime(8000);
+                banner.setImageLoader(new GlideImageLoader());
+                banner.setImages(images);
+                banner.setIndicatorGravity(View.SCROLL_INDICATOR_LEFT);
+
+
+                banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
-                    public void OnLoadImage(ImageView view, Object url) {
-                        StorageReference r = FirebaseStorage.getInstance().getReferenceFromUrl(url.toString());
-                        Log.d("image", r.toString());
-                        GlideApp.with(getActivity().getApplicationContext())
-                                .load(r)
-                                .placeholder(R.drawable.common_full_open_on_phone)
-                                .error(R.drawable.common_full_open_on_phone)
-                                .into(view);
+                    public void onPageScrolled(int i, float v, int i1) {
+
                     }
-                });
-                banner.setOnBannerClickListener(new Banner.OnBannerClickListener() {
+
                     @Override
-                    public void OnBannerClick(View view, int position) {
+                    public void onPageSelected(int i) {
                         line.setVisibility(View.INVISIBLE);
                         dt.setVisibility(View.INVISIBLE);
-//                        wv.setVisibility(View.INVISIBLE);
-//                        Toast.makeText(getContext(), names.get(position - 1) + ", "
-//                                        + counts.get(position - 1) + " has been found in the past years",
-//                                Toast.LENGTH_SHORT).show();
                         line.setVisibility(View.VISIBLE);
                         dt.setVisibility(View.VISIBLE);
-                        StringBuilder sb = new StringBuilder(names.get(position - 1) + ", "
-                                + counts.get(position - 1) + " has been found in the past years");
+                        StringBuilder sb = new StringBuilder(names.get(i) + ", "
+                                + counts.get(i) + " has been found in the past years");
                         sb.append("\n\n");
-                        sb.append(details.get(position - 1));
-//                        StringBuilder sb = new StringBuilder("<html><body style='text-align:justify;' bgcolor=\"#F3F7F7\">" + names.get(position - 1) + ", "
-//                                + counts.get(position - 1) + " has been found in the past years");
-//                        sb.append("\n\n");
-//                        sb.append(details.get(position - 1) + "</body></html>");
-//                        wv.loadData(sb.toString(), "text/html", "UTF-8");
+                        sb.append(details.get(i));
                         dt.setText(sb);
                         dt.setVisibility(View.VISIBLE);
                     }
-                });
 
+                    @Override
+                    public void onPageScrollStateChanged(int i) {
+
+                    }
+
+                });
+                banner.start();
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -125,4 +124,19 @@ public class FishImageFragment extends Fragment {
 
 
     }
+
+
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            StorageReference r = FirebaseStorage.getInstance().getReferenceFromUrl(path.toString());
+            GlideApp.with(context.getApplicationContext())
+                    .load(r)
+                    .placeholder(R.drawable.common_full_open_on_phone)
+                     .error(R.drawable.common_full_open_on_phone)
+                    .into(imageView);
+        }
+
+    }
+
 }

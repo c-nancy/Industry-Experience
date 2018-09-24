@@ -31,11 +31,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.iteration1.savingwildlife.entities.Beach;
+import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 public class InfoStatisticFragment extends Fragment {
     private View parentView;
@@ -81,36 +84,50 @@ public class InfoStatisticFragment extends Fragment {
             HashMap thisyear = pollutions.get(i);
             ArrayList<String> names = new ArrayList<>();
             ArrayList<BarEntry> entry = new ArrayList<>();
+            Map<String, Integer> vals = new HashMap<>();
             int position = 0;
             if (!thisyear.get("Cigarette butts").equals(0)){
-                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Cigarette butts").toString())));
-                names.add("Cigarette butts");
-                position++;
+                vals.put("Cigarette butts", Integer.valueOf(thisyear.get("Cigarette butts").toString()));
+//                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Cigarette butts").toString())));
+//                names.add("Cigarette butts");
+//                position++;
             }
             if (!thisyear.get("Metals").equals(0)){
-                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Metals").toString())));
-                names.add("Metals");
-                position++;
+                vals.put("Metals", Integer.valueOf(thisyear.get("Metals").toString()));
+//                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Metals").toString())));
+//                names.add("Metals");
+//                position++;
             }
             if (!thisyear.get("Others garbage").equals(0)){
-                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Others garbage").toString())));
-                names.add("Others garbage");
-                position++;
+                vals.put("Others garbage", Integer.valueOf(thisyear.get("Others garbage").toString()));
+//                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Others garbage").toString())));
+//                names.add("Others garbage");
+//                position++;
             }
             if (!thisyear.get("Plastic waste").equals(0)){
-                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Plastic waste").toString())));
-                names.add("Plastic waste");
-                position++;
+                vals.put("Plastic waste", Integer.valueOf(thisyear.get("Plastic waste").toString()));
+//                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Plastic waste").toString())));
+//                names.add("Plastic waste");
+//                position++;
             }
             if (!thisyear.get("Recyclables").equals(0)){
-                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Recyclables").toString())));
-                names.add("Recyclables");
-                position++;
+                vals.put("Recyclables", Integer.valueOf(thisyear.get("Recyclables").toString()));
+//                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Recyclables").toString())));
+//                names.add("Recyclables");
+//                position++;
             }
             if (!thisyear.get("Rubber waste").equals(0)){
-                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Rubber waste").toString())));
-                names.add("Rubber waste");
+                vals.put("Rubber waste", Integer.valueOf(thisyear.get("Rubber waste").toString()));
+//                entry.add(new BarEntry(position,Integer.valueOf(thisyear.get("Rubber waste").toString())));
+//                names.add("Rubber waste");
             }
+            vals = UIUtils.sortByValue(vals);
+        for (Map.Entry<String, Integer> e : vals.entrySet())
+        {
+            entry.add(new BarEntry(position, e.getValue()));
+            position++;
+            names.add(e.getKey());
+        }
             BarDataSet dataSet = new BarDataSet(entry, thisyear.get("Year").toString());
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
             dataSets.add(dataSet);
@@ -121,7 +138,6 @@ public class InfoStatisticFragment extends Fragment {
 
             Legend legend = chart.getLegend();
             legend.setEnabled(true);
-            legend.setDrawInside(true);
             ArrayList<LegendEntry> t = new ArrayList<>();
             for (int u = 0; u < names.size(); u++) {
                 t.add(new LegendEntry(names.get(u), Legend.LegendForm.DEFAULT,
@@ -130,11 +146,13 @@ public class InfoStatisticFragment extends Fragment {
             legend.setCustom(t);
             legend.setOrientation(Legend.LegendOrientation.VERTICAL);
             legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+            legend.setDrawInside(true);
             chart.getDescription().setText("Year: " + thisyear.get("Year").toString());
             chart.getAxisLeft().setDrawGridLines(false);
             chart.getAxisRight().setDrawGridLines(false);
             chart.getXAxis().setDrawGridLines(false);
+            chart.getXAxis().setDrawLabels(false);
             chart.invalidate();
     }
 

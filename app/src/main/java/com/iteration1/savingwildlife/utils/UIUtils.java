@@ -14,9 +14,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class UIUtils {
     private static Toast toast;
+    private static final String ALLOWED_CHARACTERS ="0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
     // This method is to adjust the size of imageview
     // @Return: the layout params of the viewgroup
@@ -72,5 +74,14 @@ public class UIUtils {
             sortedMap.put(entry.getKey(), entry.getValue());
         }
         return sortedMap;
+    }
+
+    public static String getRandomString(final int sizeOfRandomString)
+    {
+        final Random random=new Random();
+        final StringBuilder sb=new StringBuilder(sizeOfRandomString);
+        for(int i=0;i<sizeOfRandomString;++i)
+            sb.append(ALLOWED_CHARACTERS.charAt(random.nextInt(ALLOWED_CHARACTERS.length())));
+        return sb.toString();
     }
 }

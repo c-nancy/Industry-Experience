@@ -38,7 +38,6 @@ import com.google.maps.android.SphericalUtil;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.entities.Report;
 import com.iteration1.savingwildlife.utils.UIUtils;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.Collections;

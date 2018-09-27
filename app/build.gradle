@@ -75,8 +75,9 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
 
-    // For permission listening
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    // For login
+    implementation 'com.google.firebase:firebase-auth:16.0.3'
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
 
 }
 

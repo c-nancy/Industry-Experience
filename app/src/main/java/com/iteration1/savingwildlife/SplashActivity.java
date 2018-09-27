@@ -6,14 +6,24 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 
+import com.google.firebase.FirebaseError;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,48 +34,74 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent();
         intent.setClass(SplashActivity.this, MainActivity.class);
-//
-//        Boolean locationrefuse = false;
-//        String provider = "";
-//        Location location = null;
-//        // Get user location using locationmanager
-//        LocationManager mLocMan = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
-//            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-//            if (!locationrefuse) {
-//                ActivityCompat.requestPermissions(this,
-//                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-//                        101);
-//                this.onResume();
-//            }
-//            UIUtils.showCenterToast(this.getApplicationContext(), "Show beach randomly...");
-//        } else {
-//            UIUtils.showCenterToast(this.getApplicationContext(), "Analyzing the closest beach...");
-//
-//            assert mLocMan != null;
-//            List<String> list = mLocMan.getProviders(true);
-//            if (list.contains(LocationManager.GPS_PROVIDER)) {
-//                provider = LocationManager.GPS_PROVIDER;
-//            } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
-//                provider = LocationManager.NETWORK_PROVIDER;
-//            } else {
-//                UIUtils.showCenterToast(this, "Please check internet connection or GPS permission!");
-//            }
-//
-//            location = mLocMan.getLastKnownLocation(provider);
-//        }
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable("location", location);
-//        intent.putExtras(bundle);
-
+        String imei = getImei(getApplicationContext());
+        readUser(imei);
         startActivity(intent);
         finish();
     }
 
+    // The get imei method
+    public String getImei(Context context) {
+        TelephonyManager telephonyMgr = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+        String imei = "";
+        if (ActivityCompat.checkSelfPermission(context,
+                android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.READ_PHONE_STATE},
+                        1);
+            }
+        }
+        imei = telephonyMgr.getDeviceId();
+        return imei ;
+    }
 
+    private void readUser(String imei) {
+        // Get the reference of firebase instance
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.orderByChild("ID").equalTo(imei);
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean add = true;
+                for(DataSnapshot data: dataSnapshot.getChildren()){
+                    // Check imei exist
+                    if (data.child("imei").getValue().toString().equals(imei)) {
+                        add = false;
+                    } else {
+                    }
+                }
+                if (add){
+                    String id = databaseReference.push().getKey();
+                    databaseReference.child(id).child("imei").setValue(imei);
+                    Random random = new Random();
+                    int length = random.nextInt(15);
+                    databaseReference.child(id).child("name").setValue(UIUtils.getRandomString(length));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                }
+                return;
+            }
+
+        }
+    }
 
 }
 

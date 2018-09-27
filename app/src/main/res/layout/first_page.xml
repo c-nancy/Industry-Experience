@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/firstline"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_create_event"
+                android:focusable="true"
+                android:contentDescription="@string/create_events"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/create_event"
+                android:layout_margin="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_events"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20sp"
+                    android:layout_margin="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:src="@drawable/ic_report"
+                    android:focusable="true"
+                    android:contentDescription="@string/make_reports"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/make_report"
+                    android:layout_margin="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/make_reports"
+                    android:textSize="20sp"
+                    android:layout_margin="20dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/firstline"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_find_event"
+                android:focusable="true"
+                android:contentDescription="@string/find_events"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/find_event"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/find_events"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_margin="20dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_beach"
+                android:focusable="true"
+                android:contentDescription="@string/beach_list"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/beach_list"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/beach_list"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_margin="20dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </RelativeLayout>

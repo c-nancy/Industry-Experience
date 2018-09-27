@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-//        Intent initialintent = new Intent();
-//        Bundle initialbundle = initialintent.getExtras();
-//        Location location = initialbundle.getParcelable("location");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarfornavigation);
         setSupportActionBar(toolbar);
@@ -60,19 +57,21 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setTitle("Beach Step");
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new FirstFragment()).commit();
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (nextFragment == null || second || nextFragment.getClass() == HomeScreenFragment.class) {
+        if (nextFragment == null || second || nextFragment.getClass() == FirstFragment.class) {
             super.onBackPressed();
         } else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (nextFragment.getClass() != HomeScreenFragment.class) {
             getSupportActionBar().setTitle("Beach Step");
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+//            fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new FirstFragment()).commit();
             second = true;
         }
     }
@@ -106,7 +105,8 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_homepage:
                 getSupportActionBar().setTitle("Beach Step");
-                nextFragment = new HomeScreenFragment();
+//                nextFragment = new HomeScreenFragment();
+                nextFragment = new FirstFragment();
                 break;
             case R.id.nav_map:
                 getSupportActionBar().setTitle("Beach distribution");

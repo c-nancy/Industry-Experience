@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,19 +30,17 @@ public class FirstFragment extends Fragment{
             savedInstanceState) {
         thisView = inflater.inflate(R.layout.first_page, container, false);
         fragmentManager = getActivity().getSupportFragmentManager();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Beach Step");
         create = thisView.findViewById(R.id.create_event);
         create.setOnClickListener(v -> {
-            cleanBackStack(fragmentManager);
-            // TODO: Edit when we have a create event page
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new CreateEvent(), null)
-                    .addToBackStack(null)
-                    .commit();
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), CreateEvent.class);
+            startActivity(intent);
         });
         find = thisView.findViewById(R.id.find_event);
         find.setOnClickListener(v -> {
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Events");
             cleanBackStack(fragmentManager);
-            // TODO: Edit when we have a find event page
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new EventList(), null)
                     .addToBackStack(null)
@@ -48,15 +48,13 @@ public class FirstFragment extends Fragment{
         });
         report = thisView.findViewById(R.id.make_report);
         report.setOnClickListener(v -> {
-            cleanBackStack(fragmentManager);
-            // TODO: Edit when we have a report page
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new HomeScreenFragment(), null)
-                    .addToBackStack(null)
-                    .commit();
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), MakeReport.class);
+            startActivity(intent);
         });
         beachlist = thisView.findViewById(R.id.beach_list);
         beachlist.setOnClickListener(v -> {
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Beaches");
             cleanBackStack(fragmentManager);
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new HomeScreenFragment(), null)

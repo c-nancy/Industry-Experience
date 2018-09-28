@@ -28,9 +28,7 @@ public class InfoPage extends AppCompatActivity {
     private TextView toolbar_title;
 //    private TextView beachtitle;
 
-    private FloatingActionButton make_report;
     private FloatingActionButton direction;
-    private FloatingActionsMenu thismenu;
     private Toolbar toolbar;
     private Beach selected;
     private ViewPagerIndicator mViewPagerIndicator;
@@ -53,8 +51,6 @@ public class InfoPage extends AppCompatActivity {
         toolbar_title = (TextView) findViewById(R.id.toolbar_title);
 //        beachtitle = (TextView) findViewById(R.id.beachtitle);
 
-        thismenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
-        make_report = (FloatingActionButton) findViewById(R.id.report_button);
         direction = (FloatingActionButton) findViewById(R.id.direction_button);
         mViewPagerIndicator = (ViewPagerIndicator) findViewById(R.id.indicator_line);
 
@@ -101,19 +97,6 @@ public class InfoPage extends AppCompatActivity {
         infosta.setArguments(bundle1);
         infoimg.setArguments(bundle1);
 
-
-        make_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(InfoPage.this, MakeReport.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("selected", selected);
-                intent.putExtras(bundle);
-                intent.putExtra("selected", selected);
-                startActivity(intent);
-            }
-        });
 
         direction.setOnClickListener(new View.OnClickListener() {
             @Override

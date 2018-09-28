@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         } else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (nextFragment.getClass() != HomeScreenFragment.class) {
+        } else if (nextFragment.getClass() != FirstFragment.class) {
             getSupportActionBar().setTitle("Beach Step");
 //            fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FirstFragment()).commit();

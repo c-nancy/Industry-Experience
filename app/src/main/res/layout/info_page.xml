@@ -69,39 +69,21 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/multiple_actions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            fab:fab_addButtonColorNormal="@android:color/white"
-            fab:fab_addButtonColorPressed="@android:color/primary_text_dark"
-            fab:fab_addButtonPlusIconColor="@android:color/black"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            fab:fab_labelStyle="@style/menu_labels_style"
-            fab:fab_labelsPosition="left">
-
             <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:id="@+id/direction_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:accessibilityPaneTitle="Get direction"
                 fab:fab_colorNormal="@android:color/white"
                 fab:fab_icon="@drawable/ic_navigation_black_24dp"
                 fab:fab_title="Get direction"
-                fab:fab_colorPressed="@android:color/primary_text_dark" />
+                fab:fab_colorPressed="@android:color/primary_text_dark"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                fab:fab_labelsPosition="left"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/report_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@android:color/white"
-                fab:fab_icon="@drawable/ic_event_note_black_24dp"
-                fab:fab_title="Incident report"
-                fab:fab_colorPressed="@android:color/primary_text_dark" />
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </RelativeLayout>
 
 

@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.WorkerThread;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,8 +30,11 @@ import android.widget.Toast;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -41,12 +47,16 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 public class MakeReport extends AppCompatActivity {
     private Toolbar toolbar;
+    private ArrayList<Beach> beachList1;
+    private ArrayList<Beach> beachList;
+    private Spinner beachName;
     private Spinner eventType;
     private TextView toolbar_title;
     private ImageView imageUploaded;
@@ -60,6 +70,7 @@ public class MakeReport extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     //    private String typeForEmail;
     private String event_date;
+    private String address;
     //    private Image image;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -73,6 +84,8 @@ public class MakeReport extends AppCompatActivity {
         setContentView(R.layout.report_page);
         covertToLongType();
         initUI();
+        beachList1 = new ArrayList<>();
+        new LoadTask().execute();
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,8 +145,7 @@ public class MakeReport extends AppCompatActivity {
     }
 
     private void saveInfo() {
-
-        if(filePath != null && !eventType.getSelectedItem().toString().equals("Select one"))
+        if(filePath != null && !eventType.getSelectedItem().toString().equals("Select one") && !beachName.getSelectedItem().toString().equals("Select one"))
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
@@ -163,6 +175,7 @@ public class MakeReport extends AppCompatActivity {
                             progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
+            beachname = beachName.getSelectedItem().toString();
             String type = eventType.getSelectedItem().toString();
             String typeForEmail = type;
             Integer year = eventDate.getYear();
@@ -178,7 +191,12 @@ public class MakeReport extends AppCompatActivity {
             databaseReference.child(id).child("reference").setValue(ref.toString());
 
             Log.i("Send email", "");
-            String address = option.getEmail();
+            int a = beachList1.size();
+            for(int i = 0;i < beachList.size();i ++){
+                if (beachList.get(i).getName().equals(beachname)) {
+                    address = beachList.get(i).getEmail();
+                }
+            }
             String text = "Dear Sir/Madam,\nI am at " + beachname + ". At the date " + event_date + ", I found someone is doing "
                     + typeForEmail + " which in my concern may do harm to our local marine animals or damage environment. " +
                     "Please come to stop these behaviours ASAP. Thanks.\n " +
@@ -220,6 +238,7 @@ public class MakeReport extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         imageUploaded = (ImageView) findViewById(R.id.imageView1);
+        beachName = (Spinner) findViewById(R.id.spinnerForBeachName);
         eventType = (Spinner) findViewById(R.id.spinner1);
         eventDate = (DatePicker) findViewById(R.id.datePicker1);
         eventDate.setMaxDate(new Date().getTime());
@@ -227,16 +246,16 @@ public class MakeReport extends AppCompatActivity {
         btnUpload = (Button) findViewById(R.id.uploadbtn);
         btnSave = (Button) findViewById(R.id.savebtn);
         databaseReference = FirebaseDatabase.getInstance().getReference("report");
-        Intent intent1 = getIntent();
-        Bundle bundle = intent1.getExtras();
-        assert bundle != null;
-        option = (Beach) bundle.getSerializable("selected");
-        assert option != null;
-        beachname = option.getName();
+//        Intent intent1 = getIntent();
+//        Bundle bundle = intent1.getExtras();
+//        assert bundle != null;
+//        option = (Beach) bundle.getSerializable("selected");
+//        assert option != null;
+//        beachname = option.getName();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
-        String titlePlus = "Report of ";
-        toolbar_title.setText(titlePlus + beachname);
+        String titlePlus = "Report";
+//        toolbar_title.setText(titlePlus + beachname);
         // Back to former page
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -246,7 +265,6 @@ public class MakeReport extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
 
@@ -266,6 +284,61 @@ public class MakeReport extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    private class LoadTask extends AsyncTask<String, Integer, String> {
+
+        @MainThread
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            ss.show(2000);
+            Log.d("pre", "onPreExecute() called");
+        }
+
+        @WorkerThread
+        @Override
+        protected String doInBackground(String... params) {
+
+            // Get the reference of firebase instance
+            DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("beaches");
+
+            mReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        Beach b = child.getValue(Beach.class);
+                        beachList1.add(b);
+                    }
+                    beachList = beachList1;
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("The read failed: " + databaseError.getDetails());
+                }
+            });
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progresses) {
+            Log.d("mprogress", "onProgressUpdate(Progress... progresses) called");
+        }
+
+        @MainThread
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute("finish");
+            Log.d("post", "onPostExecute(Result result) called");
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.d("cancelled", "onCancelled() called");
+        }
+
     }
 
 }

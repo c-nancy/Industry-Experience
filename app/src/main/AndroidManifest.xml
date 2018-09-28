@@ -38,13 +38,10 @@
         </activity>
 
 
-        <activity
-            android:name=".InfoPage"
-            android:label="" />
-        <activity android:name=".Visualization" />
-
+        <activity android:name=".InfoPage" />
 
         <activity android:name=".MakeReport" />
+        <activity android:name=".CreateEvent" />
 
 
         <uses-library

@@ -26,7 +26,6 @@ public class EventAdapter extends BaseAdapter{
     private ArrayList<String> eventlocation;
     private LayoutInflater layoutInflater;
     private Context context;
-    ImageView img;
     TextView tv1;
     TextView tv2;
     TextView tv3;
@@ -60,12 +59,10 @@ public class EventAdapter extends BaseAdapter{
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.event_item, null);
         }
-        img = (ImageView) convertView.findViewById(R.id.EventImage);
         tv1 = (TextView) convertView.findViewById(R.id.ItemTitle);
         tv2 = (TextView) convertView.findViewById(R.id.ItemText);
         tv3 = (TextView) convertView.findViewById(R.id.time);
 //        img.setBackgroundResource(events.get(position).getEvent_location());
-        img.setBackgroundResource(R.drawable.amu_bubble_mask);
         tv1.setText(events.get(position).getEvent_type());
         StringBuilder sb1 = new StringBuilder();
         sb1.append(events.get(position).getEvent_date().substring(0,4).replace("-","/"));

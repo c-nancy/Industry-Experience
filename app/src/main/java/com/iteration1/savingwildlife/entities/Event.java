@@ -10,6 +10,37 @@ public class Event implements Serializable{
     private String event_end;
     private String imei;
     private String name;
+    private String registered_user;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
+    public Event(String event_type, String event_date, String event_location, String event_start, String event_end, String imei, String name, String registered_user) {
+        this.event_type = event_type;
+        this.event_date = event_date;
+        this.event_location = event_location;
+        this.event_start = event_start;
+        this.event_end = event_end;
+        this.imei = imei;
+        this.name = name;
+        this.registered_user = registered_user;
+    }
+
+    public String getRegistered_user() {
+        return registered_user;
+
+    }
+
+    public void setRegistered_user(String registered_user) {
+        this.registered_user = registered_user;
+    }
 
     public String getImei() {
         return imei;
@@ -22,16 +53,6 @@ public class Event implements Serializable{
     public Event() {
     }
 
-    public Event(String event_type, String event_date, String event_location, String event_start, String event_end, String imei, String name) {
-        this.event_type = event_type;
-        this.event_date = event_date;
-        this.event_location = event_location;
-        this.event_start = event_start;
-        this.event_end = event_end;
-
-        this.imei = imei;
-        this.name = name;
-    }
 
     public String getName() {
         return name;

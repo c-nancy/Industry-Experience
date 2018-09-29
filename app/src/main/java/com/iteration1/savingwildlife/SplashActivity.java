@@ -56,10 +56,10 @@ public class SplashActivity extends AppCompatActivity {
         return imei ;
     }
 
-    private void readUser(String imei) {
+    private void readUser(String i) {
         // Get the reference of firebase instance
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        databaseReference.orderByChild("ID").equalTo(imei);
+        databaseReference.orderByChild("ID").equalTo(i);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -67,14 +67,14 @@ public class SplashActivity extends AppCompatActivity {
                 Boolean add = true;
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     // Check imei exist
-                    if (data.child("imei").getValue().toString().equals(imei)) {
+                    if (data.child("imei").getValue().toString().equals(i)) {
                         add = false;
                     } else {
                     }
                 }
                 if (add){
                     String id = databaseReference.push().getKey();
-                    databaseReference.child(id).child("imei").setValue(imei);
+                    databaseReference.child(id).child("imei").setValue(i);
                     Random random = new Random();
                     int length = random.nextInt(15);
                     databaseReference.child(id).child("name").setValue(UIUtils.getRandomString(length));

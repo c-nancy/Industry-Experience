@@ -1,11 +1,15 @@
 package com.iteration1.savingwildlife;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,8 +30,14 @@ import com.iteration1.savingwildlife.entities.Report;
 import com.iteration1.savingwildlife.utils.EventAdapter;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 public class EventList extends Fragment {
     View thisView;
@@ -35,8 +45,6 @@ public class EventList extends Fragment {
     private ArrayList<Beach> beachList;
     private ArrayList<Event> events;
     private ArrayList<Report> reports;
-    private ArrayList<String> locations;
-    private ArrayList<String> dates;
     private Spinner order;
 
     @Override
@@ -51,19 +59,48 @@ public class EventList extends Fragment {
         beachList = new ArrayList<>();
         events = new ArrayList<>();
         reports = new ArrayList<>();
-        locations = new ArrayList<>();
         listView = thisView.findViewById(R.id.beach_event);
         order = thisView.findViewById(R.id.select_order);
         getEvents();
         order.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-//                switch (position){
-//                    case 1:
-//                        Collections.sort();
-//                }
-                if (position!=0){
-                    UIUtils.showCenterToast(getContext(),"Order by " + order.getSelectedItem().toString());
+                switch (position){
+                    case 0:
+                        break;
+                    case 1:
+                        Collections.sort(events, new Comparator<Event>() {
+                            @Override
+                            public int compare(Event o1, Event o2) {
+                                StringBuilder sb1 = new StringBuilder();
+                                StringBuilder sb2 = new StringBuilder();
+                                sb1.append(o1.getEvent_date()).append(" ");
+                                sb1.append(o1.getEvent_start());
+                                sb2.append(o2.getEvent_date()).append(" ");
+                                sb2.append(o2.getEvent_start());
+                                Date d1 = UIUtils.strToDateLong(sb1.toString());
+                                Date d2 = UIUtils.strToDateLong(sb2.toString());
+                                if (d1.before(d2)){
+                                    return -1;
+                                }else if (d1.after(d2)){
+                                    return 1;
+                                }
+                                return 0;
+                            }
+                        });
+                        listView.setAdapter(new EventAdapter(getContext(), events));
+                        UIUtils.showCenterToast(getContext(),"Order by " + order.getSelectedItem().toString());
+                        break;
+                    case 2:
+                        Collections.sort(events, new Comparator<Event>() {
+                            @Override
+                            public int compare(Event o1, Event o2) {
+                                return o1.getEvent_location().compareTo(o2.getEvent_location());
+                            }
+                        });
+                        listView.setAdapter(new EventAdapter(getContext(), events));
+                        UIUtils.showCenterToast(getContext(),"Order by " + order.getSelectedItem().toString());
+                        break;
                 }
             }
 
@@ -97,28 +134,34 @@ public class EventList extends Fragment {
         });
 
         DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("event");
-
         reference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                events = new ArrayList<>();
+                Date now = new Date();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Event e = child.getValue(Event.class);
-                    events.add(e);
-                    locations.add(e.getEvent_location());
+                    e.setId(child.getKey());
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(e.getEvent_date()).append(" ");
+                    sb.append(e.getEvent_start());
+                    Date thisdate = UIUtils.strToDateLong(sb.toString());
+                    if (thisdate.after(now)) {
+                        events.add(e);
+                    }
                 }
                 listView.setAdapter(new EventAdapter(getContext(), events));
                 ViewGroup.LayoutParams params = listView.getLayoutParams();
                 DisplayMetrics metrics = new DisplayMetrics();
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                params.height = metrics.heightPixels;
+                params.height = (int) Math.floor(metrics.heightPixels * 0.76);
                 listView.setLayoutParams(params);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                             long arg3) {
                         Event e = events.get(arg2);
-                        showMultiBtnDialog(e);;
-
+                        showEventDialog(e);
                     }
 
                 });
@@ -134,6 +177,7 @@ public class EventList extends Fragment {
         reference3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                reports = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Report e = child.getValue(Report.class);
                     reports.add(e);
@@ -149,7 +193,8 @@ public class EventList extends Fragment {
 
 
 
-    private void showMultiBtnDialog(Event event){
+    // Dialog of event detail & register
+    private void showEventDialog(Event event){
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(getContext());
         normalDialog.setIcon(R.drawable.ic_event_note_black_24dp);
@@ -160,13 +205,44 @@ public class EventList extends Fragment {
         sb.append(event.getEvent_start() + " - " + event.getEvent_end());
         sb.append(" · ");
         sb.append(event.getEvent_location() + "\n\n");
-        sb.append("0 People registered");
+        ArrayList<String> participants = new ArrayList<>();
+        if (!event.getRegistered_user().trim().equals("")){
+            participants = new ArrayList<String>(Arrays.asList(event.getRegistered_user().split(",")));
+            for (String g: participants) {
+                if(g.equals("")){
+                    participants.remove(g);
+                }
+            }
+        }
+        int count = participants.size();
+        sb.append(Integer.toString(count) + " people registered");
         normalDialog.setMessage(sb.toString());
         normalDialog.setPositiveButton("Register",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        UIUtils.showCenterToast(getContext(), "Register successful!");
+                        String my_imei = getImei(getContext());
+                        if (!event.getRegistered_user().trim().equals("")){
+                            ArrayList<String> p = new ArrayList<String>(Arrays.asList(event.getRegistered_user().split(",")));
+                            for (String g: p) {
+                                if(g.equals("")){
+                                    p.remove(g);
+                                }
+                            }
+                            if (p.contains(my_imei)){
+                                UIUtils.showCenterToast(getContext(), "You have already registered to this event!");
+                                }else{
+                                event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
+                                DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");
+                                dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
+                                UIUtils.showCenterToast(getContext(), "Register sucessful!");
+                                }
+                        }else{
+                            event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
+                            DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");
+                            dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
+                            UIUtils.showCenterToast(getContext(), "Register sucessful!");
+                        }
                     }
                 });
         normalDialog.setNeutralButton("See beach",
@@ -203,6 +279,23 @@ public class EventList extends Fragment {
             }
         });
         normalDialog.show();
+    }
+
+
+    // The get imei method
+    public String getImei(Context context) {
+        TelephonyManager telephonyMgr = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+        String imei = "";
+        if (ActivityCompat.checkSelfPermission(context,
+                android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.READ_PHONE_STATE)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{android.Manifest.permission.READ_PHONE_STATE},
+                        1);
+            }
+        }
+        imei = telephonyMgr.getDeviceId();
+        return imei;
     }
 
 }

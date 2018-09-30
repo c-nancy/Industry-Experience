@@ -1,5 +1,6 @@
 package com.iteration1.savingwildlife;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,16 +35,14 @@ import com.iteration1.savingwildlife.entities.Report;
 import com.iteration1.savingwildlife.utils.EventAdapter;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-import static android.content.Context.TELEPHONY_SERVICE;
 
-public class EventList extends Fragment {
+public class EventList extends AppCompatActivity {
     View thisView;
     private ListView listView;
     private ArrayList<Beach> beachList;
@@ -53,20 +55,38 @@ public class EventList extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        thisView = inflater.inflate(R.layout.event_list, container, false);
+//    }
+//
+//
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        thisView = inflater.inflate(R.layout.event_list, container, false);
+        setContentView(R.layout.event_list);
         beachList = new ArrayList<>();
         events = new ArrayList<>();
         reports = new ArrayList<>();
-        listView = thisView.findViewById(R.id.beach_event);
-        order = thisView.findViewById(R.id.select_order);
-        tv1 = thisView.findViewById(R.id.my_events);
-        tv2 = thisView.findViewById(R.id.my_joined_events);
         getEvents();
+        initUI();
+    }
+
+    private void initUI(){
+        listView = findViewById(R.id.beach_event);
+        order = findViewById(R.id.select_order);
+        tv1 = findViewById(R.id.my_events);
+        tv2 = findViewById(R.id.my_joined_events);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar.setTitle("");
+        // Back to former page
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         order.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -93,8 +113,7 @@ public class EventList extends Fragment {
                                 return 0;
                             }
                         });
-                        listView.setAdapter(new EventAdapter(getContext(), events));
-                        UIUtils.showCenterToast(getContext(),"Order by " + order.getSelectedItem().toString());
+                        listView.setAdapter(new EventAdapter(getApplicationContext(), events));
                         break;
                     case 2:
                         Collections.sort(events, new Comparator<Event>() {
@@ -103,8 +122,8 @@ public class EventList extends Fragment {
                                 return o1.getEvent_location().compareTo(o2.getEvent_location());
                             }
                         });
-                        listView.setAdapter(new EventAdapter(getContext(), events));
-                        UIUtils.showCenterToast(getContext(),"Order by " + order.getSelectedItem().toString());
+                        listView.setAdapter(new EventAdapter(getApplicationContext(), events));
+                        UIUtils.showCenterToast(getApplicationContext(),"Order by " + order.getSelectedItem().toString());
                         break;
                 }
             }
@@ -118,17 +137,16 @@ public class EventList extends Fragment {
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.showCenterToast(getContext(), "created by me");
+                UIUtils.showCenterToast(getApplicationContext(), "created by me");
             }
         });
 
         tv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.showCenterToast(getContext(), "I joined");
+                UIUtils.showCenterToast(getApplicationContext(), "I joined");
             }
         });
-        return thisView;
     }
 
 
@@ -170,11 +188,8 @@ public class EventList extends Fragment {
                         events.add(e);
                     }
                 }
-                listView.setAdapter(new EventAdapter(getContext(), events));
-                ViewGroup.LayoutParams params = listView.getLayoutParams();
-                DisplayMetrics metrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                params.height = (int) Math.floor(metrics.heightPixels * 0.76);
+                listView.setAdapter(new EventAdapter(getApplicationContext(), events));
+                ViewGroup.LayoutParams params = findLayoutParams(listView.getLayoutParams());
                 listView.setLayoutParams(params);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -216,11 +231,13 @@ public class EventList extends Fragment {
     // Dialog of event detail & register
     private void showEventDialog(Event event){
         AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(getContext());
+                new AlertDialog.Builder(this);
         normalDialog.setIcon(R.drawable.ic_event_note_black_24dp);
         normalDialog.setTitle(event.getEvent_type());
         StringBuilder sb = new StringBuilder();
-        sb.append(event.getEvent_date().substring(0,4).replace("-","/"));
+        sb.append(event.getEvent_date().substring(0,5).replace("-","/"));
+        sb.append("/");
+        sb.append(event.getEvent_date().substring(event.getEvent_date().length() - 2,event.getEvent_date().length()));
         sb.append(" · ");
         sb.append(event.getEvent_start() + " - " + event.getEvent_end());
         sb.append(" · ");
@@ -241,7 +258,7 @@ public class EventList extends Fragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String my_imei = getImei(getContext());
+                        String my_imei = getImei(getApplicationContext());
                         if (!event.getRegistered_user().trim().equals("")){
                             ArrayList<String> p = new ArrayList<String>(Arrays.asList(event.getRegistered_user().split(",")));
                             for (String g: p) {
@@ -250,18 +267,18 @@ public class EventList extends Fragment {
                                 }
                             }
                             if (p.contains(my_imei)){
-                                UIUtils.showCenterToast(getContext(), "You have already registered to this event!");
+                                UIUtils.showCenterToast(getApplicationContext(), "You have already registered to this event!");
                                 }else{
                                 event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
                                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");
                                 dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
-                                UIUtils.showCenterToast(getContext(), "Register sucessful!");
+                                UIUtils.showCenterToast(getApplicationContext(), "Register sucessful!");
                                 }
                         }else{
                             event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
                             DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");
                             dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
-                            UIUtils.showCenterToast(getContext(), "Register sucessful!");
+                            UIUtils.showCenterToast(getApplicationContext(), "Register sucessful!");
                         }
                     }
                 });
@@ -282,7 +299,7 @@ public class EventList extends Fragment {
                                     }
                                 }
                                 Intent intent = new Intent();
-                                intent.setClass(getActivity(), InfoPage.class);
+                                intent.setClass(getApplicationContext(), InfoPage.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("beach", b);
                                 bundle.putStringArrayList("reports",relatedReport);
@@ -298,7 +315,10 @@ public class EventList extends Fragment {
 
             }
         });
-        normalDialog.show();
+        AlertDialog dialog = normalDialog.create();
+        dialog.show();
+        TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+        textView.setTextSize(13);
     }
 
 
@@ -308,14 +328,21 @@ public class EventList extends Fragment {
         String imei = "";
         if (ActivityCompat.checkSelfPermission(context,
                 android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.READ_PHONE_STATE)) {
-                ActivityCompat.requestPermissions(getActivity(),
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE)) {
+                ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.READ_PHONE_STATE},
                         1);
             }
         }
         imei = telephonyMgr.getDeviceId();
         return imei;
+    }
+
+    private ViewGroup.LayoutParams findLayoutParams(ViewGroup.LayoutParams params){
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        params.height = (int) Math.floor(metrics.heightPixels * 0.76);
+        return params;
     }
 
 }

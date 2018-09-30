@@ -42,7 +42,8 @@
 
         <activity android:name=".MakeReport" />
         <activity android:name=".CreateEvent" />
-        <activity android:name=".EventList" />
+        <activity android:name=".EventList"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".HomeScreenFragment" />
 
         <uses-library

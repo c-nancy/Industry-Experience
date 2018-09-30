@@ -40,10 +40,10 @@ public class FirstFragment extends Fragment{
         });
         find = thisView.findViewById(R.id.find_event);
         find.setOnClickListener(v -> {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new EventList()).commit();
-//            Intent intent = new Intent();
-//            intent.setClass(getActivity(), EventList.class);
-//            startActivity(intent);
+//            fragmentManager.beginTransaction().replace(R.id.content_frame, new EventList()).commit();
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), EventList.class);
+            startActivity(intent);
         });
         report = thisView.findViewById(R.id.make_report);
         report.setOnClickListener(v -> {

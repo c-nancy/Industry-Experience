@@ -63,7 +63,9 @@ public class EventAdapter extends BaseAdapter{
 //        img.setBackgroundResource(events.get(position).getEvent_location());
         tv1.setText(events.get(position).getEvent_type());
         StringBuilder sb1 = new StringBuilder();
-        sb1.append(events.get(position).getEvent_date().replace("-","/"));
+        sb1.append(events.get(position).getEvent_date().substring(0,5).replace("-","/"));
+        sb1.append("/");
+        sb1.append(events.get(position).getEvent_date().substring(events.get(position).getEvent_date().length() - 2,events.get(position).getEvent_date().length()));
         sb1.append("  ");
         sb1.append(events.get(position).getEvent_start() + " - " + events.get(position).getEvent_end());
         tv2.setText(sb1.toString());

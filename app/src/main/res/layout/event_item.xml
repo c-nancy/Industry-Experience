@@ -20,7 +20,7 @@
     android:id="@+id/ItemTitle"
     android:layout_height="wrap_content"
     android:layout_width="fill_parent"
-    android:textSize="20sp"
+    android:textSize="18sp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/EventImage"/>
 
@@ -30,6 +30,7 @@
         android:layout_toEndOf="@+id/EventImage"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:textSize="11sp"
         android:layout_below="@id/ItemTitle"/>
 
     <TextView
@@ -37,7 +38,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/time"
             android:layout_below="@id/ItemTitle"
-        android:layout_margin="5dp"
+            android:layout_margin="5dp"
+            android:textSize="11sp"
             android:layout_alignParentEnd="true" />
 
 

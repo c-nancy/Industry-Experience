@@ -10,14 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class FirstFragment extends Fragment{
 
     View thisView;
-    private ImageView create;
-    private ImageView find;
-    private ImageView report;
-    private ImageView beachlist;
+    private TextView create;
+    private TextView find;
+    private TextView report;
+    private TextView beachlist;
     private FragmentManager fragmentManager;
 
     @Override

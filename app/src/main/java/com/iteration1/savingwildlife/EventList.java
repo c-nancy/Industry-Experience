@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +47,8 @@ public class EventList extends Fragment {
     private ArrayList<Event> events;
     private ArrayList<Report> reports;
     private Spinner order;
+    private TextView tv1;
+    private TextView tv2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,8 @@ public class EventList extends Fragment {
         reports = new ArrayList<>();
         listView = thisView.findViewById(R.id.beach_event);
         order = thisView.findViewById(R.id.select_order);
+        tv1 = thisView.findViewById(R.id.my_events);
+        tv2 = thisView.findViewById(R.id.my_joined_events);
         getEvents();
         order.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -109,6 +114,20 @@ public class EventList extends Fragment {
             }
 
         });
+
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.showCenterToast(getContext(), "created by me");
+            }
+        });
+
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.showCenterToast(getContext(), "I joined");
+            }
+        });
         return thisView;
     }
 
@@ -146,10 +165,12 @@ public class EventList extends Fragment {
                     sb.append(e.getEvent_date()).append(" ");
                     sb.append(e.getEvent_start());
                     Date thisdate = UIUtils.strToDateLong(sb.toString());
+
                     if (thisdate.after(now)) {
                         events.add(e);
                     }
                 }
+                listView.setAdapter(new EventAdapter(getContext(), events));
                 ViewGroup.LayoutParams params = listView.getLayoutParams();
                 DisplayMetrics metrics = new DisplayMetrics();
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -242,7 +263,6 @@ public class EventList extends Fragment {
                             dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
                             UIUtils.showCenterToast(getContext(), "Register sucessful!");
                         }
-                        listView.setAdapter(new EventAdapter(getContext(), events));
                     }
                 });
         normalDialog.setNeutralButton("See beach",

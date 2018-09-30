@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/top">
+        android:id="@+id/top"
+        android:layout_marginBottom="30dp">
 
         <TextView
             android:id="@+id/textView2"
@@ -21,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:text="One step today makes a bigger change tomorrow."
+            android:text="One step today makes a big change tomorrow."
             android:textSize="15sp"
             android:textStyle="italic" />
 
@@ -36,65 +37,38 @@
     </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/first_left"
-                android:layout_below="@+id/top"
-                android:layout_toStartOf="@+id/placeholder"
-                android:layout_margin="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:src="@drawable/ic_create_event"
-                android:focusable="true"
-                android:contentDescription="@string/create_events"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/create_event"
-                android:layout_margin="20dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/create_events"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="18sp"
-                    android:layout_margin="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/first_right"
-                android:layout_below="@+id/top"
-                android:layout_toEndOf="@+id/placeholder"
-                android:layout_margin="20dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:drawableTop="@drawable/ic_create_event"
+                    android:layout_margin="30dp"
+                    android:drawablePadding="20dp"
+                    android:id="@+id/create_event"
                     android:clickable="true"
-                    android:src="@drawable/ic_report"
                     android:focusable="true"
-                    android:contentDescription="@string/make_reports"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/make_report"
-                    android:layout_margin="20dp"/>
+                    android:layout_below="@+id/top"
+                    android:layout_toStartOf="@+id/placeholder"/>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/make_reports"
-                    android:textSize="18sp"
-                    android:layout_margin="10dp"/>
-            </LinearLayout>
+                    android:textSize="16sp"
+                    android:drawableTop="@drawable/ic_report"
+                    android:drawablePadding="20dp"
+                    android:layout_margin="30dp"
+                    android:id="@+id/make_report"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_below="@+id/top"
+                    android:layout_toEndOf="@+id/placeholder"/>
+
 
 
     <View
@@ -103,64 +77,41 @@
         android:layout_height="0dp"
         android:layout_centerHorizontal="true"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/first_left"
-            android:layout_toStartOf="@+id/placeholder"
-            android:layout_margin="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:src="@drawable/ic_find_event"
-                android:focusable="true"
-                android:contentDescription="@string/find_events"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/find_event"
-                android:layout_margin="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/find_events"
                 android:layout_gravity="center_horizontal"
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/first_right"
-            android:layout_toEndOf="@+id/placeholder"
-            android:layout_margin="20dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:drawableTop="@drawable/ic_find_event"
+                android:drawablePadding="20dp"
+                android:layout_margin="30dp"
+                android:id="@+id/find_event"
                 android:clickable="true"
-                android:src="@drawable/ic_beach"
                 android:focusable="true"
-                android:contentDescription="@string/beach_list"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/beach_list"
-                android:layout_margin="20dp"/>
+                android:layout_below="@+id/create_event"
+                android:layout_toStartOf="@+id/placeholder"/>
+
+
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/beach_list"
                 android:layout_gravity="center_horizontal"
-                android:textSize="18sp"
-                android:layout_margin="10dp"/>
-        </LinearLayout>
+                android:textSize="16sp"
+                android:drawableTop="@drawable/ic_beach"
+                android:drawablePadding="20dp"
+                android:clickable="true"
+                android:layout_margin="30dp"
+                android:id="@+id/beach_list"
+                android:focusable="true"
+                android:layout_below="@+id/make_report"
+                android:layout_toEndOf="@+id/placeholder"/>
+
 
 
     </RelativeLayout>

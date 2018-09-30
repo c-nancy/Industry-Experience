@@ -42,7 +42,8 @@
 
         <activity android:name=".MakeReport" />
         <activity android:name=".CreateEvent" />
-
+        <activity android:name=".EventList" />
+        <activity android:name=".HomeScreenFragment" />
 
         <uses-library
             android:name="org.apache.http.legacy"

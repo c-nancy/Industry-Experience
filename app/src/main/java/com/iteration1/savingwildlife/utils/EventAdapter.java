@@ -23,8 +23,6 @@ import java.util.List;
 
 public class EventAdapter extends BaseAdapter{
     private List<Event> events;
-    private ArrayList<String> eventlocation;
-    private LayoutInflater layoutInflater;
     private Context context;
     TextView tv1;
     TextView tv2;
@@ -33,8 +31,7 @@ public class EventAdapter extends BaseAdapter{
     public EventAdapter(Context context, ArrayList<Event> lists) {
         this.context = context;
         this.events = lists;
-        layoutInflater = LayoutInflater.from(this.context);
-        eventlocation = new ArrayList<>();
+
     }
 
 
@@ -56,6 +53,7 @@ public class EventAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater layoutInflater = LayoutInflater.from(this.context);
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.event_item, null);
         }

@@ -18,6 +18,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +46,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class HomeScreenFragment extends Fragment {
+public class HomeScreenFragment extends AppCompatActivity {
     View vHome;
     private TextView title;
 
@@ -57,34 +59,50 @@ public class HomeScreenFragment extends Fragment {
     private String provider;
 
 
-    @SuppressLint("CheckResult")
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        vHome = inflater.inflate(R.layout.home_screen, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+//    @SuppressLint("CheckResult")
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+//            savedInstanceState) {
+//        vHome = inflater.inflate(R.layout.home_screen, container, false);
+        setContentView(R.layout.home_screen);
         beachList = new ArrayList<>();
         ibList = new ArrayList<>();
         reports = new ArrayList<>();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         provider = "";
 
         locationrefuse = false;
 
         // Get user location using locationmanager
-        LocationManager mLocMan = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION);
-            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION);
+        LocationManager mLocMan = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+            locationrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
             if (!locationrefuse) {
-                ActivityCompat.requestPermissions(getActivity(),
+                ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
                         1);
 //                this.onResume();
             }
-            UIUtils.showCenterToast(getActivity().getApplicationContext(), "Show beach randomly...");
+            UIUtils.showCenterToast(this.getApplicationContext(), "Show beach randomly...");
         } else {
-            UIUtils.showCenterToast(getActivity().getApplicationContext(), "Analyzing the closest beach...");
+            UIUtils.showCenterToast(this.getApplicationContext(), "Analyzing the closest beach...");
 
             assert mLocMan != null;
             List<String> list = mLocMan.getProviders(true);
@@ -93,7 +111,7 @@ public class HomeScreenFragment extends Fragment {
             } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
                   provider = LocationManager.NETWORK_PROVIDER;
         } else {
-            UIUtils.showCenterToast(getActivity(), "Please check internet connection or GPS permission!");
+            UIUtils.showCenterToast(this, "Please check internet connection or GPS permission!");
         }
 
             mlocation = mLocMan.getLastKnownLocation(provider);
@@ -136,22 +154,20 @@ public class HomeScreenFragment extends Fragment {
 //                        applyRecommendSystem();
 //                    }
 //                });
-        return vHome;
     }
 
 
     private void initUI() {
-        ImageView ib1 = (ImageView) vHome.findViewById(R.id.image1);
-        ImageView ib2 = (ImageView) vHome.findViewById(R.id.image2);
-        ImageView ib3 = (ImageView) vHome.findViewById(R.id.image3);
-        ImageView ib4 = (ImageView) vHome.findViewById(R.id.image4);
-        ImageView ib5 = (ImageView) vHome.findViewById(R.id.image5);
-        ImageView ib6 = (ImageView) vHome.findViewById(R.id.image6);
-        ImageView ib7 = (ImageView) vHome.findViewById(R.id.image7);
-        ImageView ib8 = (ImageView) vHome.findViewById(R.id.image8);
-        ImageView ib9 = (ImageView) vHome.findViewById(R.id.image9);
-        ImageView ib10 = (ImageView) vHome.findViewById(R.id.image10);
-//        title = (TextView) vHome.findViewById(R.id.textView1);
+        ImageView ib1 = (ImageView) findViewById(R.id.image1);
+        ImageView ib2 = (ImageView) findViewById(R.id.image2);
+        ImageView ib3 = (ImageView) findViewById(R.id.image3);
+        ImageView ib4 = (ImageView) findViewById(R.id.image4);
+        ImageView ib5 = (ImageView) findViewById(R.id.image5);
+        ImageView ib6 = (ImageView) findViewById(R.id.image6);
+        ImageView ib7 = (ImageView) findViewById(R.id.image7);
+        ImageView ib8 = (ImageView) findViewById(R.id.image8);
+        ImageView ib9 = (ImageView) findViewById(R.id.image9);
+        ImageView ib10 = (ImageView) findViewById(R.id.image10);
         ibList.add(ib1);
         ibList.add(ib2);
         ibList.add(ib3);
@@ -217,7 +233,7 @@ public class HomeScreenFragment extends Fragment {
 
             // This block is for taking picts from cloud
             StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(beachList.get(i).getBanner());
-            GlideApp.with(Objects.requireNonNull(getActivity()).getApplicationContext())
+            GlideApp.with(Objects.requireNonNull(this).getApplicationContext())
                     .load(imageRef)
                     .placeholder(R.drawable.common_full_open_on_phone)
                     .error(R.drawable.common_full_open_on_phone)
@@ -227,7 +243,7 @@ public class HomeScreenFragment extends Fragment {
             //@Override
             iv.setOnClickListener((View v) -> {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), InfoPage.class);
+                intent.setClass(this, InfoPage.class);
                 String ns = (String) v.getTag();
                 Beach selected;
                 for (Beach b : beachList) {
@@ -268,11 +284,10 @@ public class HomeScreenFragment extends Fragment {
                         Log.d("granted", "inside");
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    FragmentManager fragmentManager = getChildFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, new HomeScreenFragment()).commit();
+                    ViewGroup vg = findViewById(R.id.scrollableContents);
+                    vg.invalidate();
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+
                 }
                 return;
             }

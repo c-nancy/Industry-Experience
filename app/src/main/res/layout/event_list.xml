@@ -50,4 +50,9 @@
         android:layout_below="@+id/ll"
         android:layout_margin="10dp" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_event_note_black_24dp"
+        android:layout_below="@id/beach_event"/>
 </RelativeLayout>

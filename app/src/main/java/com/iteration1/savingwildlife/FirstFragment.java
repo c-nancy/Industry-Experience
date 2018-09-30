@@ -40,12 +40,10 @@ public class FirstFragment extends Fragment{
         });
         find = thisView.findViewById(R.id.find_event);
         find.setOnClickListener(v -> {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Events");
-            cleanBackStack(fragmentManager);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new EventList(), null)
-                    .addToBackStack(null)
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new EventList()).commit();
+//            Intent intent = new Intent();
+//            intent.setClass(getActivity(), EventList.class);
+//            startActivity(intent);
         });
         report = thisView.findViewById(R.id.make_report);
         report.setOnClickListener(v -> {
@@ -55,19 +53,11 @@ public class FirstFragment extends Fragment{
         });
         beachlist = thisView.findViewById(R.id.beach_list);
         beachlist.setOnClickListener(v -> {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Beaches");
-            cleanBackStack(fragmentManager);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new HomeScreenFragment(), null)
-                    .addToBackStack(null)
-                    .commit();
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), HomeScreenFragment.class);
+            startActivity(intent);
         });
         return thisView;
     }
 
-    private void cleanBackStack(FragmentManager fragmentManager){
-        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
-            fragmentManager.popBackStack();
-        }
-    }
 }

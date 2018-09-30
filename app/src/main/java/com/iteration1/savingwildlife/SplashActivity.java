@@ -69,7 +69,6 @@ public class SplashActivity extends AppCompatActivity {
                     // Check imei exist
                     if (data.child("imei").getValue().toString().equals(i)) {
                         add = false;
-                    } else {
                     }
                 }
                 if (add){

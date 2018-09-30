@@ -243,6 +243,7 @@ public class EventList extends Fragment {
                             dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
                             UIUtils.showCenterToast(getContext(), "Register sucessful!");
                         }
+                        listView.setAdapter(new EventAdapter(getContext(), events));
                     }
                 });
         normalDialog.setNeutralButton("See beach",

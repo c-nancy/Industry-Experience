@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_about_us:
                 getSupportActionBar().setTitle("About");
-                nextFragment = new AboutFragment();
+                nextFragment = new FragmentAbout();
                 break;
             case R.id.nav_fish_statistics:
                 getSupportActionBar().setTitle("Fish population");

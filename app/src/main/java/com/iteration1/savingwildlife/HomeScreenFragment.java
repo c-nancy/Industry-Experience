@@ -55,7 +55,6 @@ public class HomeScreenFragment extends Fragment {
     // To see whether user has given the permission of using device location or not
     private boolean locationrefuse;
     private String provider;
-//    private final RxPermissions rxPermissions = new RxPermissions(this);
 
 
     @SuppressLint("CheckResult")

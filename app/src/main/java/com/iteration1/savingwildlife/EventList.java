@@ -150,7 +150,6 @@ public class EventList extends Fragment {
                         events.add(e);
                     }
                 }
-                listView.setAdapter(new EventAdapter(getContext(), events));
                 ViewGroup.LayoutParams params = listView.getLayoutParams();
                 DisplayMetrics metrics = new DisplayMetrics();
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);

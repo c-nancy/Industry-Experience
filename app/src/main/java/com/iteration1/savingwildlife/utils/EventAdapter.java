@@ -1,6 +1,7 @@
 package com.iteration1.savingwildlife.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,6 +73,9 @@ public class EventAdapter extends BaseAdapter{
         StringBuilder sb2 = new StringBuilder("");
         sb2.append(events.get(position).getEvent_location());
         tv3.setText(sb2.toString());
+        tv1.setTextColor(Color.GRAY);
+        tv2.setTextColor(Color.GRAY);
+        tv3.setTextColor(Color.GRAY);
         return convertView;
     }
 

@@ -41,27 +41,14 @@
         android:id="@+id/ll"
         android:layout_below="@+id/app_bar">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="Created by me"
-        android:textSize="15sp"
-        android:layout_marginStart="10dp"
-        android:id="@+id/my_events"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:id="@+id/my_joined_events"
-        android:clickable="true"
-        android:text="I joined"
-        android:textSize="15sp"
-        android:layout_marginEnd="10dp"
-        android:focusable="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="My Events"
+            android:textSize="12sp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/btn_my_events"/>
 
     <Spinner
         android:id="@+id/select_order"

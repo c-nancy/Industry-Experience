@@ -1,12 +1,17 @@
 package com.iteration1.savingwildlife;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +27,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.io.IOException;
+import java.util.Random;
 
 
 public class CreateEvent extends AppCompatActivity {
@@ -41,6 +49,15 @@ public class CreateEvent extends AppCompatActivity {
     private int startMins;
     private int endHours;
     private int endMins;
+    private String imei;
+    private String sHour;
+    private String sMin;
+    private String eHour;
+    private String eMin;
+    private int currentHourIn24Format;
+    private int currentMinIn24Format;
+    private String Smonth;
+    private String Sday;
     private long startDate;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -53,11 +70,12 @@ public class CreateEvent extends AppCompatActivity {
         setContentView(R.layout.create_event);
         covertToLongType();
         initUI();
+        getImei(this);
         btnSubmmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submmitInfo();
-                spinnerForEventLocation.setSelection(0);
+
             }
         });
     }
@@ -92,6 +110,9 @@ public class CreateEvent extends AppCompatActivity {
 
     private void submmitInfo() {
         if (!spinnerForEventLocation.getSelectedItem().toString().equals("Select one")) {
+            Calendar rightNow = Calendar.getInstance();
+            currentHourIn24Format = rightNow.get(Calendar.HOUR_OF_DAY);
+            currentMinIn24Format = rightNow.get(Calendar.MINUTE);
             if (Build.VERSION.SDK_INT > 23) {
                 startHours = timePickerForStartTime.getHour();
                 startMins = timePickerForStartTime.getMinute();
@@ -104,20 +125,70 @@ public class CreateEvent extends AppCompatActivity {
                 endMins = timePickerForEndTime.getCurrentMinute();
             }
             String event_type = "Beach Cleaning";
+            String primary_registered_user = imei + ",";
+            Random random = new Random();
+            int length = random.nextInt(15);
             String eventLocation = spinnerForEventLocation.getSelectedItem().toString();
             Integer year = eventDate.getYear();
             Integer month = eventDate.getMonth() + 1;
             Integer Day = eventDate.getDayOfMonth();
-            String event_date = Day.toString() + "-" + month.toString() + "-" + year.toString();
-            String start_time = String.valueOf(startHours) + ":" + String.valueOf(startMins);
-            String end_time = String.valueOf(endHours) + ":" + String.valueOf(endMins);
-            String id = databaseReference.push().getKey();
-            databaseReference.child(id).child("event_date").setValue(event_date);
-            databaseReference.child(id).child("event_start").setValue(start_time);
-            databaseReference.child(id).child("event_end").setValue(end_time);
-            databaseReference.child(id).child("event_location").setValue(eventLocation);
-            databaseReference.child(id).child("event_type").setValue(event_type);
-            Toast.makeText(CreateEvent.this, "Your event has been created!", Toast.LENGTH_SHORT).show();
+            Date today = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            String dateToStr = format.format(today);
+            if (Day < 10) {
+                Sday = "0" + Day.toString();
+            }else{
+                Sday = Day.toString();
+            }
+            if (month < 10) {
+                Smonth = "0" + month.toString();
+            }else{
+                Smonth = month.toString();
+            }
+            String event_date = Sday + "-" + Smonth + "-" + year.toString();
+
+            if (startHours < 10) {
+                sHour = "0" + String.valueOf(startHours);
+            } else {
+                sHour = String.valueOf(startHours);
+            }
+            if (startMins < 10) {
+                sMin = "0" + String.valueOf(startMins);
+            } else {
+                sMin = String.valueOf(startMins);
+            }
+            if (endHours < 10) {
+                eHour = "0" + String.valueOf(endHours);
+            } else {
+                eHour = String.valueOf(endHours);
+            }
+            if (endMins < 10) {
+                eMin = "0" + String.valueOf(endMins);
+            } else {
+                eMin = String.valueOf(endMins);
+            }
+            String start_time = sHour + ":" + sMin;
+            String end_time = eHour + ":" + eMin;
+            if((event_date.equals(dateToStr) && startHours < currentHourIn24Format) || (event_date.equals(dateToStr) && startHours == currentHourIn24Format && startMins < currentMinIn24Format)) {
+                Toast.makeText(CreateEvent.this, "Start time should be late than current time!", Toast.LENGTH_SHORT).show();
+            }else if (startHours > endHours || (startHours == endHours && startMins > endMins) || (startHours == endHours && startMins == endMins)) {
+                Toast.makeText(CreateEvent.this, "Start time should be earlier than end time!", Toast.LENGTH_SHORT).show();
+            }else {
+                String id = databaseReference.push().getKey();
+                databaseReference.child(id).child("event_date").setValue(event_date);
+                databaseReference.child(id).child("event_start").setValue(start_time);
+                databaseReference.child(id).child("event_end").setValue(end_time);
+                databaseReference.child(id).child("event_location").setValue(eventLocation);
+                databaseReference.child(id).child("event_type").setValue(event_type);
+                databaseReference.child(id).child("imei").setValue(imei);
+                databaseReference.child(id).child("registered_user").setValue(primary_registered_user);
+                databaseReference.child(id).child("name").setValue(UIUtils.getRandomString(length));
+
+                Toast.makeText(CreateEvent.this, "Your event has been created!", Toast.LENGTH_SHORT).show();
+                spinnerForEventLocation.setSelection(0);
+                Intent intent = new Intent(CreateEvent.this, MainActivity.class);
+                startActivity(intent);
+            }
         } else {
             Toast.makeText(CreateEvent.this, "Miss the event location!", Toast.LENGTH_SHORT).show();
         }
@@ -137,12 +208,25 @@ public class CreateEvent extends AppCompatActivity {
         }
     }
 
+    private void getImei(Context context) {
+        TelephonyManager telephonyMgr = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
+//        String imei = "";
+        if (ActivityCompat.checkSelfPermission(context,
+                android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_PHONE_STATE)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.READ_PHONE_STATE},
+                        1);
+            }
+        }
+        assert telephonyMgr != null;
+        imei = telephonyMgr.getDeviceId();
+
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
 }
-
-
-

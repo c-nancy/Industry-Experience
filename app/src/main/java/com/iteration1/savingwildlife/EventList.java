@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,8 +50,7 @@ public class EventList extends AppCompatActivity {
     private ArrayList<Event> events;
     private ArrayList<Report> reports;
     private Spinner order;
-    private TextView tv1;
-    private TextView tv2;
+    private Button btnMyEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,7 @@ public class EventList extends AppCompatActivity {
     private void initUI(){
         listView = findViewById(R.id.beach_event);
         order = findViewById(R.id.select_order);
-        tv1 = findViewById(R.id.my_events);
-        tv2 = findViewById(R.id.my_joined_events);
+        btnMyEvents = findViewById(R.id.btn_my_events);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -134,19 +133,15 @@ public class EventList extends AppCompatActivity {
 
         });
 
-        tv1.setOnClickListener(new View.OnClickListener() {
+        btnMyEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.showCenterToast(getApplicationContext(), "created by me");
+                Intent intent = new Intent();
+                intent.setClass(EventList.this,MyEvents.class);
+                startActivity(intent);
             }
         });
 
-        tv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIUtils.showCenterToast(getApplicationContext(), "I joined");
-            }
-        });
     }
 
 
@@ -183,9 +178,12 @@ public class EventList extends AppCompatActivity {
                     sb.append(e.getEvent_date()).append(" ");
                     sb.append(e.getEvent_start());
                     Date thisdate = UIUtils.strToDateLong(sb.toString());
-
-                    if (thisdate.after(now)) {
-                        events.add(e);
+                    if (e.getEvent_start() != null) {
+                        if (thisdate.after(now)) {
+                            events.add(e);
+                        }
+                    }else {
+                        events = new ArrayList<>();
                     }
                 }
                 listView.setAdapter(new EventAdapter(getApplicationContext(), events));
@@ -268,12 +266,12 @@ public class EventList extends AppCompatActivity {
                             }
                             if (p.contains(my_imei)){
                                 UIUtils.showCenterToast(getApplicationContext(), "You have already registered to this event!");
-                                }else{
+                            }else{
                                 event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
                                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");
                                 dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
                                 UIUtils.showCenterToast(getApplicationContext(), "Register sucessful!");
-                                }
+                            }
                         }else{
                             event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
                             DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");

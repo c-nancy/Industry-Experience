@@ -19,6 +19,7 @@ import android.widget.ViewSwitcher;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -141,9 +142,10 @@ public class InfoStatisticFragment extends Fragment {
             ArrayList<LegendEntry> t = new ArrayList<>();
             for (int u = 0; u < names.size(); u++) {
                 t.add(new LegendEntry(names.get(u), Legend.LegendForm.DEFAULT,
-                        8f, 2f, null, colors.get(u)));
+                        6f, 1f, null, colors.get(u)));
             }
             legend.setCustom(t);
+            legend.setTextSize(9f);
             legend.setOrientation(Legend.LegendOrientation.VERTICAL);
             legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
             legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
@@ -153,6 +155,8 @@ public class InfoStatisticFragment extends Fragment {
             chart.getAxisRight().setDrawGridLines(false);
             chart.getXAxis().setDrawGridLines(false);
             chart.getXAxis().setDrawLabels(false);
+            chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart.getAxisRight().setEnabled(false);
             chart.invalidate();
     }
 

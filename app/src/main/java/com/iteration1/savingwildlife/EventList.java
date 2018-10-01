@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -36,11 +37,13 @@ import com.iteration1.savingwildlife.entities.Report;
 import com.iteration1.savingwildlife.utils.EventAdapter;
 import com.iteration1.savingwildlife.utils.UIUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class EventList extends AppCompatActivity {
@@ -50,7 +53,7 @@ public class EventList extends AppCompatActivity {
     private ArrayList<Event> events;
     private ArrayList<Report> reports;
     private Spinner order;
-    private Button btnMyEvents;
+//    private Button btnMyEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class EventList extends AppCompatActivity {
     private void initUI(){
         listView = findViewById(R.id.beach_event);
         order = findViewById(R.id.select_order);
-        btnMyEvents = findViewById(R.id.btn_my_events);
+//        btnMyEvents = findViewById(R.id.btn_my_events);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -122,7 +125,15 @@ public class EventList extends AppCompatActivity {
                             }
                         });
                         listView.setAdapter(new EventAdapter(getApplicationContext(), events));
-                        UIUtils.showCenterToast(getApplicationContext(),"Order by " + order.getSelectedItem().toString());
+                        break;
+                    case 3:
+                        Collections.sort(events, new Comparator<Event>() {
+                            @Override
+                            public int compare(Event o1, Event o2) {
+                                return new Date(Long.parseLong(o2.getTimestamp())).compareTo(new Date(Long.parseLong(o1.getTimestamp())));
+                            }
+                        });
+                        listView.setAdapter(new EventAdapter(getApplicationContext(), events));
                         break;
                 }
             }
@@ -133,14 +144,14 @@ public class EventList extends AppCompatActivity {
 
         });
 
-        btnMyEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(EventList.this,MyEvents.class);
-                startActivity(intent);
-            }
-        });
+//        btnMyEvents.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                intent.setClass(EventList.this,MyEvents.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 
@@ -271,6 +282,7 @@ public class EventList extends AppCompatActivity {
                                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference("event");
                                 dr.child(event.getId()).child("registered_user").setValue(event.getRegistered_user());
                                 UIUtils.showCenterToast(getApplicationContext(), "Register sucessful!");
+                                listView.setAdapter(new EventAdapter(getApplicationContext(), events));
                             }
                         }else{
                             event.setRegistered_user(event.getRegistered_user() + my_imei + ",");
@@ -339,7 +351,7 @@ public class EventList extends AppCompatActivity {
     private ViewGroup.LayoutParams findLayoutParams(ViewGroup.LayoutParams params){
         DisplayMetrics metrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        params.height = (int) Math.floor(metrics.heightPixels * 0.76);
+        params.height = (int) Math.floor(metrics.heightPixels * 0.8);
         return params;
     }
 

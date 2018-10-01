@@ -183,11 +183,10 @@ public class CreateEvent extends AppCompatActivity {
                 databaseReference.child(id).child("imei").setValue(imei);
                 databaseReference.child(id).child("registered_user").setValue(primary_registered_user);
                 databaseReference.child(id).child("name").setValue(UIUtils.getRandomString(length));
-
+                databaseReference.child(id).child("timestamp").setValue(Long.toString(new Date().getTime()));
                 Toast.makeText(CreateEvent.this, "Your event has been created!", Toast.LENGTH_SHORT).show();
                 spinnerForEventLocation.setSelection(0);
-                Intent intent = new Intent(CreateEvent.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         } else {
             Toast.makeText(CreateEvent.this, "Miss the event location!", Toast.LENGTH_SHORT).show();

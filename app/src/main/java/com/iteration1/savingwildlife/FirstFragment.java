@@ -19,6 +19,8 @@ public class FirstFragment extends Fragment{
     private TextView find;
     private TextView report;
     private TextView beachlist;
+    private TextView beachmap;
+    private TextView myevents;
     private FragmentManager fragmentManager;
 
     @Override
@@ -56,6 +58,24 @@ public class FirstFragment extends Fragment{
             Intent intent = new Intent();
             intent.setClass(getActivity(), HomeScreenFragment.class);
             startActivity(intent);
+        });
+        beachmap = thisView.findViewById(R.id.beach_map);
+        beachmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MapFragment.class);
+                startActivity(intent);
+            }
+        });
+        myevents = thisView.findViewById(R.id.my_events);
+        myevents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(),MyEvents.class);
+                startActivity(intent);
+            }
         });
         return thisView;
     }

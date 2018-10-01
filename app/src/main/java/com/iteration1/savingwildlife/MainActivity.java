@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        second = false;
+        second = true;
         nextFragment = null;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity
 //                nextFragment = new HomeScreenFragment();
                 nextFragment = new FirstFragment();
                 break;
-            case R.id.nav_map:
-                getSupportActionBar().setTitle("Beach distribution");
-                Intent intent = new Intent();
-                nextFragment = new MapFragment();
-                break;
+//            case R.id.nav_map:
+//                getSupportActionBar().setTitle("Beach distribution");
+//                Intent intent = new Intent();
+//                nextFragment = new MapFragment();
+//                break;
             case R.id.nav_about_us:
                 getSupportActionBar().setTitle("About");
                 nextFragment = new OurInfo();

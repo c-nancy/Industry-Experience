@@ -8,9 +8,19 @@ public class Event implements Serializable{
     private String event_location;
     private String event_start;
     private String event_end;
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     private String imei;
     private String name;
     private String registered_user;
+    private String timestamp;
 
     public String getId() {
         return id;

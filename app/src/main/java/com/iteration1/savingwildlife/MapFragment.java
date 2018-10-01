@@ -9,9 +9,12 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,41 +39,50 @@ import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.List;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends AppCompatActivity implements OnMapReadyCallback {
 
     private com.google.android.gms.maps.MapView mMapView;
-    private View fView;
     private GoogleMap mMap;
     private Location location;
     private String provider;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        fView = inflater.inflate(R.layout.visualization, container, false);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.visualization);
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle("com.google.android.geo.API_KEY");
         }
-        mMapView = (MapView) fView.findViewById(R.id.mapView);
+        mMapView = (MapView) findViewById(R.id.mapView);
         mMapView.onCreate(mapViewBundle);
         mMapView.onResume(); // needed to get the map to display immediately
 
         try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
+            MapsInitializer.initialize(this.getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         mMapView.getMapAsync(this);
 
-        return fView;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LocationManager mLocMan = (LocationManager) getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mLocMan = (LocationManager) this.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         assert mLocMan != null;
         List<String> list = mLocMan.getProviders(true);
         if (list.contains(LocationManager.GPS_PROVIDER)) {
@@ -78,18 +90,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
             provider = LocationManager.NETWORK_PROVIDER;
         } else {
-            UIUtils.showCenterToast(getActivity().getApplicationContext(), "Please check internet connection or GPS permission!");
+            UIUtils.showCenterToast(this.getApplicationContext(), "Please check internet connection or GPS permission!");
         }
 
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            return;
         }
         location = mLocMan.getLastKnownLocation(provider);
         mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(location.getLatitude(), location.getLongitude()))
                 .title("You are here")
-                .icon(bitmapDescriptorFromVector(fView.getContext(), R.drawable.ic_person_pin_circle_black_24dp)));
+                .icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_person_pin_circle_black_24dp)));
 
         // Add a marker to default location
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 9));

@@ -26,6 +26,7 @@
         <item>Order by</item>
         <item>Time: closest</item>
         <item>Beach: A-Z</item>
+        <item>Latest created</item>
     </string-array>
 
 </resources>

@@ -46,6 +46,7 @@
             android:theme="@style/AppTheme"/>
         <activity android:name=".HomeScreenFragment" />
         <activity android:name=".MyEvents" />
+        <activity android:name=".MapFragment" />
 
         <uses-library
             android:name="org.apache.http.legacy"

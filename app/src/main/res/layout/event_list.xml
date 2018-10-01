@@ -26,44 +26,28 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:singleLine="true"
-                android:text="Events"
+                android:text="Existing Events"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp"
-        android:id="@+id/ll"
-        android:layout_below="@+id/app_bar">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="My Events"
-            android:textSize="12sp"
-            android:layout_marginStart="10dp"
-            android:id="@+id/btn_my_events"/>
-
     <Spinner
         android:id="@+id/select_order"
         android:layout_width="wrap_content"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/app_bar"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentEnd="true"
         android:entries="@array/orders" />
-
-    </LinearLayout>
 
     <ListView
         android:id="@+id/beach_event"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll"
+        android:layout_below="@+id/select_order"
         android:layout_margin="10dp" />
 
 </RelativeLayout>

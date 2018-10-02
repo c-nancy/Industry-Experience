@@ -86,22 +86,23 @@ public class ViewMyEvents extends Fragment {
         mAdapter = new EventsAdapter(filterList, new EventsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Event event) {
-                databaseReference.orderByChild("name")
-                        .equalTo(event.getName())
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-                                    String ikey = childSnapshot.getKey();
-                                    showEventDialog(ikey);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.d("cancelled", "onCancelled() called");
-                            }
-                        });
+                showEventDialog(event.getId());
+//                databaseReference.orderByKey()
+//                        .equalTo(event.getId())
+//                        .addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+//                                    String ikey = childSnapshot.getKey();
+//                                    showEventDialog(ikey);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                Log.d("cancelled", "onCancelled() called");
+//                            }
+//                        });
 
 
             }
@@ -206,6 +207,8 @@ public class ViewMyEvents extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
+                        assert e != null;
+                        e.setId(child.getKey());
                         eventList1.add(e);
                     }
                     eventList = eventList1;

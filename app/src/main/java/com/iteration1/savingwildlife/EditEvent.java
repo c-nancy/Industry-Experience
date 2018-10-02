@@ -118,10 +118,17 @@ public class EditEvent extends AppCompatActivity {
                         String[] starttime = e.getEvent_start().split(":");
                         String[] endtime = e.getEvent_end().split(":");
                         String[] date = e.getEvent_date().split("-");
+                        if (Build.VERSION.SDK_INT > 23) {
                         timePickerForStartTime.setHour(Integer.parseInt(starttime[0]));
                         timePickerForStartTime.setMinute(Integer.parseInt(starttime[1]));
                         timePickerForEndTime.setHour(Integer.parseInt(endtime[0]));
                         timePickerForEndTime.setMinute(Integer.parseInt(endtime[1]));
+                        } else{
+                            timePickerForStartTime.setCurrentHour(Integer.parseInt(starttime[0]));
+                            timePickerForStartTime.setCurrentMinute(Integer.parseInt(starttime[1]));
+                            timePickerForEndTime.setCurrentHour(Integer.parseInt(endtime[0]));
+                            timePickerForEndTime.setCurrentMinute(Integer.parseInt(endtime[1]));
+                        }
                         eventDate.init(Integer.parseInt(date[2]),Integer.parseInt(date[1]),Integer.parseInt(date[0]),null);
                         String[] selections = getResources().getStringArray(R.array.beach_names);
                         spinnerForEventLocation.setSelection(Arrays.asList(selections).indexOf(e.getEvent_location()));

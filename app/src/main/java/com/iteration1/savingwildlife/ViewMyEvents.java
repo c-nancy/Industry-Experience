@@ -2,13 +2,17 @@ package com.iteration1.savingwildlife;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,18 +45,20 @@ public class ViewMyEvents extends Fragment {
     Event e;
     RecyclerView myView;
     EventsAdapter mAdapter;
+    DatabaseReference databaseReference;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        e = new Event();
-        e.setEvent_date("No Data");
-        e.setEvent_start("No Data");
-        e.setEvent_end("No Data");
-        e.setEvent_type("You have not created events");
-        e.setEvent_location("No Data");
-        e.setImei(" ");
-        e.setName(" ");
-        e.setRegistered_user(" ");
+//        e = new Event();
+//        e.setEvent_date("No Data");
+//        e.setEvent_start("No Data");
+//        e.setEvent_end("No Data");
+//        e.setEvent_type("You have not created events");
+//        e.setEvent_location("No Data");
+//        e.setImei(" ");
+//        e.setName(" ");
+//        e.setRegistered_user(" ");
+        databaseReference = FirebaseDatabase.getInstance().getReference("event");
         eventList1 = new ArrayList<>();
         eventList = new ArrayList<>();
         filterList = new ArrayList<>();
@@ -77,7 +83,29 @@ public class ViewMyEvents extends Fragment {
 
             filterList.add(e);
         }
-        mAdapter = new EventsAdapter(filterList);
+        mAdapter = new EventsAdapter(filterList, new EventsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Event event) {
+                databaseReference.orderByChild("name")
+                        .equalTo(event.getName())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                                    String ikey = childSnapshot.getKey();
+                                    showEventDialog(ikey);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("cancelled", "onCancelled() called");
+                            }
+                        });
+
+
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
         myView.setLayoutManager(mLayoutManager);
         myView.setItemAnimator(new DefaultItemAnimator());
@@ -129,6 +157,30 @@ public class ViewMyEvents extends Fragment {
         return "not_found";
     }
 
+
+    private void showEventDialog(String key){
+        AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(getActivity());
+        normalDialog.setIcon(R.drawable.ic_event_note_black_24dp);
+        normalDialog.setTitle("Edit Your Event");
+        normalDialog.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), EditEvent.class);
+                intent.putExtra("key",key);
+                startActivity(intent);
+            }
+        });
+        normalDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog = normalDialog.create();
+        dialog.show();
+    }
 
 
 

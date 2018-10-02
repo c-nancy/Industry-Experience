@@ -47,6 +47,7 @@
         <activity android:name=".HomeScreenFragment" />
         <activity android:name=".MyEvents" />
         <activity android:name=".MapFragment" />
+        <activity android:name=".EditEvent" />
 
         <uses-library
             android:name="org.apache.http.legacy"

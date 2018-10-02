@@ -29,6 +29,7 @@ import com.iteration1.savingwildlife.utils.UIUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -122,6 +123,8 @@ public class EditEvent extends AppCompatActivity {
                         timePickerForEndTime.setHour(Integer.parseInt(endtime[0]));
                         timePickerForEndTime.setMinute(Integer.parseInt(endtime[1]));
                         eventDate.init(Integer.parseInt(date[2]),Integer.parseInt(date[1]),Integer.parseInt(date[0]),null);
+                        String[] selections = getResources().getStringArray(R.array.beach_names);
+                        spinnerForEventLocation.setSelection(Arrays.asList(selections).indexOf(e.getEvent_location()));
                     }
                 }
             }

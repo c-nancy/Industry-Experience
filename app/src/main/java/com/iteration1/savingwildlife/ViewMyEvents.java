@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +39,6 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class ViewMyEvents extends Fragment {
     View eventView;
-    ArrayList<Event> eventList1;
     ArrayList<Event> eventList;
     ArrayList<Event> filterList;
     String imei;
@@ -46,6 +46,7 @@ public class ViewMyEvents extends Fragment {
     RecyclerView myView;
     EventsAdapter mAdapter;
     DatabaseReference databaseReference;
+    private TextView holder;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -59,10 +60,10 @@ public class ViewMyEvents extends Fragment {
 //        e.setName(" ");
 //        e.setRegistered_user(" ");
         databaseReference = FirebaseDatabase.getInstance().getReference("event");
-        eventList1 = new ArrayList<>();
         eventList = new ArrayList<>();
         filterList = new ArrayList<>();
         eventView = inflater.inflate(R.layout.view_my_events, container, false);
+        holder = eventView.findViewById(R.id.empty_view);
         myView = (RecyclerView) eventView.findViewById(R.id.my_recycler_view);
         new LoadTask1().execute();
         return eventView;
@@ -70,6 +71,7 @@ public class ViewMyEvents extends Fragment {
 
     private void getRelatedEvents() {
         imei = getUniqueIMEIId(getContext());
+        filterList = new ArrayList<>();
         for (int i = 0; i < eventList.size(); i++) {
             if (!imei.equals("not_found")) {
                 if (eventList.get(i).getImei() != null && eventList.get(i).getImei().equals(imei)) {
@@ -80,8 +82,9 @@ public class ViewMyEvents extends Fragment {
             }
         }
         if (filterList.size() == 0) {
-
-            filterList.add(e);
+            myView.setVisibility(View.GONE);
+            holder.setVisibility(View.VISIBLE);
+//            filterList.add(e);
         }
         mAdapter = new EventsAdapter(filterList, new EventsAdapter.OnItemClickListener() {
             @Override
@@ -205,13 +208,14 @@ public class ViewMyEvents extends Fragment {
             mReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<Event> events = new ArrayList<>();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
                         assert e != null;
                         e.setId(child.getKey());
-                        eventList1.add(e);
+                        events.add(e);
                     }
-                    eventList = eventList1;
+                    eventList = events;
                     getRelatedEvents();
                 }
 

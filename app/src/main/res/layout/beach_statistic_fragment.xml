@@ -35,6 +35,16 @@
 
         <Button
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="find clean up events"
+            android:visibility="gone"
+            android:id="@+id/holder"
+            android:textSize="12sp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="  See other years  "
             android:background="@drawable/button_background"

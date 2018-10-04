@@ -74,7 +74,8 @@ public class MyEvents extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-
+//            Fragment f =
+//            getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
             return fragmentList.get(position);
         }
 

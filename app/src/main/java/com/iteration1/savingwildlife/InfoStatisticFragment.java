@@ -1,5 +1,6 @@
 package com.iteration1.savingwildlife;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class InfoStatisticFragment extends Fragment {
     private TextView tv1;
     private int index;
     private int nowat;
+    private Button holder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class InfoStatisticFragment extends Fragment {
         chart.setNoDataText("Get involved today!");
         chart.getAxis(YAxis.AxisDependency.RIGHT).setDrawLabels(false);
         button = parentView.findViewById(R.id.sb);
+        holder = parentView.findViewById(R.id.holder);
         tv1 = parentView.findViewById(R.id.instruction);
         colors = new ArrayList<>();
         for (int i : ColorTemplate.COLORFUL_COLORS
@@ -190,7 +193,17 @@ public class InfoStatisticFragment extends Fragment {
                 button.setVisibility(View.INVISIBLE);
                 StringBuilder sb = new StringBuilder();
                 if (index == 0){
-                    sb.append("No clean up event recorded! \n\nCome and participate!");
+                    sb.append("No clean up event data recorded! \n\nCome and participate!");
+                    chart.setVisibility(View.GONE);
+                    holder.setVisibility(View.VISIBLE);
+                    holder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setClass(getContext(), EventList.class);
+                            startActivity(intent);
+                        }
+                    });
                 }else{
                     sb.append("In the past clean up events on "+ selected.getName().toLowerCase() + " , those things were found...");
                 }

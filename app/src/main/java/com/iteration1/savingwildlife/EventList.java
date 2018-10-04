@@ -190,11 +190,9 @@ public class EventList extends AppCompatActivity {
                     sb.append(e.getEvent_start());
                     Date thisdate = UIUtils.strToDateLong(sb.toString());
                     if (e.getEvent_start() != null) {
-                        if (thisdate.after(now)) {
+                        if (thisdate.after(now) && e.getImei() != null) {
                             events.add(e);
                         }
-                    }else {
-                        events = new ArrayList<>();
                     }
                 }
                 listView.setAdapter(new EventAdapter(getApplicationContext(), events));
@@ -251,6 +249,9 @@ public class EventList extends AppCompatActivity {
         sb.append(event.getEvent_start() + " - " + event.getEvent_end());
         sb.append(" · ");
         sb.append(event.getEvent_location() + "\n\n");
+        if (event.getDescription() != null && !event.getDescription().equals("")){
+            sb.append(event.getDescription()).append("\n\n");
+        }
         ArrayList<String> participants = new ArrayList<>();
         if (!event.getRegistered_user().trim().equals("")){
             participants = new ArrayList<String>(Arrays.asList(event.getRegistered_user().split(",")));

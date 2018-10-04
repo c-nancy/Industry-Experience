@@ -13,6 +13,11 @@ import java.util.ArrayList;
 public class JoinedEventsAdapter extends RecyclerView.Adapter<JoinedEventsAdapter.MyViewHolder> {
 
     private ArrayList<Event> filterList;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Event event);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView type,location,time;
@@ -23,10 +28,19 @@ public class JoinedEventsAdapter extends RecyclerView.Adapter<JoinedEventsAdapte
             location = (TextView) view.findViewById(R.id.event_location1);
             time = (TextView) view.findViewById(R.id.event_time1);
         }
+
+        public void bind(Event event, OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(event);
+                }
+            });
+        }
     }
 
-    public JoinedEventsAdapter(ArrayList<Event> filterList) {
+    public JoinedEventsAdapter(ArrayList<Event> filterList, OnItemClickListener listener) {
         this.filterList = filterList;
+        this.listener = listener;
     }
 
     @Override
@@ -39,6 +53,7 @@ public class JoinedEventsAdapter extends RecyclerView.Adapter<JoinedEventsAdapte
 
     @Override
     public void onBindViewHolder(JoinedEventsAdapter.MyViewHolder holder, int position) {
+        holder.bind(filterList.get(position), listener);
         Event event = filterList.get(position);
         String type = event.getEvent_type();
         String location = event.getEvent_location();

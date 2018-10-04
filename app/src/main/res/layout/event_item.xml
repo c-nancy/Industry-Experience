@@ -30,7 +30,7 @@
         android:layout_toEndOf="@+id/EventImage"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:textSize="11sp"
+        android:textSize="13sp"
         android:layout_below="@id/ItemTitle"/>
 
     <TextView

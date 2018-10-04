@@ -284,8 +284,7 @@ public class HomeScreenFragment extends AppCompatActivity {
                         Log.d("granted", "inside");
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    ViewGroup vg = findViewById(R.id.content);
-                    vg.invalidate();
+                    this.recreate();
                 } else {
 
                 }

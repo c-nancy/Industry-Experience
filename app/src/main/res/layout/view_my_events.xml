@@ -23,4 +23,12 @@
         android:layout_marginLeft="2dp"
         android:scrollbars="vertical" />
 
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="You haven't create any event yet!" />
+
 </RelativeLayout>

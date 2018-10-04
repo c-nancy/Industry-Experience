@@ -8,6 +8,15 @@ public class Event implements Serializable{
     private String event_location;
     private String event_start;
     private String event_end;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getTimestamp() {
         return timestamp;

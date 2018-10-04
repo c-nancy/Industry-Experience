@@ -39,7 +39,7 @@
             android:id="@+id/time"
             android:layout_below="@id/ItemTitle"
             android:layout_margin="5dp"
-            android:textSize="11sp"
+            android:textSize="13sp"
             android:layout_alignParentEnd="true" />
 
 

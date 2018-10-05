@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iteration1.savingwildlife.entities.Event;
@@ -15,18 +16,23 @@ public class JoinedEventsAdapter extends RecyclerView.Adapter<JoinedEventsAdapte
     private ArrayList<Event> filterList;
     private OnItemClickListener listener;
 
+
     public interface OnItemClickListener {
         void onItemClick(Event event);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView type,location,time;
+        public ImageView image;
+        public ImageView image2;
 
         public MyViewHolder(View view) {
             super(view);
             type = (TextView) view.findViewById(R.id.event_type1);
             location = (TextView) view.findViewById(R.id.event_location1);
             time = (TextView) view.findViewById(R.id.event_time1);
+            image = (ImageView) view.findViewById(R.id.EventImage);
+            image2 = view.findViewById(R.id.EventImage2);
         }
 
         public void bind(Event event, OnItemClickListener listener) {
@@ -55,12 +61,18 @@ public class JoinedEventsAdapter extends RecyclerView.Adapter<JoinedEventsAdapte
     public void onBindViewHolder(JoinedEventsAdapter.MyViewHolder holder, int position) {
         holder.bind(filterList.get(position), listener);
         Event event = filterList.get(position);
-        String type = event.getEvent_type();
+        StringBuilder type = new StringBuilder(event.getEvent_type());
         String location = event.getEvent_location();
         String date = event.getEvent_date().replace("-","/") + " " + event.getEvent_start() + "-" + event.getEvent_end();
-        holder.type.setText(type);
+
         holder.location.setText(location);
         holder.time.setText(date);
+        if (event.getImei().equals(" ")){
+            holder.image.setVisibility(View.GONE);
+            holder.image2.setVisibility(View.VISIBLE);
+            type.append(" (Cancelled)");
+        }
+        holder.type.setText(type);
     }
 
     @Override

@@ -190,10 +190,10 @@ public class ViewMyEvents extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference dele = FirebaseDatabase.getInstance().getReference("event");
                 String registered_man = event.getRegistered_user();
-                if (registered_man.equals(imei + ",")) {
+//                if (registered_man.equals(imei + ",")) {
                     try {
                         dele.child(event.getId()).child("imei").setValue(" ");
-                        dele.child(event.getId()).child("registered_user").setValue(" ");
+//                        dele.child(event.getId()).child("registered_user").setValue(" ");
                         UIUtils.showCenterToast(getContext(), " event has been deleted!");
                         assert getFragmentManager() != null;
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -203,9 +203,9 @@ public class ViewMyEvents extends Fragment {
                         e.printStackTrace();
                     }
 
-                }else {
-                    Toast.makeText(getActivity(), "fail to delete,someone has register your event!", Toast.LENGTH_SHORT).show();
-                }
+//                }else {
+//                    Toast.makeText(getActivity(), "fail to delete,someone has register your event!", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });

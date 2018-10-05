@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import com.iteration1.savingwildlife.entities.Beach;
 import com.iteration1.savingwildlife.entities.Report;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -77,6 +78,7 @@ public class MakeReport extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     StorageReference imageForEmail;
+    private byte[] byteArray;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -147,19 +149,27 @@ public class MakeReport extends AppCompatActivity {
     private void saveInfo() {
         if(filePath != null && !eventType.getSelectedItem().toString().equals("Select one") && !beachName.getSelectedItem().toString().equals("Select one"))
         {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,50,stream);
+                byteArray = stream.toByteArray();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
+            progressDialog.setTitle("Uploading...Please wait");
             progressDialog.show();
             StorageReference ref = storageReference.child("event images/"+ UUID.randomUUID().toString());
-//            imageForEmail = ref;
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            Toast.makeText(MakeReport.this, "the report has been uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    })
+            UploadTask uploadTask2 = ref.putBytes(byteArray);
+            uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(MakeReport.this, "the report has been uploaded", Toast.LENGTH_SHORT).show();
+                }
+            })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
@@ -182,7 +192,6 @@ public class MakeReport extends AppCompatActivity {
             Integer month = eventDate.getMonth() + 1;
             Integer Day = eventDate.getDayOfMonth();
             event_date = Day.toString() + "-" + month.toString() + "-" + year.toString();
-            // String dateForEmail = event_date;
             String id = databaseReference.push().getKey();
             Report event = new Report(type,event_date);
             databaseReference.child(id).child("beach_name").setValue(beachname);
@@ -218,13 +227,8 @@ public class MakeReport extends AppCompatActivity {
             } catch (android.content.ActivityNotFoundException ex) {
                 Toast.makeText(MakeReport.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
             }
-//            Intent intent = new Intent();
-//            intent.setClass(getApplicationContext(), InfoPage.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putSerializable("beach", option);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
             eventType.setSelection(0);
+            beachName.setSelection(0);
             imageUploaded.setImageDrawable(getResources().getDrawable(R.drawable.ic_image_black_24dp));
         }
         else{

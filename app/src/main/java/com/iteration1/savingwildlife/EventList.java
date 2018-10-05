@@ -190,7 +190,7 @@ public class EventList extends AppCompatActivity {
                     sb.append(e.getEvent_start());
                     Date thisdate = UIUtils.strToDateLong(sb.toString());
                     if (e.getEvent_start() != null) {
-                        if (thisdate.after(now) && e.getImei() != null) {
+                        if (thisdate.after(now) && e.getImei() != null && !e.getImei().equals(" ")) {
                             events.add(e);
                         }
                     }

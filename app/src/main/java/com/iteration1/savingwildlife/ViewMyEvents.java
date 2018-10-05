@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -23,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.iteration1.savingwildlife.entities.Event;
+import com.iteration1.savingwildlife.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -89,7 +92,7 @@ public class ViewMyEvents extends Fragment {
         mAdapter = new EventsAdapter(filterList, new EventsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Event event) {
-                showEventDialog(event.getId());
+                showEventDialog(event.getId(),event);
 //                databaseReference.orderByKey()
 //                        .equalTo(event.getId())
 //                        .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -162,7 +165,7 @@ public class ViewMyEvents extends Fragment {
     }
 
 
-    private void showEventDialog(String key){
+    private void showEventDialog(String key, Event event){
         AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(getActivity());
         normalDialog.setIcon(R.drawable.ic_event_note_black_24dp);
@@ -176,9 +179,33 @@ public class ViewMyEvents extends Fragment {
                 startActivity(intent);
             }
         });
-        normalDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+        normalDialog.setNeutralButton("Close", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        normalDialog.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseReference dele = FirebaseDatabase.getInstance().getReference("event");
+                String registered_man = event.getRegistered_user();
+                if (registered_man.equals(imei + ",")) {
+                    try {
+                        dele.child(event.getId()).child("imei").setValue(" ");
+                        dele.child(event.getId()).child("registered_user").setValue(" ");
+                        UIUtils.showCenterToast(getContext(), " event has been deleted!");
+                        assert getFragmentManager() != null;
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.detach(ViewMyEvents.this).attach(ViewMyEvents.this).commit();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }else {
+                    Toast.makeText(getActivity(), "fail to delete,someone has register your event!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

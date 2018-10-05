@@ -68,6 +68,7 @@ public class ViewJoinedEvents extends Fragment {
 
     private void getRelatedEvents() {
         imei = getUniqueIMEIId(getContext());
+        filterList = new ArrayList<>();
         for (int i = 0; i < eventList.size(); i++) {
             if (!imei.equals("not_found")) {
                 if (eventList.get(i).getRegistered_user().contains(imei) && eventList.get(i).getImei() != null) {
@@ -145,27 +146,31 @@ public class ViewJoinedEvents extends Fragment {
         normalDialog.setPositiveButton("Unregister", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ArrayList<String> t = new ArrayList<>(Arrays.asList(event.getRegistered_user().split(",")));
-                for (String s : t) {
-                    if (s.trim().equals(imei)){
-                        t.remove(s);
+                if (event.getImei().trim().equals(getUniqueIMEIId(getContext()))) {
+                    Toast.makeText(getContext(), "You cannot unregister to the event you create!", Toast.LENGTH_SHORT).show();
+                } else {
+                    ArrayList<String> t = new ArrayList<>(Arrays.asList(event.getRegistered_user().split(",")));
+                    for (String s : t) {
+                        if (s.trim().equals(imei)) {
+                            t.remove(s);
+                        }
                     }
-                }
-                StringBuilder nt = new StringBuilder();
+                    StringBuilder nt = new StringBuilder();
 
-                if (t.size() == 0){
-                    nt.append(" ");
-                }else{
-                    for (String n :t) {
-                        nt.append(n);
-                        nt.append(",");
+                    if (t.size() == 0) {
+                        nt.append(" ");
+                    } else {
+                        for (String n : t) {
+                            nt.append(n);
+                            nt.append(",");
+                        }
                     }
+                    event.setRegistered_user(nt.toString());
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("event");
+                    reference.child(event.getId()).child("registered_user").setValue(nt.toString());
+                    Toast.makeText(getContext(), "You have unregistered to this event!", Toast.LENGTH_SHORT).show();
+                    getFragmentManager().beginTransaction().detach(ViewJoinedEvents.this).attach(ViewJoinedEvents.this).commit();
                 }
-                event.setRegistered_user(nt.toString());
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("event");
-                reference.child(event.getId()).child("registered_user").setValue(nt.toString());
-                Toast.makeText(getContext(), "You have unregistered to this event!", Toast.LENGTH_SHORT).show();
-                getFragmentManager().beginTransaction().detach(ViewJoinedEvents.this).attach(ViewJoinedEvents.this).commit();
             }
         });
         normalDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -203,13 +208,13 @@ public class ViewJoinedEvents extends Fragment {
             mReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    ArrayList<Event> eventList1 = new ArrayList<>();
+                    ArrayList<Event> events = new ArrayList<>();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Event e = child.getValue(Event.class);
                         e.setId(child.getKey());
-                        eventList1.add(e);
+                        events.add(e);
                     }
-                    eventList = eventList1;
+                    eventList = events;
                     getRelatedEvents();
                 }
 

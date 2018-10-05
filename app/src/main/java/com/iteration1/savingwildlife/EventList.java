@@ -130,7 +130,9 @@ public class EventList extends AppCompatActivity {
                         Collections.sort(events, new Comparator<Event>() {
                             @Override
                             public int compare(Event o1, Event o2) {
-                                return new Date(Long.parseLong(o2.getTimestamp())).compareTo(new Date(Long.parseLong(o1.getTimestamp())));
+                                Long l1 = Long.parseLong(o1.getTimestamp());
+                                Long l2 = Long.parseLong(o2.getTimestamp());
+                                return new Date(l2).compareTo(new Date(l1));
                             }
                         });
                         listView.setAdapter(new EventAdapter(getApplicationContext(), events));

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -61,6 +62,8 @@ public class EditEvent extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
     DatabaseReference databaseReference;
+    private EditText editText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +85,7 @@ public class EditEvent extends AppCompatActivity {
         Log.d("event key", ky);
         editingKey = ky;
         btnSubmmit = (Button) findViewById(R.id.submmitbtn1);
+        editText = (EditText) findViewById(R.id.description);
         spinnerForEventLocation = (Spinner) findViewById(R.id.spinnerForEventLocation1);
         timePickerForStartTime = (TimePicker)findViewById(R.id.timePickerForStartTime1);
         timePickerForEndTime = (TimePicker)findViewById(R.id.timePickerForEndTime1);
@@ -115,6 +119,7 @@ public class EditEvent extends AppCompatActivity {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     if (child.getKey().toString().equals(ky)){
                         e = child.getValue(Event.class);
+                        editText.setText(e.getDescription());
                         String[] starttime = e.getEvent_start().split(":");
                         String[] endtime = e.getEvent_end().split(":");
                         String[] date = e.getEvent_date().split("-");
@@ -161,6 +166,7 @@ public class EditEvent extends AppCompatActivity {
                 endHours = timePickerForEndTime.getCurrentHour();
                 endMins = timePickerForEndTime.getCurrentMinute();
             }
+            String desc = editText.getText().toString();
             String eventLocation = spinnerForEventLocation.getSelectedItem().toString();
             Integer year = eventDate.getYear();
             Integer month = eventDate.getMonth() + 1;
@@ -212,6 +218,7 @@ public class EditEvent extends AppCompatActivity {
                     databaseReference.child(editingKey).child("event_start").setValue(start_time);
                     databaseReference.child(editingKey).child("event_end").setValue(end_time);
                     databaseReference.child(editingKey).child("event_location").setValue(eventLocation);
+                    databaseReference.child(editingKey).child("description").setValue(desc);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

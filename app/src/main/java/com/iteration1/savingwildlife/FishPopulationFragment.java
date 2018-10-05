@@ -49,7 +49,8 @@ public class FishPopulationFragment extends Fragment implements OnMapReadyCallba
         mMapView.onCreate(mapViewBundle);
         mMapView.onResume();
         wv = fView.findViewById(R.id.beachtxt);
-        String s = "<html><body style='text-align:justify;' bgcolor=\"#F3F7F7\">" + getString(R.string.general_info) +
+        String s = "<html><body style='text-align:justify;' bgcolor=\"#F3F7F7\">" + getString(R.string.general_info) + "<br />" +
+                "Millions of fish and other marine animals live in the blue sea around Victoria, they need a cleaner environment." +
                 "</body></html>";
         wv.loadData(s, "text/html", "UTF-8");
 
